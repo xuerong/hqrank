@@ -1,4 +1,4 @@
-﻿# hqrank
+﻿# *hqrank
 支持并发的实时排行-java
 
 hqrank是一个实施排行工具。
@@ -24,12 +24,12 @@ hqrank是一个实施排行工具。
 
 工具还在开发过程中，还没有经过大量测试，如果有对此有兴趣的Coder，欢迎一起讨论和开发
 
-#  使用 how to use
+#  *使用 how to use
 
 hqrank/code/Rank/是一个java项目，jdk版本为：1.7.0_45<br>
 1、将该项目导入eclipse中<br>
 2、在包org/hq/rank/service/中有IRankService.java，里面有详细的注释
 
-# More
+# *More
 
 redis不是hqrank项目中的部分，是用来测试的，因为redis中有实时排序功能，在这里也提供一个redis的下载[Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
