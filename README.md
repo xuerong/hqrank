@@ -22,3 +22,9 @@ hqrank是一个实施排行工具。
 
 
 工具还在开发过程中，还没有经过大量测试，如果有对此有兴趣的Coder，欢迎一起讨论和开发
+
+#  使用 how to use
+
+hqrank/code/Rank/是一个java项目，jdk版本为：1.7.0_45
+1、将该项目导入eclipse中
+2、在包org/hq/rank/service/中有IRankService.java，里面有详细的注释
