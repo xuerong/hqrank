@@ -105,6 +105,7 @@ public class Rank implements IRank {
 	public boolean has(int id) {
 		return elementMap.containsKey(id);
 	}
+	
 	@Override
 	public long set(int id, long value) {
 		long[] result = set(id, new long[]{value});
@@ -115,6 +116,25 @@ public class Rank implements IRank {
 	 * **/
 	@Override
 	public long[] set(int id, long... value) {
+		return setWithAbsent(id, true, value);
+	}
+	@Override
+	public long setIfAbsent(int id, long value) {
+		long[] result = setIfAbsent(id,new long[]{value});
+		return result == null ? -1 : result[0];
+	}
+	@Override
+	public long[] setIfAbsent(int id, long... value) {
+		return setWithAbsent(id, false, value);
+	}
+	/**
+	 * 如果存在是否还put
+	 * @param id
+	 * @param isAbsentPut true，存在与否都put，false，存在则不put
+	 * @param value
+	 * @return
+	 */
+	private long[] setWithAbsent(int id,boolean isAbsentPut, long... value){
 		if(id < 0){
 			log.error("id requird >= 0");
 			throw new RankException("id requird >= 0");
@@ -128,9 +148,19 @@ public class Rank implements IRank {
 			element = rankPool.getElement(id, value);
 //			System.err.println("error+++++++++++++++++++++++++++++++++++++");
 		}
-		//Element oldElement = elementMap.putIfAbsent(id, element);
-		// 在进去之前就可以将其锁住，防止并发问题,putIfAbsent做不到
-		Element oldElement = elementMap.put(id,element);
+		Element oldElement;
+		if(isAbsentPut){
+			// 在进去之前就可以将其锁住，防止并发问题,putIfAbsent做不到
+			oldElement = elementMap.put(id,element);
+		}else{
+			oldElement = elementMap.putIfAbsent(id,element);
+			if(oldElement != null){ // 说明已经存在，不要put了
+				rankPool.putElement(element); // 这个element的回收如果会产生问题，可以选择不回收了
+				element.unLock();
+				return oldElement.getValue();
+			}
+		}
+//		Element oldElement = elementMap.put(id,element);
 		if(oldElement != null){
 			if(!doUpdate(oldElement, element)){
 				if(reOperService.addQueue(element, OperType.Update, 0, null, oldElement,null)){
@@ -422,7 +452,7 @@ public class Rank implements IRank {
 		// 通过nodestep寻找node
 		currentHitTimes = 0;
 		Node currentNode=head;
-		NodeStepBase previouNodeStep = (NodeStepBase)currentNodeStep.getPrevious(); //null;
+		NodeStepBase previouNodeStep = /*(NodeStepBase)currentNodeStep.getPrevious(); //*/null;
 		while(currentNodeStep != null){
 			if(currentNodeStep.getHead().getValue() < value){
 				// 有可能不命中，当对应的nodestep正在拆分或者合并的时候，可能不命中
@@ -689,7 +719,7 @@ public class Rank implements IRank {
 	private boolean doUpdate(Element oldElement,Element element){
 		if(doDelete(oldElement)){
 			if(doAdd(element/*, value*/)){
-				element.unLock();
+				element.unLock(); // 再上一个函数中加的锁，是否可以考虑在上一个函数中解锁
 				return true;
 			}else{
 				if(reOperService.addQueue(element,OperType.Add, 0, null)){

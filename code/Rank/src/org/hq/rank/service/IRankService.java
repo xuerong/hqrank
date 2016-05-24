@@ -10,7 +10,7 @@ import org.hq.rank.core.RankData;
  * 删除一个排行
  * 删除所有的排行
  * 判断一个排行是否存在
- * 向排行中添加数据（添加，若没有则添加（这个还没有实现））
+ * 向排行中添加数据（添加，若没有则添加）
  * 从排行中删除数据
  * 排行是否存在某个id
  * 获取某个id的排行
@@ -69,6 +69,22 @@ public interface IRankService {
 	 * @return 如果存在之前的值，返回之前的值，否则，返回null
 	 */
 	public long[] put(String rankName,int id , long... value);
+	/**
+	 * 设置一个数据，如果该id存在，则不设置
+	 * @param rankName 排行的名字
+	 * @param id 数据提供者的id
+	 * @param value 数据
+	 * @return 如果存在之前的值，返回之前的值，否则，返回-1
+	 */
+	public long putIfAbsent(String rankName,int id , long value);
+	/**
+	 * 设置一个数据，如果该id存在，则不设置
+	 * @param rankName 排行的名字
+	 * @param id 数据提供者的id
+	 * @param value 数据，必须和对应对应的排行字段数相同
+	 * @return 如果存在之前的值，返回之前的值，否则，返回null
+	 */
+	public long[] putIfAbsent(String rankName,int id , long... value);
 	/**
 	 * 删除一个数据
 	 * @param rankName 排行的名字

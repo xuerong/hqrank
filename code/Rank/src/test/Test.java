@@ -121,7 +121,7 @@ public class Test {
 		final Random random = new Random();
 		final String redisKey = "redisKey1";
 		final boolean isUseRank = true;
-		final boolean isUseRedis = true;
+		final boolean isUseRedis = false;
 		final boolean isUseRank2 = true;
 //		final HashSet<Integer> ids = new HashSet<>();
 //		final List<Integer> ids = SetUniqueList.decorate(new ArrayList<Integer>());

@@ -60,45 +60,42 @@ public class RankService implements IRankService{
 
 	@Override
 	public long put(String rankName, int id, long value) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		return rank.set(id, value);
 	}
 	@Override
 	public long[] put(String rankName, int id, long... value) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		return rank.set(id, value);
+	}
+	
+	@Override
+	public long putIfAbsent(String rankName, int id, long value) {
+		IRank rank = getNotNullRankByName(rankName);
+		return rank.setIfAbsent(id, value);
+	}
+
+	@Override
+	public long[] putIfAbsent(String rankName, int id, long... value) {
+		IRank rank = getNotNullRankByName(rankName);
+		return rank.setIfAbsent(id, value);
 	}
 
 	@Override
 	public long[] delete(String rankName, int id) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		return rank.delete(id);
 	}
 
 	@Override
 	public boolean has(String rankName, int id) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		return rank.has(id);
 	}
 
 	@Override
 	public int getRankNum(String rankName, int id) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		RankData rankData = rank.get(id);
 		if(rankData == null){
 			return -1;
@@ -108,10 +105,7 @@ public class RankService implements IRankService{
 
 	@Override
 	public RankData getRankDataById(String rankName, int id) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		return rank.get(id);
 	}
 
@@ -126,10 +120,7 @@ public class RankService implements IRankService{
 
 	@Override
 	public RankData getRankDataByRankNum(String rankName, int rankNum) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		List<RankData> rankDataList = rank.getRankDatasByRankNum(rankNum, 1);
 		if(rankDataList == null || rankDataList.size() == 0){
 			return null;
@@ -139,20 +130,14 @@ public class RankService implements IRankService{
 
 	@Override
 	public List<RankData> getRankDatasByPage(String rankName, int page,int pageSize) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		int begin = page * pageSize;
 		return rank.getRankDatasByRankNum(begin, pageSize);
 	}
 
 	@Override
 	public List<RankData> getRankDatasAroundId(String rankName, int id,int beforeNum, int afterNum) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
+		IRank rank = getNotNullRankByName(rankName);
 		RankData rankData = rank.get(id);
 		if(rankData == null){
 			return null;
@@ -193,5 +178,13 @@ public class RankService implements IRankService{
 				throw rankException;
 			}
 		}
+	}
+	
+	private IRank getNotNullRankByName(String rankName){
+		IRank rank = rankMap.get(rankName);
+		if(rank == null){
+			throw new RankException("rank is not exist , rankName = "+rankName);
+		}
+		return rank;
 	}
 }

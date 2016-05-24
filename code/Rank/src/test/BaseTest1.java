@@ -48,4 +48,9 @@ public class BaseTest1 {
 		hasRankB = rankService.hasRank("rank_b");
 		log.info("hasRankA:"+hasRankA+",hasRankB:"+hasRankB);
 	}
+	
+	private void test2(IRankService rankService){
+		rankService.createRank("rank_a");
+//		rankService.
+	}
 }
