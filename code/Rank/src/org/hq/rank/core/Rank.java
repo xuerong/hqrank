@@ -103,7 +103,7 @@ public class Rank implements IRank {
 	}
 	@Override
 	public boolean has(int id) {
-		return elementMap.contains(id);
+		return elementMap.containsKey(id);
 	}
 	@Override
 	public long set(int id, long value) {

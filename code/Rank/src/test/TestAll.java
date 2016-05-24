@@ -45,8 +45,8 @@ public class TestAll {
 		}
 		rankService.delete("first", 123*6);
 		System.out.println(rankService.getRankDataById("first", 123*7));
-		rankService.destroy("first");
-		rankService.destroy("second");
+		rankService.deleteRank("first");
+		rankService.deleteRank("second");
 		
 	}
 }

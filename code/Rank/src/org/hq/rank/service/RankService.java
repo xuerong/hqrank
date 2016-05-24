@@ -1,6 +1,7 @@
 package org.hq.rank.service;
 
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.hq.rank.core.IRank;
@@ -18,24 +19,43 @@ public class RankService implements IRankService{
 
 	@Override
 	public boolean createRank(String rankName) {
-		return rankMap.putIfAbsent(rankName, new Rank()) == null;
+		IRank rank = new Rank();// 注意，这里rank里的线程已经启动，如果创建失败，要destroy这个rank
+		IRank oldRank = rankMap.putIfAbsent(rankName,rank);
+		if(oldRank != null){ // 没有放进去
+			destroy(rank, rankName);
+		}
+		return oldRank == null;
 	}
 
 	@Override
 	public boolean createRank(String rankName, int fieldCount) {
 		RankConfigure rankConfigure = new RankConfigure();
 		rankConfigure.setRankConditionCount(fieldCount);
-		return rankMap.putIfAbsent(rankName, new Rank(rankConfigure)) == null;
+		IRank rank = new Rank(rankConfigure);// 注意，这里rank里的线程已经启动，如果创建失败，要destroy这个rank
+		IRank oldRank = rankMap.putIfAbsent(rankName,rank);
+		if(oldRank != null){ // 没有放进去
+			destroy(rank, rankName);
+		}
+		return oldRank == null;
 	}
 
 	@Override
 	public void deleteRank(String rankName) {
-		rankMap.remove(rankName);
+		IRank rank = rankMap.remove(rankName);
+		destroy(rank, rankName);
+	}
+	
+	@Override
+	public void deleteAllRank() {
+		for (Entry<String, IRank> entry : rankMap.entrySet()) {
+			destroy(entry.getValue(), entry.getKey());
+		}
+		rankMap.clear();
 	}
 
 	@Override
 	public boolean hasRank(String rankName) {
-		return rankMap.contains(rankName);
+		return rankMap.containsKey(rankName);
 	}
 
 	@Override
@@ -162,19 +182,16 @@ public class RankService implements IRankService{
 		// end
 		return rankDataList;
 	}
-
-	@Override
-	public void destroy(String rankName) {
-		IRank rank = rankMap.get(rankName);
-		if(rank == null){
-			throw new RankException("rank is not exist , rankName = "+rankName);
-		}
-		try {
-			rank.destory();
-		} catch (InterruptedException e) {
-			RankException rankException = new RankException("rank "+rankName+" destroy error");
-			rankException.addSuppressed(e.getCause());
-			throw rankException;
+	
+	private void destroy(IRank rank,String rankName) {
+		if(rank != null){
+			try {
+				rank.destory();
+			} catch (InterruptedException e) {
+				RankException rankException = new RankException("rank "+rankName+" destroy error");
+				rankException.addSuppressed(e.getCause());
+				throw rankException;
+			}
 		}
 	}
 }

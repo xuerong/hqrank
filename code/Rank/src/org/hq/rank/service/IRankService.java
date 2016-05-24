@@ -8,8 +8,9 @@ import org.hq.rank.core.RankData;
  * IRankService
  * 创建一个排行
  * 删除一个排行
+ * 删除所有的排行
  * 判断一个排行是否存在
- * 向排行中添加数据（添加，若没有则添加）
+ * 向排行中添加数据（添加，若没有则添加（这个还没有实现））
  * 从排行中删除数据
  * 排行是否存在某个id
  * 获取某个id的排行
@@ -40,6 +41,12 @@ public interface IRankService {
 	 * @param rankName 排行的名字
 	 */
 	public void deleteRank(String rankName);
+	/**
+	 * 删除所有的排行
+	 * 在系统要停止的时候调用，等待剩下的排行完成当前工作并正常结束
+	 * @param rankName
+	 */
+	public void deleteAllRank();
 	/**
 	 * 判断一个排行是否存在
 	 * @param rankName 排行的名字
@@ -121,5 +128,4 @@ public interface IRankService {
 	 * @return {@code RankData}
 	 */
 	public List<RankData> getRankDatasAroundId(String rankName,int id,int beforeNum,int afterNum);
-	public void destroy(String rankName);
 }
