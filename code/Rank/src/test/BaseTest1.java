@@ -1,6 +1,7 @@
 package test;
 
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 
 import org.hq.rank.core.RankData;
 import org.hq.rank.service.IRankService;
@@ -17,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class BaseTest1 {
 	private static Logger log = LoggerFactory.getLogger(BaseTest1.class);
 	
-	public static void main(String[] args){
+	public static void main(String[] args) throws InterruptedException{
 		IRankService rankService = new RankService();
 		
 		BaseTest1 test = new BaseTest1();
@@ -25,6 +26,7 @@ public class BaseTest1 {
 //		test.test2(rankService);
 //		test.test3(rankService);
 //		test.test4(rankService);
+//		test.test5(rankService);
 		
 		rankService.deleteAllRank();
 	}
@@ -117,6 +119,41 @@ public class BaseTest1 {
 		int testId=30;
 		RankData rankData1 = rankService.getRankDataById("rank_a", testId);
 		rankService.put("rank_a", testId, 6,6,6);
+		RankData rankData2 = rankService.getRankDataById("rank_a", testId);
+		
+		log.info("rankData1:"+rankData1);
+		log.info("rankData2:"+rankData2);
+	}
+	/**
+	 * 多线程操作
+	 * @param rankService
+	 * @throws InterruptedException 
+	 */
+	public void test5(final IRankService rankService) throws InterruptedException{
+		int threadCount = 10;
+		final CountDownLatch latch = new CountDownLatch(threadCount);
+		
+		rankService.createRank("rank_a");
+		
+		for(int threadI=0;threadI<threadCount ;threadI++){
+			final int threadIndex = threadI;
+			Thread thread = new Thread("threadIndex"+threadIndex){
+				@Override
+				public void run(){
+					for(int i=0;i<100;i++){
+						int base = threadIndex*100+i;
+						rankService.put("rank_a", base, base);
+					}
+					latch.countDown();
+				}
+			};
+			thread.start();
+		}
+		latch.await();
+		
+		int testId=30;
+		RankData rankData1 = rankService.getRankDataById("rank_a", testId);
+		rankService.put("rank_a", testId, 666);
 		RankData rankData2 = rankService.getRankDataById("rank_a", testId);
 		
 		log.info("rankData1:"+rankData1);
