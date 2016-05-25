@@ -136,7 +136,7 @@ public interface IRankService {
 	 */
 	public List<RankData> getRankDatasByPage(String rankName,int page,int pageSize);
 	/**
-	 * 后去用户及其前后几个用户的排行数据
+	 * 获取用户及其前后几个用户的排行数据
 	 * @param rankName 排行的名字
 	 * @param id 数据提供者的id
 	 * @param beforeNum 获取的前面用户个数

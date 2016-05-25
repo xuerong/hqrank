@@ -244,7 +244,7 @@ public class Rank implements IRank {
 			return null;
 		}
 		List<Element> elementList = new ArrayList<Element>(length);
-		System.err.println(currentNode.getValue());
+//		System.err.println(currentNode.getValue());
 		while(currentNode != null){
 			int countN = currentNode.getCount();
 			if(rankNum + countN >= begin){

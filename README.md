@@ -1,4 +1,4 @@
-﻿# hqrank
+# hqrank
 支持并发的实时排行、排行榜工具-java
 
 hqrank是一个实施排行工具。
@@ -28,3 +28,6 @@ hqrank是一个实施排行工具。
 hqrank/code/Rank/是一个java项目，jdk版本为：1.7.0_45
 1、将该项目导入eclipse中
 2、在包org/hq/rank/service/中有IRankService.java，里面有详细的注释
+3、test包中有基本的例子：
+BaseTest1:基本的用法
+

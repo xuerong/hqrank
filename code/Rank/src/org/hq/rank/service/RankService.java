@@ -138,32 +138,49 @@ public class RankService implements IRankService{
 	@Override
 	public List<RankData> getRankDatasAroundId(String rankName, int id,int beforeNum, int afterNum) {
 		IRank rank = getNotNullRankByName(rankName);
-		RankData rankData = rank.get(id);
-		if(rankData == null){
-			return null;
-		}
-		int begin = rankData.getRankNum() - beforeNum;
-		if(begin < 0){
-			begin = 0;
-		}
-		int length = rankData.getRankNum() - begin + afterNum;
-		List<RankData> rankDataList = rank.getRankDatasByRankNum(begin, length);
-		if(rankDataList == null){
-			return null;
-		}
-		// 验证一下：
-		if(rankDataList.size() <= rankData.getRankNum() - begin){
-			log.warn("has no get enough value : getLength = "+rankDataList.size()+",needLength="+length);
-		}else{
-			if(rankDataList.size() < length){
-				log.info("has no get enough value : getLength = "+rankDataList.size()+",needLength="+length);
+		int maxTryTimes = 3;
+		int currentTryTimes = 0;
+		List<RankData> rankDataList;
+		while(true){
+			RankData rankData = rank.get(id);
+			if(rankData == null){
+				return null;
 			}
-			RankData rankData2 = rankDataList.get(rankData.getRankNum() - begin);
-			if(rankData.getId() != rankData2.getId()){
-				log.warn("rankData:"+rankData+",rankData2:"+rankData2+"\n newRankData:"+
-						rank.get(id));
+			int begin = rankData.getRankNum() - beforeNum;
+			if(begin < 0){
+				begin = 0;
+			}
+			int length = rankData.getRankNum() - begin + afterNum+1;
+			rankDataList = rank.getRankDatasByRankNum(begin, length);
+			if(rankDataList == null){
+				return null;
+			}
+			// 验证一下：
+			if(rankDataList.size() <= rankData.getRankNum() - begin){
+				log.warn("has no get enough value : getLength = "+rankDataList.size()+",needLength="+length);
+			}else{
+				if(rankDataList.size() < length){
+					log.info("has no get enough value : getLength = "+rankDataList.size()+",needLength="+length);
+				}
+				RankData rankData2 = rankDataList.get(rankData.getRankNum() - begin);
+				if(rankData.getId() != rankData2.getId()){
+					log.warn("rankData:"+rankData+",rankData2:"+rankData2+"\n newRankData:"+
+							rank.get(id));
+					// 说明在两次获取的间隔之间其排名被改变，在高并发情况下极易发生，三种解决方案：
+					// 1,将其放回该位置（最不合理，但是最好实施）
+					// 2，重新给rank设计一个函数，来专门解决该问题（最合理，但最难实施）
+					// 3，重新获取，直到获取到，或获取次数到达某个最大值，采取方案1（较合理，较好实施）
+					// 其实在极高并发情况下，3才会失败，并且此时其实时性(毫秒级)的就不再那么重要，所以暂时选择方案3
+				}else{
+					break;
+				}
+			}
+			if(currentTryTimes++ > maxTryTimes){
+				rankDataList.set(rankData.getRankNum() - begin, rankData); // 替换方案
+				break;
 			}
 		}
+		
 		// end
 		return rankDataList;
 	}

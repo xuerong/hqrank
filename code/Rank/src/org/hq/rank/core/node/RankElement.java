@@ -44,7 +44,7 @@ public class RankElement implements RankPoolElement{
 	}
 	public boolean init(final Element element,final int conditionLevel){
 		this.conditionLevel = conditionLevel;
-		if(element.getId() > 0){
+		if(element.getId() >= 0){
 			if(!add(element)){
 				return false;
 			}

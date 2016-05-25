@@ -78,7 +78,7 @@ public class ReOperService {
 		if(reOperTaskCount.get() != 0 || reOperQueue.size() != 0){
 			log.error("distory error:reOperTaskCount:"+reOperTaskCount.get() + ",reOperQueue:" +reOperQueue.size());
 		}else{
-			log.info("rank distory success");
+			log.warn("rank distory success");
 		}
 		// 打断所有的reoper线程
 		switch (rank.getRankConfigure().getReOperType()) {
