@@ -203,7 +203,11 @@ public class BaseTest2 {
 		jedis.del(rankName);
 		pool.close();
 	}
-	
+	/**
+	 * 每个一个时间段对数据进行添加/修改，包括单字段，多字段和redis一起进行
+	 * @param rankService
+	 * @throws InterruptedException
+	 */
 	public void test3(final IRankService rankService) throws InterruptedException{
 		final int threadCount = 200;
 		
