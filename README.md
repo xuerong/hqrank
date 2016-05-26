@@ -34,3 +34,4 @@ hqrank/code/Rank/是一个java项目，jdk版本为：1.7.0_45
 
 * redis不是hqrank项目中的部分，是用来测试的，因为redis中有实时排序功能，在这里也提供一个redis的下载[Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
 * test包中有基本的例子.BaseTest1:基本的用法
+* 测试过程中可以用jdk工具jconsole.exe来监控内存使用情况

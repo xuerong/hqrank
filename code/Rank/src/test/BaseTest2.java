@@ -2,7 +2,10 @@ package test;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
+import org.hq.rank.core.Rank;
+import org.hq.rank.core.RankConfigure;
 import org.hq.rank.core.RankData;
 import org.hq.rank.service.IRankService;
 import org.hq.rank.service.RankService;
@@ -32,7 +35,8 @@ public class BaseTest2 {
 		
 		BaseTest2 test = new BaseTest2();
 //		test.test1(rankService);
-		test.test2(rankService);
+//		test.test2(rankService);
+		test.test3(rankService);
 		
 		rankService.deleteAllRank();
 	}
@@ -104,7 +108,7 @@ public class BaseTest2 {
 	 */
 	private void test2(final IRankService rankService) throws InterruptedException{
 		final String rankName = "rank_a";
-		final int threadCount = 100;
+		final int threadCount = 10;
 		final int dataCountPerThread = 1000;
 		final int maxId = 100000;
 		final int maxValue = 1000000;
@@ -170,15 +174,15 @@ public class BaseTest2 {
 		final Jedis jedis = pool.getResource();
 		int testId=30;
 		// 查看差值情况，存在差值是很正常的情况，因为多线程且有更新，hqrank和redis处理可能不同
-//		int num = 0;
-//		for (int[] is : ids) {
-//			for (int i : is) {
-//				if(getAndShowIfDiff(rankService,jedis,rankName,i,2)){
-//					num++;
-//				}
-//			}
-//		}
-//		log.info("num:"+num);
+		int num = 0;
+		for (int[] is : ids) {
+			for (int i : is) {
+				if(getAndShowIfDiff(rankService,jedis,rankName,i,2)){
+					num++;
+				}
+			}
+		}
+		log.info("num:"+num);
 		// 通过设置一个小的值查看总数，并测试总数是否相同，
 		// 如果不同：如果存在删除，那么是由可能的，但是相差不能太大，吐过不存在删除说明由问题
 		setValue(rankService, jedis, rankName, testId, 0, isRedis);
@@ -198,6 +202,104 @@ public class BaseTest2 {
 		
 		jedis.del(rankName);
 		pool.close();
+	}
+	
+	public void test3(final IRankService rankService) throws InterruptedException{
+		final int threadCount = 200;
+		
+		final String rankName1 = "rank_a";
+		final String rankName2 = "rank_b";
+		rankService.createRank(rankName1);
+		rankService.createRank(rankName2, 3);
+		final JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxTotal(threadCount);
+		config.setMinIdle(threadCount);
+		final JedisPool pool = new JedisPool(config, "192.168.1.240");
+		// 删除之前的数据，或可能存在的数据
+		Jedis jedis = pool.getResource();
+		jedis.del(rankName1);
+		jedis.del(rankName2);
+		
+		final int intervalPerSet = 50; //  每intervalPerSet/2毫秒添加或修改一次，random.nextInt(intervalPerSet)
+		final int maxId = 2000000;// id范围
+		final Random random = new Random();
+		final boolean isUseRank = true;
+		final boolean isUseRedis = true;
+		final boolean isUseRank2 = true;
+		
+		for(int i=0;i<threadCount;i++){
+			Thread thread = new Thread(){
+				@Override
+				public void run(){
+					Jedis jedis ;
+					if(isUseRedis){
+						jedis = pool.getResource();
+					}
+					while(true){
+						long value = random.nextInt(100000000);
+						long value1 = value/1000000l,
+								value2 = value%1000000l/100,
+								value3 = value%100l;
+						int id = random.nextInt(maxId)+1;
+						
+						int interval = random.nextInt(intervalPerSet);
+						if(isUseRedis){
+							jedis.zadd(rankName1, value, ""+id);
+						}
+						
+						if(isUseRank){
+							rankService.put(rankName1, id, value);
+						}
+						if(isUseRank2){
+							rankService.put(rankName2, id, value1,value2,value3);
+						}
+						try {
+							Thread.sleep(interval);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			};
+			thread.start();
+		}
+		// 每10秒打印一次 结果
+		new Thread(){
+			@Override
+			public void run(){
+				Jedis jedis ;
+				if(isUseRedis){
+					jedis = pool.getResource();
+				}
+				int printTime = 0;
+				while (true) {
+					System.err.println("-----------------------"+(printTime++)+"------------------------");
+					int baseValue = maxId/2;
+					for(int i=0;i<10;i++){
+						int id = baseValue+i;
+						StringBuilder sb = new StringBuilder("---------------------------------------"+(id)+":");
+						if(isUseRank){
+							sb.append(rankService.getRankDataById(rankName1, id));
+						}
+						if(isUseRedis){
+							sb.append(","+jedis.zrevrank(rankName1,""+(id)));
+						}
+						if(isUseRank2){
+							sb.append(","+rankService.getRankDataById(rankName2, id));
+						}
+						System.out.println(sb.toString());
+					}
+					try {
+						Thread.sleep(10000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}.start();
+		synchronized (this) {
+			wait();
+		}
 	}
 	
 	private void setValue(IRankService rankService,Jedis jedis,
@@ -230,7 +332,7 @@ public class BaseTest2 {
 		Long jedisValue = jedis.zrevrank(rankName, ""+id);
 		if((rankData!=null && jedisValue == null) || (rankData==null && jedisValue != null)){
 			// 这里出现说明有错误
-			log.error(rankData.getRankNum()+",-----------------------------"+jedisValue);
+			log.error(rankData+",-----------------------------"+jedisValue);
 			return true;
 		}
 		if(rankData != null && jedisValue != null){
