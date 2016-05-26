@@ -34,9 +34,9 @@ public class BaseTest2 {
 		IRankService rankService = new RankService();
 		
 		BaseTest2 test = new BaseTest2();
-//		test.test1(rankService);
+		test.test1(rankService);
 //		test.test2(rankService);
-		test.test3(rankService);
+//		test.test3(rankService);
 		
 		rankService.deleteAllRank();
 	}
@@ -224,8 +224,9 @@ public class BaseTest2 {
 		jedis.del(rankName1);
 		jedis.del(rankName2);
 		
-		final int intervalPerSet = 50; //  每intervalPerSet/2毫秒添加或修改一次，random.nextInt(intervalPerSet)
-		final int maxId = 2000000;// id范围
+		final int intervalPerGet = 10000; // 每intervalPerGet执行一次get操作，查看数据排行的变化
+		final int intervalPerSet = 100; //  每intervalPerSet/2毫秒添加或修改一次，random.nextInt(intervalPerSet)
+		final int maxId = 1000000;// id范围
 		final Random random = new Random();
 		final boolean isUseRank = true;
 		final boolean isUseRedis = true;
@@ -294,13 +295,14 @@ public class BaseTest2 {
 						System.out.println(sb.toString());
 					}
 					try {
-						Thread.sleep(10000);
+						Thread.sleep(intervalPerGet);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}
 			}
 		}.start();
+		// 让主线程停在这里
 		synchronized (this) {
 			wait();
 		}
