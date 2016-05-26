@@ -336,7 +336,7 @@ public class Rank implements IRank {
 		NodeStepBase result = currentNodeStep; 
 		while(currentNodeStep != null){
 			result = currentNodeStep;
-			currentNodeStep = head.getParentNS();
+			currentNodeStep = currentNodeStep.getParentNS();
 		}
 		return result;
 	}
@@ -351,7 +351,7 @@ public class Rank implements IRank {
 			if(currentNodeStep.getValue() < value){
 //				System.err.println("currentNodeStepStep.getValue():"+currentNodeStepStep.getValue()+",value:"+value);
 				if(previousNodeStep != null && previousNodeStep.getValue() >= value){
-					currentNode = (NodeStepBase)previousNodeStep.getHead();
+					currentNode = previousNodeStep.getHead();
 					if(currentNode.getValue() < value){
 						log.warn("只要这个地方发生，就说明会产生找不到值得情况，即即使拿到相应的node，也是不对的node1");
 						rankNum = -1;
@@ -392,14 +392,28 @@ public class Rank implements IRank {
 		}
 		return new SearchAbNodeResult(currentNode, rankNum);
 	}
-//	private SearchAbNodeResult getStartNodeByNodeStep2(long value){
-//		
-//	}
+	private SearchAbNodeResult getStartNodeByNodeStep(long value){
+		int rankNum = 0;
+		NodeStepBase nodeStepBase = getHeadNodesStep();
+		SearchAbNodeResult searchAbNodeResult = getStartNodeByValue(value, nodeStepBase);
+		rankNum+=searchAbNodeResult.getRankNum();
+		AbNode abNode = searchAbNodeResult.getNode();
+		while (abNode instanceof NodeStepBase) {
+			searchAbNodeResult = getStartNodeByValue(value, (NodeStepBase)abNode);
+			rankNum+=searchAbNodeResult.getRankNum();
+			abNode = searchAbNodeResult.getNode();
+		}
+		if(abNode instanceof Node){
+			searchAbNodeResult.setRankNum(rankNum);
+			return searchAbNodeResult;
+		}
+		throw new RankException("error");
+	}
 	/**
 	 * 这里返回的Node一定是可以作为value对应node的前node，有可能是head
 	 * {@code SearchNodeStepResult}
 	 * */
-	private SearchAbNodeResult getStartNodeByNodeStep(long value){
+	private SearchAbNodeResult getStartNodeByNodeStep1(long value){
 		int rankNum = 0;
 		int currentHitTimes = 0;
 		// 通过nodestepstep寻找弄得step

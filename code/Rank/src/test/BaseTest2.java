@@ -108,7 +108,7 @@ public class BaseTest2 {
 	 */
 	private void test2(final IRankService rankService) throws InterruptedException{
 		final String rankName = "rank_a";
-		final int threadCount = 10;
+		final int threadCount = 100;
 		final int dataCountPerThread = 1000;
 		final int maxId = 100000;
 		final int maxValue = 1000000;
@@ -174,15 +174,15 @@ public class BaseTest2 {
 		final Jedis jedis = pool.getResource();
 		int testId=30;
 		// 查看差值情况，存在差值是很正常的情况，因为多线程且有更新，hqrank和redis处理可能不同
-		int num = 0;
+		int difNum = 0;
 		for (int[] is : ids) {
 			for (int i : is) {
 				if(getAndShowIfDiff(rankService,jedis,rankName,i,2)){
-					num++;
+					difNum++;
 				}
 			}
 		}
-		log.info("num:"+num);
+		log.info("difNum:"+difNum);
 		// 通过设置一个小的值查看总数，并测试总数是否相同，
 		// 如果不同：如果存在删除，那么是由可能的，但是相差不能太大，吐过不存在删除说明由问题
 		setValue(rankService, jedis, rankName, testId, 0, isRedis);

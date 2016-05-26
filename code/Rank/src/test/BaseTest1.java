@@ -22,7 +22,7 @@ public class BaseTest1 {
 		IRankService rankService = new RankService();
 		
 		BaseTest1 test = new BaseTest1();
-		test.test1(rankService);
+//		test.test1(rankService);
 //		test.test2(rankService);
 //		test.test3(rankService);
 //		test.test4(rankService);
