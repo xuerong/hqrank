@@ -9,6 +9,10 @@ import org.hq.rank.service.RankService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
 /**
  * 压力测试
  * 分为：
@@ -27,7 +31,8 @@ public class BaseTest2 {
 		IRankService rankService = new RankService();
 		
 		BaseTest2 test = new BaseTest2();
-		test.test1(rankService);
+//		test.test1(rankService);
+		test.test2(rankService);
 		
 		rankService.deleteAllRank();
 	}
@@ -37,6 +42,7 @@ public class BaseTest2 {
 	 * @throws InterruptedException
 	 */
 	private void test1(final IRankService rankService) throws InterruptedException{
+		final String rankName = "rank_a";
 		final int threadCount = 100;
 		final int dataCountPerThread = 1000;
 		final int maxId = 100000;
@@ -47,7 +53,7 @@ public class BaseTest2 {
 		
 		final CountDownLatch latch = new CountDownLatch(threadCount);
 		
-		rankService.createRank("rank_a");
+		rankService.createRank(rankName);
 		// 生成id和数据
 		for(int i = 0;i<threadCount;i++){
 			ids[i] = new int[dataCountPerThread];
@@ -64,7 +70,7 @@ public class BaseTest2 {
 				@Override
 				public void run(){
 					for(int i=0;i<dataCountPerThread;i++){
-						rankService.put("rank_a", ids[threadIndex][i], values[threadIndex][i]);
+						rankService.put(rankName, ids[threadIndex][i], values[threadIndex][i]);
 					}
 					latch.countDown();
 				}
@@ -82,15 +88,161 @@ public class BaseTest2 {
 		// get
 		int testId=30;
 		for(int i=0;i<10;i++){
-			RankData rankData = rankService.getRankDataById("rank_a", testId+i);
+			RankData rankData = rankService.getRankDataById(rankName, testId+i);
 			log.info("rankData1:"+rankData);
 		}
-		rankService.put("rank_a", testId, 1);
-		RankData rankData2 = rankService.getRankDataById("rank_a", testId);
+		rankService.put(rankName, testId, 1);
+		RankData rankData2 = rankService.getRankDataById(rankName, testId);
 		
 		log.info("rankData2:"+rankData2);
 	}
+	/**
+	 * 多线程快速访问，结合redis的测试其正确性
+	 * 增删改结合
+	 * @param rankService
+	 * @throws InterruptedException
+	 */
+	private void test2(final IRankService rankService) throws InterruptedException{
+		final String rankName = "rank_a";
+		final int threadCount = 100;
+		final int dataCountPerThread = 1000;
+		final int maxId = 100000;
+		final int maxValue = 1000000;
+		Thread[] threads = new Thread[threadCount];
+		final int[][] ids = new int[threadCount][];
+		final long[][] values = new long[threadCount][];
+		
+		final JedisPoolConfig config = new JedisPoolConfig();
+		config.setMaxTotal(threadCount);
+		config.setMinIdle(threadCount);
+		final JedisPool pool = new JedisPool(config, "192.168.1.240");
+		
+		final boolean isRedis = true;
+		final boolean isDel = true;
+		
+		final CountDownLatch latch = new CountDownLatch(threadCount);
+		
+		rankService.createRank(rankName);
+		// 生成id和数据
+		for(int i = 0;i<threadCount;i++){
+			ids[i] = new int[dataCountPerThread];
+			values[i] = new long[dataCountPerThread];
+			for(int j = 0;j<dataCountPerThread;j++){
+				ids[i][j] = randomId(maxId);
+				values[i][j] = randomValue(maxValue);
+			}
+		}
+		// 生成线程
+		for(int threadI=0;threadI<threadCount ;threadI++){
+			final int threadIndex = threadI;
+			Thread thread = new Thread("threadIndex"+threadIndex){
+				@Override
+				public void run(){
+					final Jedis jedis = pool.getResource();
+					for(int i=0;i<dataCountPerThread;i++){
+						setValue(rankService, jedis, rankName, ids[threadIndex][i], values[threadIndex][i], isRedis);
+						if(isDel){
+							if(i%2 == 0 && threadIndex>1){
+								int id = ids[randomId(threadIndex-1)][randomId(dataCountPerThread)];
+								rankService.delete(rankName, id);
+								if(isRedis){
+									jedis.zrem(rankName,""+id);
+								}
+							}
+						}
+						
+					}
+					jedis.close();
+					latch.countDown();
+				}
+			};
+			threads[threadI] = thread;
+		}
+		// 执行
+		long t1 = System.nanoTime();
+		for(int threadI=0;threadI<threadCount ;threadI++){
+			threads[threadI].start();
+		}
+		latch.await();
+		long t2 = System.nanoTime();
+		log.info("useTime:"+(t2-t1)/1000000);
+		// get
+		final Jedis jedis = pool.getResource();
+		int testId=30;
+		// 查看差值情况，存在差值是很正常的情况，因为多线程且有更新，hqrank和redis处理可能不同
+//		int num = 0;
+//		for (int[] is : ids) {
+//			for (int i : is) {
+//				if(getAndShowIfDiff(rankService,jedis,rankName,i,2)){
+//					num++;
+//				}
+//			}
+//		}
+//		log.info("num:"+num);
+		// 通过设置一个小的值查看总数，并测试总数是否相同，
+		// 如果不同：如果存在删除，那么是由可能的，但是相差不能太大，吐过不存在删除说明由问题
+		setValue(rankService, jedis, rankName, testId, 0, isRedis);
+		RankData rankData = rankService.getRankDataById(rankName, testId);
+		log.info("rankData:"+rankData);
+		if(isRedis){
+			Long jedisValue = jedis.zrevrank(rankName, ""+testId);
+			log.info("redis:"+jedisValue);
+			if(jedisValue!=rankData.getRankNum()){
+				if(isDel){
+					log.warn("jedisValue!=rankData.getRankNum()");
+				}else{
+					log.error("这里存在错误：jedisValue!=rankData.getRankNum()");
+				}
+			}
+		}
+		
+		jedis.del(rankName);
+		pool.close();
+	}
 	
+	private void setValue(IRankService rankService,Jedis jedis,
+			String rankName,int id,long value,boolean isRedis){
+		rankService.put(rankName, id, value);
+		if(isRedis){
+			jedis.zadd(rankName, value, ""+id);
+		}
+	}
+	private void getAndShow(IRankService rankService,Jedis jedis,
+			String rankName,int id,boolean isRedis){
+		RankData rankData = rankService.getRankDataById(rankName, id);
+		log.info("rankData:"+rankData);
+		if(isRedis){
+			log.info("redis:"+jedis.zrevrank(rankName, ""+id));
+		}
+	}
+	/**
+	 * 获取并显示不同
+	 * @param rankService
+	 * @param jedis
+	 * @param rankName
+	 * @param id
+	 * @param D_value 差值，当大于该差值的时候便显示
+	 * @return 是否不同
+	 */
+	private boolean getAndShowIfDiff(IRankService rankService,Jedis jedis,
+			String rankName,int id,int D_value){
+		RankData rankData = rankService.getRankDataById(rankName, id);
+		Long jedisValue = jedis.zrevrank(rankName, ""+id);
+		if((rankData!=null && jedisValue == null) || (rankData==null && jedisValue != null)){
+			// 这里出现说明有错误
+			log.error(rankData.getRankNum()+",-----------------------------"+jedisValue);
+			return true;
+		}
+		if(rankData != null && jedisValue != null){
+			if(rankData.getRankNum() != jedisValue){
+				if(Math.abs(rankData.getRankNum()-jedisValue)>D_value){
+					log.info(rankData.getRankNum()+","+jedisValue);
+				}
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	private Random random = new Random();
 	private int randomId(int maxId){
