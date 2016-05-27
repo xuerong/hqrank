@@ -35,23 +35,23 @@ hqrank/code/Rank/是一个java项目，jdk版本为：1.7
 * 测试过程中可以用jprofiler和jdk工具jconsole.exe来监控内存使用情况
 
 # hqrank
-Support for concurrent real-time ranking, ranking tool -java
+Support for concurrent real-time ranking, ranking tool -java  
 At present, the implementation of hqrank includes the following points:
 #####1, full cache
 All of the data is stored in memory. So, hqrank is a ranking tool, not a data storage tool.
 #####2, based on id:value
-Access to data can be carried out through the id-value, you can get the corresponding ranking by ID, you can also get the corresponding ID ranking. (value will also be given here)
+Access to data can be carried out through the id-value, you can get the corresponding ranking by ID, you can also get the corresponding ID ranking. (value will also be given here)  
 The scores differ according to the order from the large to small, the same score according to insert or modify the time sequence
 #####3, support multi field ranking
 For example, by ranking first, on this basis and then by experience, and then come out of the list. Theoretical support for any number of fields
 #####4, support for concurrency
 Supports multiple threads while operating on the list
 #####5, real time ranking
-Ranking operation is performed in real time, but need to illustrate a point: for the time to visit a small difference in the two access, especially different threads, may not be strictly satisfies the first in first row, but the difference of time is measured in milliseconds (the thread's time slice and the system provide locking sequence dependent)
+Ranking operation is performed in real time, but need to illustrate a point: for the time to visit a small difference in the two access, especially different threads, may not be strictly satisfies the first in first row, but the difference of time is measured in milliseconds (the thread's time slice and the system provide locking sequence dependent)  
 Tools are still in the process of development, has not been a lot of testing, if there is an interest in Coder, welcome to discuss and develop
 # how to use
-Hqrank/code/Rank/ is a java project, the JDK version is: 1.7
-1, the project into the eclipse
+Hqrank/code/Rank/ is a java project, the JDK version is: 1.7  
+1, the project into the eclipse  
 2, in the package IRankService.java in org/hq/rank/service/, which has detailed notes
 # More
 * redis is not part of the hqrank project, is used to test, because the redis has a real-time sorting function, here also provides a redis download [Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
