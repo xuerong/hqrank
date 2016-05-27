@@ -19,9 +19,6 @@
 #####5、实时排行
 排行操作是实时进行的，但需要说明一点：对于访问时间相差很少的两个访问，尤其是不同线程，可能不会严格满足先入先排，但这种相差时间是在毫秒级的（这和线程时间片以及系统提供加锁顺序相关）
 
-
-工具还在开发过程中，还没有经过大量测试，如果有对此有兴趣的Coder，欢迎一起讨论和开发
-
 #  如何使用
 
 hqrank/code/Rank/是一个java项目，jdk版本为：1.7  
@@ -33,6 +30,8 @@ hqrank/code/Rank/是一个java项目，jdk版本为：1.7
 * redis不是hqrank项目中的部分，是用来测试的，因为redis中有实时排序功能，在这里也提供一个redis的下载[Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
 * test包中有基本的例子。BaseTest1：基本的用法；BaseTest2：压力测试
 * 测试过程中可以用jprofiler和jdk工具jconsole.exe来监控内存使用情况
+* 工具还在开发过程中，还没有经过大量测试，如果有对此有兴趣的Coder，欢迎一起讨论和开发
+
 
 # hqrank
 Support for concurrent real-time ranking, ranking tool -java  
@@ -48,7 +47,7 @@ For example, by ranking first, on this basis and then by experience, and then co
 Supports multiple threads while operating on the list
 #####5, real time ranking
 Ranking operation is performed in real time, but need to illustrate a point: for the time to visit a small difference in the two access, especially different threads, may not be strictly satisfies the first in first row, but the difference of time is measured in milliseconds (the thread's time slice and the system provide locking sequence dependent)  
-Tools are still in the process of development, has not been a lot of testing, if there is an interest in Coder, welcome to discuss and develop
+
 # how to use
 Hqrank/code/Rank/ is a java project, the JDK version is: 1.7  
 1, the project into the eclipse  
@@ -57,3 +56,4 @@ Hqrank/code/Rank/ is a java project, the JDK version is: 1.7
 * redis is not part of the hqrank project, is used to test, because the redis has a real-time sorting function, here also provides a redis download [Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
 * there are basic examples in test package. BaseTest1: basic usage; BaseTest2: stress test
 * test procedures can be used JProfiler and JDK tool jconsole.exe to monitor memory usage
+* Tools are still in the process of development, has not been a lot of testing, if there is an interest in Coder, welcome to discuss and develop
