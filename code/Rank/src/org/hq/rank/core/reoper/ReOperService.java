@@ -209,13 +209,14 @@ public class ReOperService {
 	private void doReOper(ReOper reOper){
 		if(!rank.doReOper_(reOper,reOper.getTimes()>=errorReoperTimes)){
 			int times = reOper.timesIncrementAndGet();
-			if(times > warnReOperTimes){
+			if(times > warnReOperTimes && times < warnReOperTimes+3){
 				failElement = reOper.getElement();
 				log.warn("reopertimes is too many :"+reOper.toString());
 			}
 			if(times>errorReoperTimes){
 				log.error("reopertimes is too many :"+reOper.toString());
 				reOperTaskCount.getAndDecrement();
+				throw new RankException("reopertimes is too many :"+reOper.toString());
 			}else{
 				addQueue(reOper);
 			}
