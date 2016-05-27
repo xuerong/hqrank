@@ -79,6 +79,13 @@ public class BaseTest1 {
 		log.info("rankData3:"+rankData3);
 		log.info("rankData4:"+rankData4);
 	}
+	private void test8(){
+		IRankService rankService = new RankService();
+		rankService.createRank("rankName");
+		rankService.put("rankName", 10/*id*/, 100/*value*/); // put date to rank
+		RankData rankData = rankService.getRankDataById("rankName", 10); // get date from rank
+		int rankNum = rankData.getRankNum(); // get rank num
+	}
 	/**
 	 * Ò»Ð©get²Ù×÷
 	 * @param rankService

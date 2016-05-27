@@ -24,6 +24,14 @@
 hqrank/code/Rank/是一个java项目，jdk版本为：1.7  
 1、将该项目导入eclipse中  
 2、在包org/hq/rank/service/中有IRankService.java，里面有详细的注释
+3、基本访问方法如下：
+```Java
+		IRankService rankService = new RankService();
+		rankService.createRank("rankName");
+		rankService.put("rankName", 10/*id*/, 100/*value*/); // put date to rank
+		RankData rankData = rankService.getRankDataById("rankName", 10); // get date from rank
+		int rankNum = rankData.getRankNum(); // get rank num
+```
 
 # More
 
@@ -52,6 +60,14 @@ Ranking operation is performed in real time, but need to illustrate a point: for
 Hqrank/code/Rank/ is a java project, the JDK version is: 1.7  
 1, the project into the eclipse  
 2, in the package IRankService.java in org/hq/rank/service/, which has detailed notes
+3, the basic access method is as follows:
+```Java
+		IRankService rankService = new RankService();
+		rankService.createRank("rankName");
+		rankService.put("rankName", 10/*id*/, 100/*value*/); // put date to rank
+		RankData rankData = rankService.getRankDataById("rankName", 10); // get date from rank
+		int rankNum = rankData.getRankNum(); // get rank num
+```
 # More
 * redis is not part of the hqrank project, is used to test, because the redis has a real-time sorting function, here also provides a redis download [Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
 * there are basic examples in test package. BaseTest1: basic usage; BaseTest2: stress test
