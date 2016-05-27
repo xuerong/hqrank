@@ -20,10 +20,10 @@
 排行操作是实时进行的，但需要说明一点：对于访问时间相差很少的两个访问，尤其是不同线程，可能不会严格满足先入先排，但这种相差时间是在毫秒级的（这和线程时间片以及系统提供加锁顺序相关）
 
 #####5、目前实现功能
-根据id获取排行数据及分数
-根据排行获取对应id
-根据id获取id前后若干个玩家的排行数据
-分页查询，根据每页大小和页码获取玩家排行数据
+* 根据id获取排行数据及分数
+* 根据排行获取对应id
+* 根据id获取id前后若干个玩家的排行数据
+* 分页查询，根据每页大小和页码获取排行数据
 
 #  如何使用
 
@@ -71,7 +71,7 @@ Ranking operation is performed in real time, but need to illustrate a point: for
 * Get ranking data and scores based on ID
 * According to the ranking to obtain the corresponding ID
 * According to Id get ID before and after a number of players in the ranking data
-* Paging query, according to each page size and page ranking data acquisition game player
+* Paging query, according to the page size and page ranking data acquisition
 
 # how to use
 Hqrank/code/Rank/ is a java project, Developed using JDK version is: 1.7  
