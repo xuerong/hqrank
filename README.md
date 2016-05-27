@@ -19,6 +19,12 @@
 #####5、实时排行
 排行操作是实时进行的，但需要说明一点：对于访问时间相差很少的两个访问，尤其是不同线程，可能不会严格满足先入先排，但这种相差时间是在毫秒级的（这和线程时间片以及系统提供加锁顺序相关）
 
+#####5、目前实现功能
+根据id获取排行数据及分数
+根据排行获取对应id
+根据id获取id前后若干个玩家的排行数据
+分页查询，根据每页大小和页码获取玩家排行数据
+
 #  如何使用
 
 hqrank/code/Rank/是一个java项目，开发使用jdk版本为：1.7  
@@ -30,8 +36,11 @@ public static void main(String[] args) {
 	IRankService rankService = new RankService();
 	rankService.createRank("rankName");
 	rankService.put("rankName", 10/*id*/, 100/*value*/); // put date to rank
-	RankData rankData = rankService.getRankDataById("rankName", 10); // get date from rank
+	RankData rankData = rankService.getRankDataById("rankName", 10); // get date by id
 	int rankNum = rankData.getRankNum(); // get rank num
+	RankData rankData2 = rankService.getRankDataByRankNum("rankName", rankNum); // get date by rankNum
+	List<RankData> rankDataList1 = rankService.getRankDatasAroundId("rankName", testId, 3, 6); // get date by id,and ranks around this id
+	List<RankData> rankDataList2 = rankService.getRankDatasByPage("rankName", 7/*page*/, 9/*pageSize*/); // get date by page
 }
 ```
 
@@ -58,6 +67,12 @@ Supports multiple threads while operating on the list
 #####5, real time ranking
 Ranking operation is performed in real time, but need to illustrate a point: for the time to visit a small difference in the two access, especially different threads, may not be strictly satisfies the first in first row, but the difference of time is measured in milliseconds (the thread's time slice and the system provide locking sequence dependent)  
 
+#####5, the current implementation of the function
+* Get ranking data and scores based on ID
+* According to the ranking to obtain the corresponding ID
+* According to Id get ID before and after a number of players in the ranking data
+* Paging query, according to each page size and page ranking data acquisition game player
+
 # how to use
 Hqrank/code/Rank/ is a java project, Developed using JDK version is: 1.7  
 1, the project into the eclipse  
@@ -70,6 +85,9 @@ public static void main(String[] args) {
 	rankService.put("rankName", 10/*id*/, 100/*value*/); // put date to rank
 	RankData rankData = rankService.getRankDataById("rankName", 10); // get date from rank
 	int rankNum = rankData.getRankNum(); // get rank num
+	RankData rankData2 = rankService.getRankDataByRankNum("rankName", rankNum); // get date by rankNum
+	List<RankData> rankDataList1 = rankService.getRankDatasAroundId("rankName", testId, 3, 6); // get date by id,and ranks around this id
+	List<RankData> rankDataList2 = rankService.getRankDatasByPage("rankName", 7/*page*/, 9/*pageSize*/); // get date by page
 }
 ```
 # More
