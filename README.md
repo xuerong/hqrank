@@ -21,7 +21,7 @@
 
 #  如何使用
 
-hqrank/code/Rank/是一个java项目，jdk版本为：1.7  
+hqrank/code/Rank/是一个java项目，开发使用jdk版本为：1.7  
 1、将该项目导入eclipse中  
 2、在包org/hq/rank/service/中有IRankService.java，里面有详细的注释  
 3、基本访问方法如下：
@@ -59,7 +59,7 @@ Supports multiple threads while operating on the list
 Ranking operation is performed in real time, but need to illustrate a point: for the time to visit a small difference in the two access, especially different threads, may not be strictly satisfies the first in first row, but the difference of time is measured in milliseconds (the thread's time slice and the system provide locking sequence dependent)  
 
 # how to use
-Hqrank/code/Rank/ is a java project, the JDK version is: 1.7  
+Hqrank/code/Rank/ is a java project, Developed using JDK version is: 1.7  
 1, the project into the eclipse  
 2, in the package IRankService.java in org/hq/rank/service/, which has detailed notes  
 3, the basic access method is as follows:
