@@ -22,10 +22,10 @@ public class BaseTest1 {
 		IRankService rankService = new RankService();
 		
 		BaseTest1 test = new BaseTest1();
-		test.test1(rankService);
+//		test.test1(rankService);
 //		test.test2(rankService);
 //		test.test3(rankService);
-//		test.test4(rankService);
+		test.test4(rankService);
 //		test.test5(rankService);
 		
 		rankService.deleteAllRank();
@@ -121,9 +121,12 @@ public class BaseTest1 {
 		RankData rankData1 = rankService.getRankDataById("rank_a", testId);
 		rankService.put("rank_a", testId, 6,6,6);
 		RankData rankData2 = rankService.getRankDataById("rank_a", testId);
+		rankService.putByField("rank_a", testId, 1, 8);
+		RankData rankData3 = rankService.getRankDataById("rank_a", testId);
 		
 		log.info("rankData1:"+rankData1);
 		log.info("rankData2:"+rankData2);
+		log.info("rankData3:"+rankData3);
 	}
 	/**
 	 * 多线程操作

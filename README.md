@@ -24,6 +24,7 @@
 * 根据排行获取对应id
 * 根据id获取id前后若干个玩家的排行数据
 * 分页查询，根据每页大小和页码获取排行数据
+* 根据字段更新数据
 
 #  如何使用
 
@@ -52,7 +53,7 @@ public static void main(String[] args) {
 * 工具还在开发过程中，还没有经过大量测试，如果有对此有兴趣的Coder，欢迎一起讨论和开发
 
 
-# hqrank
+# About hqrank
 Support for concurrent real-time ranking, ranking tool -java  
 At present, the implementation of hqrank includes the following points:
 #####1, full cache

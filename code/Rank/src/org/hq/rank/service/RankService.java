@@ -80,7 +80,11 @@ public class RankService implements IRankService{
 		IRank rank = getNotNullRankByName(rankName);
 		return rank.setIfAbsent(id, value);
 	}
-
+	@Override
+	public long putByField(String rankName,int id ,int field,long value){
+		IRank rank = getNotNullRankByName(rankName);
+		return rank.setByField(id, field, value);
+	}
 	@Override
 	public long[] delete(String rankName, int id) {
 		IRank rank = getNotNullRankByName(rankName);

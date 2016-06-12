@@ -8,8 +8,6 @@ public class _packet_ {
 	 * 
 	 * 锁和解锁尽量用try 和 finally结构
 	 * 
-	 * 拆分node
-	 * 对象继承一个父类，实现previous和next相关方法
 	 * 
 	 * 后面加功能的时候，如果有return，别忘了本函数中的锁解锁
 	 * 
@@ -17,5 +15,18 @@ public class _packet_ {
 	 * if(currentNodeStep.
 					getHead(). // 这个地方有空指针可能
 					getValue() < value){
+	 */
+	/**
+	 * 后面要实现的功能：
+	 * 1、配置文件：针对所有的rank，针对单个的rank（配置rank）
+	 * 2、添加持久化：(1)同步/异步存储到文件/数据库，(2)启动加载，停止存储
+	 * 3、失败的操作持久化
+	 * 4、统一所有的异常，在service层捕获并处理
+	 * 5、添加英文注释？
+	 * 
+	 * 添加接口
+	 * 1、多字段修改中，修改某一个字段的值
+	 * 
+	 * 修改为maven项目？
 	 */
 }

@@ -86,6 +86,15 @@ public interface IRankService {
 	 */
 	public long[] putIfAbsent(String rankName,int id , long... value);
 	/**
+	 * 根据排行字段更新数据，需要注意，这里的数据是已经存在的数据，否则，报数据不存在异常
+	 * @param rankName 排行的名字
+	 * @param id 数据提供者的id
+	 * @param field 所修改值的字段
+	 * @param value 所修改的值
+	 * @return 原来该字段上的值
+	 */
+	public long putByField(String rankName,int id ,int field,long value);
+	/**
 	 * 删除一个数据
 	 * @param rankName 排行的名字
 	 * @param id 数据提供者的id

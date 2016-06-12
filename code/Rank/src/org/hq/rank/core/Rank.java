@@ -127,6 +127,55 @@ public class Rank implements IRank {
 	public long[] setIfAbsent(int id, long... value) {
 		return setWithAbsent(id, false, value);
 	}
+	@Override
+	public long setByField(int id,int field,long value){
+		if(id < 0){
+			log.error("id requird >= 0");
+			throw new RankException("id requird >= 0");
+		}
+		int fieldCount = rankConfigure.getRankConditionCount();
+		if(field >= fieldCount){
+			throw new RankException("field too large,field="+field+",but rank field is (0-"+(fieldCount-1)+")");
+		}
+		rankStatistics.addSetCount();
+		
+		long[] trueValue = new long[fieldCount]; // 默认是0
+		trueValue[field] = value;
+		Element element = rankPool.getElement(id, trueValue);
+		while(!element.lock()){
+			element = rankPool.getElement(id, trueValue);
+//			System.err.println("error+++++++++++++++++++++++++++++++++++++");
+		}
+		Element oldElement = elementMap.put(id,element);
+		if(oldElement == null){ //说明原来不存在
+			throw new RankException("old data is not exist while try set by field,please set all value before");
+		}
+		long[] oldValues = oldElement.getValue();
+		long[] newValues = element.getValue();
+		for (int i=0;i<fieldCount;i++) { // 把其它值付给element
+			if(i != field){
+				newValues[i] = oldValues[i];
+			}
+		}
+		if(!doUpdate(oldElement, element)){
+			if(reOperService.addQueue(element, OperType.Update, 0, null, oldElement,null)){
+				return oldValues[field];
+			}
+			elementMap.put(id, oldElement);
+			throw new RankException("rank exception,addQueue fail");
+		}
+		return oldValues[field];
+	}
+	private void checkDataBeforeSet(int id,long...value ){
+		if(id < 0){
+			log.error("id requird >= 0");
+			throw new RankException("id requird >= 0");
+		}
+		if(value == null || value.length != rankConfigure.getRankConditionCount()){
+			throw new RankException("value is error!");
+		}
+		rankStatistics.addSetCount();
+	}
 	/**
 	 * 如果存在是否还put
 	 * @param id
@@ -135,14 +184,7 @@ public class Rank implements IRank {
 	 * @return
 	 */
 	private long[] setWithAbsent(int id,boolean isAbsentPut, long... value){
-		if(id < 0){
-			log.error("id requird >= 0");
-			throw new RankException("id requird >= 0");
-		}
-		rankStatistics.addSetCount();
-		if(value == null || value.length != rankConfigure.getRankConditionCount()){
-			throw new RankException("value is error!");
-		}
+		checkDataBeforeSet(id, value);
 		Element element = rankPool.getElement(id, value);
 		while(!element.lock()){
 			element = rankPool.getElement(id, value);

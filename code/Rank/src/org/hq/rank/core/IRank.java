@@ -13,6 +13,7 @@ public interface IRank {
 	public long[] set(int id , long... value);
 	public long setIfAbsent(int id , long value);
 	public long[] setIfAbsent(int id , long... value);
+	public long setByField(int id,int field,long value);
 	public RankData get(int id);
 	public boolean has(int id);
 	public List<RankData> getRankDatasByRankNum(int begin,int length);
