@@ -31,7 +31,7 @@
 hqrank/code/Rank/是一个java项目，开发使用jdk版本为：1.7  
 1、将该项目导入eclipse中  
 2、在包org/hq/rank/service/中有IRankService.java，里面有详细的注释  
-3、基本访问方法如下：
+3、基本访问方法如下：（[点击查看所有接口方法](https://github.com/xuerong/hqrank/blob/master/code/Rank/src/org/hq/rank/service/IRankService.java)）
 ```Java
 public static void main(String[] args) {
 	IRankService rankService = new RankService();
@@ -72,7 +72,7 @@ public static void main(String[] args) {
 * 如果采取不支持并发的策略（或通过访问排队来支持并发），一来是不能使用多核cpu的优势，二来当使用同步持久化的时候效率会骤降
 
 #####4、其它
-* 系统所配置参数对象RankConfigure
+* 工具所配置参数对象RankConfigure
 * 排行异常(目前还没有具体实现)RankException
 * 数据校验和统计RankStatistics：包括对数据结构中各个对象的统计，锁统计，reoper统计，访问统计，step统计，以及数据正确性校验
 * 对象池RankPool，排行所用到的数据对象，包括node,element,rankElement,nodeStep,elementStep，通过对象池来管理，以避免过多的创建对象   

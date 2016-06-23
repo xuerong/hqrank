@@ -30,7 +30,7 @@ public interface IRankService {
 	 */
 	public boolean createRank(String rankName);
 	/**
-	 * 创建一个排行
+	 * 创建一个多字段排行
 	 * @param rankName 排行的名字，不能重复
 	 * @param fieldCount 排行的字段数
 	 * @return 如排行已经存在 返回false
