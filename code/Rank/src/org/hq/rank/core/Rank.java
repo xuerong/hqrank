@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.hq.rank.core.element.Element;
-import org.hq.rank.core.element.ElementStep;
 import org.hq.rank.core.node.AbNode;
 import org.hq.rank.core.node.Node;
 import org.hq.rank.core.node.NodeStepBase;
@@ -44,6 +43,7 @@ public class Rank implements IRank {
 	private final ReOperService reOperService;
 //	// 配置
 	private final int maxHitTimesNodeStep;
+	private final int maxGetTimes;
 	
 	public Rank(){
 		this(new RankConfigure());
@@ -64,6 +64,7 @@ public class Rank implements IRank {
 			reOperService = new ReOperService(this); // 这里面既有初始化，又有参数初始化，又有启动
 			// 初始化
 			maxHitTimesNodeStep = rankConfigure.getMaxHitTimesNodeStep();
+			maxGetTimes = rankConfigure.getMaxGetRankDataTimes();
 			// Node的构造方法中做了判断，起始的node不会创建rankElelment
 			head = rankPool.getNode(Long.MAX_VALUE, 0,rankConfigure.getRankConditionCount()-1);
 			nodeMap.put(head.getValue(), head);
@@ -231,7 +232,6 @@ public class Rank implements IRank {
 		if(element == null || element.getNode() == null){
 			return null;
 		}
-		int maxGetTimes = 5;
 		int times = 0;
 		while(times++<maxGetTimes){
 			RankData rankData = doGet(element);

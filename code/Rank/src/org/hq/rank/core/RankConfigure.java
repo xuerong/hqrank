@@ -33,6 +33,8 @@ public class RankConfigure {
 	private static final int CUTCOUNTELEMENTSTEP_DEFAULT = 800;
 	private static final int COMBINECOUNTELEMENTSTEP_DEFAULT = 100;
 	
+	private static final int MAXGETRANKDATATIMES_DEFAULT = 5;
+	
 	//
 	private String rankName;
 	// 变量
@@ -50,6 +52,8 @@ public class RankConfigure {
 	
 	private int cutCountElementStep = CUTCOUNTELEMENTSTEP_DEFAULT;
 	private int combineCountElementStep = COMBINECOUNTELEMENTSTEP_DEFAULT;
+	
+	private int maxGetRankDataTimes = MAXGETRANKDATATIMES_DEFAULT;
 	
 	// 多条件排行，条件数量
 	private int rankConditionCount = 1; // >0
@@ -166,6 +170,12 @@ public class RankConfigure {
 	}
 	public void setCombineCountElementStep(int combineCountElementStep) {
 		this.combineCountElementStep = combineCountElementStep;
+	}
+	public int getMaxGetRankDataTimes() {
+		return maxGetRankDataTimes;
+	}
+	public void setMaxGetRankDataTimes(int maxGetRankDataTimes) {
+		this.maxGetRankDataTimes = maxGetRankDataTimes;
 	}
 	
 	

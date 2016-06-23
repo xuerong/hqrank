@@ -62,9 +62,8 @@ public static void main(String[] args) {
 * 对于element在数据容器中的增加和删除都会对其前后element进行加锁
 * 对于node和rankElement则使用锁池LockerPool
 * 对于step，当达到最低索引数量时，才会被创建，每一个step对象拥有自身的锁对象
-* 整个结构形成了nodeStep1-nodeStep2-node-elementStep-element的结构
-对于每一层级的操作仅对该层级的对象加锁，同时对多个层级操作需要对多个层级加锁（如因为node数量增加而创建nodeStep），每个层级的锁尽量在本层级释放
-* 查询不加锁
+* 整个结构形成了nodeStep1-nodeStep2-node-elementStep-element的结构，对于每一层级的操作仅对该层级的对象加锁，同时对多个层级操作需要对多个层级加锁（如因为node数量增加而创建nodeStep），每个层级的锁尽量在本层级释放
+* 查询不加锁，为保持效率和正确性，采取若查询失败，可配置多次查询直到获取所得值或达到最大查询次数
 * 重新执行方案：当一个操作，包括对数据的增删改和对node的删除，加锁失败时，不等待锁，而是放入reoper池，重新执行。 重新执行时间和最多执行次数由工具参数配置决定  
 
 #####3、对象池
