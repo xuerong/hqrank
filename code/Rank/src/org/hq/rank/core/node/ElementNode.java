@@ -96,7 +96,7 @@ public class ElementNode extends Node{
 			}
 			
 			
-			if(tailStep == null && elementCount.get() > ElementStep.fullCount){
+			if(tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){
 				// 创建之，创建的时候加写锁，这样防止其它线程加数据进去
 				rank.getLockerPool().unlockNodeRLocker(this, 0);
 				isLock = rank.getLockerPool().tryLockNodeWLocker(this, 0);
@@ -108,7 +108,7 @@ public class ElementNode extends Node{
 					}
 					return null;
 				}
-				if(this.tailStep == null && elementCount.get() > ElementStep.fullCount){ // 再次校验
+				if(this.tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // 再次校验
 					this.headStep = rank.getRankPool().getElementStep(this);
 					Element currentElement = head;
 					while(currentElement != null){
@@ -130,7 +130,7 @@ public class ElementNode extends Node{
 			}
 			if(tailStep != null){
 				// 拆分
-				if(tailStep.getCount() >= ElementStep.fullCount){
+				if(tailStep.getCount() >= rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){
 					
 					rank.getLockerPool().unlockNodeRLocker(this, 0);
 					isLock = rank.getLockerPool().tryLockNodeWLocker(this, 0);
@@ -142,7 +142,7 @@ public class ElementNode extends Node{
 						}
 						return null;
 					}
-					if(tailStep.getCount() >= ElementStep.fullCount){ // 再次校验
+					if(tailStep.getCount() >= rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // 再次校验
 						
 						ElementStep newStep = rank.getRankPool().getElementStep(this);
 						tailStep.putElement(element);

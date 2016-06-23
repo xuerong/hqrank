@@ -193,7 +193,7 @@ public class RankElement implements RankPoolElement{
 						currentNodeStep = head.getParentNS();
 						currentNodeStepStep = head.getParentNS().getParentNS();
 						previousNodeStepStep = null;
-						if(currentHitTimes++>rank.getRankConfigure().getMaxHitTimesNodeStepStep()){
+						if(currentHitTimes++>rank.getRankConfigure().getMaxHitTimesNodeStep()){
 							log.warn("nodestepstep:currentHitTimes++>NodeStep.maxHitTimes:"+
 									currentHitTimes+","+previousNodeStepStep);
 							break;
@@ -432,7 +432,7 @@ public class RankElement implements RankPoolElement{
 	public boolean deleteNode(Node node){
 		boolean success = doDeleteNode(node);
 		if(!success){
-			return rank.getReOperService().addQueue(OperType.RandomDeleteNode, 0, node,this);
+			return rank.getReOperService().addQueue(OperType.RankElementDeleteNode, 0, node,this);
 		}
 		return true;
 	}

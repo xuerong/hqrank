@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 public class ElementStep implements RankPoolElement{
 	private static Logger log = LoggerFactory.getLogger(ElementStep.class);
 	// 满的数量，当达到这个数量时，开启下一个step
-	public static final int fullCount = 800; 
-	// 去掉它的count，小于该数量时，将其合并到上一个step，也就是说，一个step最多有可能达到(fullCount+deleteCount)个
-	public static final int deleteCount = 100;
+//	public static int fullCount = 800; 
+//	// 去掉它的count，小于该数量时，将其合并到上一个step，也就是说，一个step最多有可能达到(fullCount+deleteCount)个
+//	public static int deleteCount = 100;
 	// 
 	private final Rank rank;
 	
@@ -76,7 +76,7 @@ public class ElementStep implements RankPoolElement{
 			this.head = element.getNext();
 		}
 		
-		if(count.get() < deleteCount){
+		if(count.get() < rank.getRankConfigure().getCombineCountElementStep()){//deleteCount){
 			if(this != node.getTailStep() && this !=node.getHeadStep()){
 				// 合并step
 				if(lockPrevious() == null){
@@ -87,7 +87,8 @@ public class ElementStep implements RankPoolElement{
 					next.lock();
 				}
 				// 
-				if(node == null || this == node.getTailStep() || this ==node.getHeadStep() || count.get() >= deleteCount){
+				if(node == null || this == node.getTailStep() || this ==node.getHeadStep() 
+						|| count.get() >= rank.getRankConfigure().getCombineCountElementStep()){//deleteCount){
 					if(next != null){
 						next.unLock();
 					}

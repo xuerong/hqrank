@@ -84,6 +84,8 @@ public class ReOper {
 	}
 
 	public static enum OperType{
-		Delete,Add,Update,DeleteNode,RandomDeleteNode
+		Delete,Add,Update,DeleteNode,
+		
+		RankElementDeleteNode // 原来叫 RandomDeleteNode，但不记得为什么了
 	}
 }

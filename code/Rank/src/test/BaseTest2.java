@@ -2,10 +2,7 @@ package test;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import org.hq.rank.core.Rank;
-import org.hq.rank.core.RankConfigure;
 import org.hq.rank.core.RankData;
 import org.hq.rank.service.IRankService;
 import org.hq.rank.service.RankService;
@@ -34,8 +31,8 @@ public class BaseTest2 {
 		IRankService rankService = new RankService();
 		
 		BaseTest2 test = new BaseTest2();
-		test.test1(rankService);
-//		test.test2(rankService);
+//		test.test1(rankService);
+		test.test2(rankService);
 //		test.test3(rankService);
 		
 		rankService.deleteAllRank();

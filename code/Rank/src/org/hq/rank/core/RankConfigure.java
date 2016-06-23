@@ -15,9 +15,8 @@ public class RankConfigure {
 	 * NodeStep.fullCount
 	 * NodeStep.deleteCount
 	 * NodeStep.maxHitTimes
-	 * NodeStepStep.fullCount
-	 * NodeStepStep.deleteCount
-	 * NodeStepStep.maxHitTimes
+	 * ElementStep.fullCount
+	 * ElementStep.deleteCount
 	 */
 	// 默认值
 	private static final ReOperType REOPERTYPE_DEFAULT = ReOperType.MultiSche;
@@ -30,9 +29,9 @@ public class RankConfigure {
 	private static final int CUTCOUNTNODESTEP_DEFAULT = 600;
 	private static final int COMBINECOUNTNODESTEP_DEFAULT = 60;
 	private static final int MAXHITTIMESNODESTEP_DEFAULT = 3;
-	private static final int CUTCOUNTNODESTEPSTEP_DEFAULT = 600;
-	private static final int COMBINECOUNTNODESTEPSTEP_DEFAULT = 60;
-	private static final int MAXHITTIMESNODESTEPSTEP_DEFAULT = 3;
+	
+	private static final int CUTCOUNTELEMENTSTEP_DEFAULT = 800;
+	private static final int COMBINECOUNTELEMENTSTEP_DEFAULT = 100;
 	
 	//
 	private String rankName;
@@ -41,15 +40,16 @@ public class RankConfigure {
 	private int scheduleThreadCount = SCHEDULETHREADCOUNT_DEFAULT;
 	private int maxScheduleThreadCount = MAXSCHEDULETHREADCOUNT_DEFAULT;
 	private int maxScheduleTime = MAXSCHEDULETIME_DEFAULT;
-	private int multiThreadCount = MULTITHREADCOUNT_DEFAULT;
-	private int warnReOperTimes = WARNREOPERTIMES_DEFAULT;
+	private int multiThreadCount = MULTITHREADCOUNT_DEFAULT; //MultiThread 使用
+	private int warnReOperTimes = WARNREOPERTIMES_DEFAULT; //
 	private int errorReoperTimes = ERRORREOPERTIMES_DEFAULT;
+	
 	private int cutCountNodeStep = CUTCOUNTNODESTEP_DEFAULT;
 	private int combineCountNodeStep = COMBINECOUNTNODESTEP_DEFAULT;
 	private int maxHitTimesNodeStep = MAXHITTIMESNODESTEP_DEFAULT;
-	private int cutCountNodeStepStep = CUTCOUNTNODESTEPSTEP_DEFAULT;
-	private int combineCountNodeStepStep = COMBINECOUNTNODESTEPSTEP_DEFAULT;
-	private int maxHitTimesNodeStepStep = MAXHITTIMESNODESTEPSTEP_DEFAULT;
+	
+	private int cutCountElementStep = CUTCOUNTELEMENTSTEP_DEFAULT;
+	private int combineCountElementStep = COMBINECOUNTELEMENTSTEP_DEFAULT;
 	
 	// 多条件排行，条件数量
 	private int rankConditionCount = 1; // >0
@@ -143,29 +143,6 @@ public class RankConfigure {
 		this.maxHitTimesNodeStep = maxHitTimesNodeStep;
 	}
 
-	public int getCutCountNodeStepStep() {
-		return cutCountNodeStepStep;
-	}
-
-	public void setCutCountNodeStepStep(int cutCountNodeStepStep) {
-		this.cutCountNodeStepStep = cutCountNodeStepStep;
-	}
-
-	public int getCombineCountNodeStepStep() {
-		return combineCountNodeStepStep;
-	}
-
-	public void setCombineCountNodeStepStep(int combineCountNodeStepStep) {
-		this.combineCountNodeStepStep = combineCountNodeStepStep;
-	}
-
-	public int getMaxHitTimesNodeStepStep() {
-		return maxHitTimesNodeStepStep;
-	}
-
-	public void setMaxHitTimesNodeStepStep(int maxHitTimesNodeStepStep) {
-		this.maxHitTimesNodeStepStep = maxHitTimesNodeStepStep;
-	}
 	public int getRankConditionCount() {
 		return rankConditionCount;
 	}
@@ -177,6 +154,18 @@ public class RankConfigure {
 	}
 	public void setRankName(String rankName) {
 		this.rankName = rankName;
+	}
+	public int getCutCountElementStep() {
+		return cutCountElementStep;
+	}
+	public void setCutCountElementStep(int cutCountElementStep) {
+		this.cutCountElementStep = cutCountElementStep;
+	}
+	public int getCombineCountElementStep() {
+		return combineCountElementStep;
+	}
+	public void setCombineCountElementStep(int combineCountElementStep) {
+		this.combineCountElementStep = combineCountElementStep;
 	}
 	
 	

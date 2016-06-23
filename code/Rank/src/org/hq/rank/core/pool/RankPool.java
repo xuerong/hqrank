@@ -27,8 +27,6 @@ public class RankPool {
 	private final int rankElementMaxSize = 100;
 	private final int elementMaxSize = 100;
 	private final int nodeStepBaseMaxSize = 100;
-	private final int nodeStepMaxSize = 100;
-	private final int nodeStepStepMaxSize = 100;
 	private final int elementStepMaxSize = 100;
 	
 	private final Rank rank; // 一个rank一个池
