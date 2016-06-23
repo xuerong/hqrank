@@ -34,7 +34,7 @@ public class RankConfigure {
 	private static final int COMBINECOUNTELEMENTSTEP_DEFAULT = 100;
 	
 	private static final int MAXGETRANKDATATIMES_DEFAULT = 5;
-	
+	private static final int RANKELEMENTNODEMAPCOUNT_DEFAULT = 1000;
 	//
 	private String rankName;
 	// 变量
@@ -49,11 +49,14 @@ public class RankConfigure {
 	private int cutCountNodeStep = CUTCOUNTNODESTEP_DEFAULT;
 	private int combineCountNodeStep = COMBINECOUNTNODESTEP_DEFAULT;
 	private int maxHitTimesNodeStep = MAXHITTIMESNODESTEP_DEFAULT;
-	
+	// 满的数量，当达到这个数量时，开启下一个step
 	private int cutCountElementStep = CUTCOUNTELEMENTSTEP_DEFAULT;
+	// 去掉它的count，小于该数量时，将其合并到上一个step，也就是说，一个step最多有可能达到(fullCount+deleteCount)个
 	private int combineCountElementStep = COMBINECOUNTELEMENTSTEP_DEFAULT;
 	
 	private int maxGetRankDataTimes = MAXGETRANKDATATIMES_DEFAULT;
+	//rankElement比较多，每个里面单独一个ConcurrentHashMap占用太多内存, 统一用一组ConcurrentHashMap，数量可配置
+	private int rankElementNodeMapCount = RANKELEMENTNODEMAPCOUNT_DEFAULT;
 	
 	// 多条件排行，条件数量
 	private int rankConditionCount = 1; // >0
@@ -176,6 +179,12 @@ public class RankConfigure {
 	}
 	public void setMaxGetRankDataTimes(int maxGetRankDataTimes) {
 		this.maxGetRankDataTimes = maxGetRankDataTimes;
+	}
+	public int getRankElementNodeMapCount() {
+		return rankElementNodeMapCount;
+	}
+	public void setRankElementNodeMapCount(int rankElementNodeMapCount) {
+		this.rankElementNodeMapCount = rankElementNodeMapCount;
 	}
 	
 	

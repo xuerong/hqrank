@@ -380,7 +380,6 @@ public class RankElement implements RankPoolElement{
 				NodeStepBase nodeStepStep = rank.getRankPool().getNodeStepBase(null);
 				
 				NodeStepBase newNodeStep = rank.getRankPool().getNodeStepBase(nodeStepStep);
-//				nodeStepStep.putNodeStep(newNodeStep);
 				nodeStepStep.putAbNode(newNodeStep);
 				
 				newNodeStep.setHead(head);

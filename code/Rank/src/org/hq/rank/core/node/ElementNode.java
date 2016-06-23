@@ -3,7 +3,6 @@ package org.hq.rank.core.node;
 import java.util.List;
 
 import org.hq.rank.core.Rank;
-import org.hq.rank.core.RankException;
 import org.hq.rank.core.element.Element;
 import org.hq.rank.core.element.ElementStep;
 import org.slf4j.Logger;
@@ -54,9 +53,6 @@ public class ElementNode extends Node{
 	public Element add(Element element) {
 		boolean isLock = rank.getLockerPool().tryLockNodeRLocker(this, 0);
 		if(!isLock){
-			if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-				throw new RankException("reoper fail");
-			}
 			return null;
 		}
 		boolean isNeedUnlock = true;
@@ -68,30 +64,18 @@ public class ElementNode extends Node{
 			// 在tail lock的函数中个，在执行getAndIncrement之前，tail指向被修改，此时，lock的element就不是新的element
 			Element _tail=tail;
 			if(_tail == null){
-				if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-					throw new RankException("reoper fail");
-				}
 				return null;
 			}
 			if(!_tail.lock()){
-				if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-					throw new RankException("reoper fail");
-				}
 				return null;
 			}
 			if(_tail != tail){
 				_tail.unLock();
-				if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-					throw new RankException("reoper fail");
-				}
 				return null;
 			}
 			// 可能被修改或者删除，尤其是在池中重新取出之后
 			if(!tail.equalsValue(element)){
 				_tail.unLock();
-				if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-					throw new RankException("reoper fail");
-				}
 				return null;
 			}
 			
@@ -103,9 +87,6 @@ public class ElementNode extends Node{
 				if(!isLock){
 					isNeedUnlock = false;
 					_tail.unLock();
-					if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-						throw new RankException("reoper fail");
-					}
 					return null;
 				}
 				if(this.tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // 再次校验
@@ -122,9 +103,6 @@ public class ElementNode extends Node{
 				if(!isLock){
 					isNeedUnlock = false;
 					_tail.unLock();
-					if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-						throw new RankException("reoper fail");
-					}
 					return null;
 				}
 			}
@@ -137,9 +115,6 @@ public class ElementNode extends Node{
 					if(!isLock){
 						isNeedUnlock = false;
 						_tail.unLock();
-						if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-							throw new RankException("reoper fail");
-						}
 						return null;
 					}
 					if(tailStep.getCount() >= rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // 再次校验
@@ -155,9 +130,6 @@ public class ElementNode extends Node{
 					if(!isLock){
 						isNeedUnlock = false;
 						_tail.unLock();
-						if(element == rank.getFailElement()){ // ---------------测试用代码，用于追踪错误栈-------------
-							throw new RankException("reoper fail");
-						}
 						return null;
 					}
 				}else{
@@ -172,9 +144,6 @@ public class ElementNode extends Node{
 			
 			elementCount.getAndIncrement();
 			
-//			if(nodeStep != null){
-//				nodeStep.putElement(); // 有没有可能空指针？不可能
-//			}
 			if(parentNS != null){
 				parentNS.putElement(); // 有没有可能空指针？不可能
 			}
@@ -208,8 +177,6 @@ public class ElementNode extends Node{
 				currentElement = step.getHead();
 			}
 		}
-		
-//		int localRankNum = step.getRankValue(element);
 		
 		while(currentElement != null && currentElement != element){
 			rankNum++;
@@ -267,9 +234,6 @@ public class ElementNode extends Node{
 				unLockMultipleElement(pre,next);
 				return false;
 			}
-//			if(nodeStep != null){
-//				nodeStep.removeElement();
-//			}
 			if(parentNS != null){
 				parentNS.removeElement();
 			}

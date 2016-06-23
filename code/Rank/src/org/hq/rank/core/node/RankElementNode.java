@@ -41,9 +41,6 @@ public class RankElementNode extends Node{
 		int level = conditionLevel;
 		boolean isLock = rank.getLockerPool().tryLockNodeRLocker(this, level);
 		if(!isLock){
-			if(element == rank.getFailElement()){ // ---------------≤‚ ‘”√¥˙¬Î£¨”√”⁄◊∑◊Ÿ¥ÌŒÛ’ª-------------
-				throw new RankException("reoper fail");
-			}
 			return null;
 		}
 		boolean isNeedUnlock = true;
@@ -53,9 +50,7 @@ public class RankElementNode extends Node{
 			}
 			if(rankElement.add(element)){
 				elementCount.getAndIncrement();
-//				if(nodeStep != null){
-//					nodeStep.putElement();
-//				}
+				
 				if(parentNS != null){
 					parentNS.putElement();
 				}
@@ -98,9 +93,7 @@ public class RankElementNode extends Node{
 		try {
 			if(rankElement.delete(element)){
 				elementCount.getAndDecrement();
-//				if(nodeStep != null){
-//					nodeStep.removeElement();
-//				}
+				
 				if(parentNS != null){
 					parentNS.removeElement();
 				}

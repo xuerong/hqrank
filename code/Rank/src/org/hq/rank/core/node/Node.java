@@ -20,14 +20,8 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 	protected final Rank rank; // 该node所处的rank
 	// 该Node对应的值
 	protected long value;
-//	protected NodeStep nodeStep; // 所在的nodeStep
-	// 当添加或删除node的时候，才用到这个锁,对node内部的控制不用该锁
-//	private AtomicInteger locker = new AtomicInteger(0);
 	// Node中的Element数量
 	protected volatile AtomicInteger elementCount = new AtomicInteger(0);
-	
-//	private Node previous;
-//	private Node next;
 	/**
 	 * 构造的时候有没有可能被访问？add方法
 	 * */
@@ -43,19 +37,10 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		}else{
 			// 第一个字段默认就创建三层索引
 			if(conditionLevel == rank.getRankConfigure().getRankConditionCount() - 1){
-//				NodeStepStep nodeStepStep = rank.getRankPool().getNodeStepStep();
 				// 这里设置了null，它上面就不会有更多层了，否则，会有更多层，不过还有待测试
 				NodeStepBase nodeStepStep = rank.getRankPool().getNodeStepBase(null); 
-//				this.nodeStep = rank.getRankPool().getNodeStep(nodeStepStep);
-
-//				System.err.println("this.nodeStep:"+this.nodeStep + value);
-//				this.nodeStep.putAbNode(this);
-//				nodeStepStep.putNodeStep(this.nodeStep);
-//				System.err.println(nodeStepStep);
 				this.parentNS = rank.getRankPool().getNodeStepBase(nodeStepStep);
-//				this.parentNS.putAbNode(this);
 				this.parentNS.putAbNodeWithElement(this);
-//				nodeStepStep.putNodeStep((NodeStep)this.parentNS);
 				nodeStepStep.putAbNode(this.parentNS); // 上一步就会把所有上面step需要加到elementCount的加完了
 			}
 		}
@@ -71,31 +56,8 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		return value;
 	}
 
-//	public Node getPrevious() {
-//		return previous;
-//	}
-//	public void setPrevious(Node previous) {
-//		this.previous = previous;
-//	}
-//	public Node getNext() {
-//		return next;
-//	}
-//	public void setNext(Node next) {
-//		this.next = next;
-//	}
-	
-//	public NodeStep getNodeStep() {
-////		return nodeStep;
-//		return (NodeStep)parentNS;
-//	}
-	
-//	public void setNodeStep(NodeStep nodeStep) {
-////		this.nodeStep = nodeStep;
-//		this.parentNS = nodeStep;
-//	}
-
 	@Override
-	public abstract/* synchronized */Element add(Element element) ;
+	public abstract Element add(Element element) ;
 	
 	@Override
 	public abstract int getRankValue(Element element);
@@ -157,9 +119,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		}
 		
 		value = -1;
-//		nodeStep = null; // 所在的nodeStep
 		parentNS = null;
-//		setNodeStep(nodeStep);
 		// 这里不要重置锁，因为，这个时候锁被多少个人用着是不确定的
 //		locker.set(0);
 		// Node中的Element数量

@@ -137,49 +137,6 @@ public class RankPool {
 		return nodeStepBase;
 	}
 	/**
-	 * NodeStep
-	 */
-//	private final Queue<NodeStep> nodeSteps = new ConcurrentLinkedQueue<NodeStep>();
-//	public void putNodeStep(NodeStep nodeStep){
-//		if(nodeStep == null){
-//			return;
-//		}
-//		if(nodeSteps.size() > nodeStepMaxSize){
-//			return;
-//		}
-//		nodeStep.reset();
-//		nodeSteps.offer(nodeStep);
-//	}
-//	public NodeStep getNodeStep(NodeStepStep nodeStepStep){
-//		NodeStep nodeStep = nodeSteps.poll();
-//		if(nodeStep == null){
-//			nodeStep = new NodeStep(rank);
-//		}
-//		nodeStep.init(nodeStepStep);
-//		return nodeStep;
-//	}
-//	/**
-//	 * NodeStepStep
-//	 */
-//	private final Queue<NodeStepStep> nodeStepSteps = new ConcurrentLinkedQueue<NodeStepStep>();
-//	public void putNodeStepStep(NodeStepStep nodeStepStep){
-//		if(nodeStepStep == null){
-//			return;
-//		}
-//		if(nodeStepSteps.size() > nodeStepStepMaxSize){
-//			return;
-//		}
-//		nodeStepStep.reset();
-//		nodeStepSteps.offer(nodeStepStep);
-//	}
-//	public NodeStepStep getNodeStepStep(){
-//		NodeStepStep nodeStepStep = nodeStepSteps.poll();
-//		if(nodeStepStep == null){
-//			nodeStepStep = new NodeStepStep(rank);
-//		}
-//		return nodeStepStep;
-//	}
-	/**
 	 * RankElement
 	 */
 	private final Queue<RankElement> rankElements = new ConcurrentLinkedQueue<RankElement>();
@@ -230,15 +187,13 @@ public class RankPool {
 	}
 	@Override
 	public String toString(){
-		// Node¡¢RankElementºÍElement£¬NodeStep,NodeStepStep,ElementStep
+		// Node¡¢RankElementºÍElement£¬ElementStep
 		StringBuilder sb = new StringBuilder();
 		sb.append("RankPool:")
-//		.append("elementNode:"+eNodes.size()+",rankENode:"+rNodes.size())
+		.append("elementNode:"+eNodes.size()+",rankENode:"+rNodes.size())
 		.append(",rankElement:"+rankElements.size())
 		.append(",Element:"+elements.size())
 		.append(",NodeStepBase:"+nodeStepBases.size())
-//		.append(",NodeStep:"+nodeSteps.size())
-//		.append(",NodeStepStep:"+nodeStepSteps.size())
 		.append(",ElementStep:"+elementSteps.size());
 		return sb.toString();
 	}

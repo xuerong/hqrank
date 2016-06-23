@@ -13,10 +13,6 @@ import org.slf4j.LoggerFactory;
 
 public class ElementStep implements RankPoolElement{
 	private static Logger log = LoggerFactory.getLogger(ElementStep.class);
-	// 满的数量，当达到这个数量时，开启下一个step
-//	public static int fullCount = 800; 
-//	// 去掉它的count，小于该数量时，将其合并到上一个step，也就是说，一个step最多有可能达到(fullCount+deleteCount)个
-//	public static int deleteCount = 100;
 	// 
 	private final Rank rank;
 	
@@ -25,7 +21,6 @@ public class ElementStep implements RankPoolElement{
 	 * 1、fullCount最好为node可能数量的开方*2，但最好不要小于100，没必要
 	 * 2、deleteCount最好为fullCount/10，但最好不要小于20，没必要
 	 * **/
-//	private Node node;
 	private ElementNode node;
 	
 	private Lock locker = new ReentrantLock();

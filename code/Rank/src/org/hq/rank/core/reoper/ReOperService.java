@@ -230,43 +230,6 @@ public class ReOperService {
 			}
 		}
 	}
-//	private boolean doReOper_(ReOper reOper){
-//		boolean success = false;
-//		switch (reOper.getOperType()) {
-//		case Delete:
-//			success = doDelete(reOper.getElement());
-//			if(!success && reOper.getTimes()>=errorReoperTimes){
-//				// 简单放进去，这样并不托，这里发生的时候就是大问题了
-//				elementMap.put(reOper.getElement().getId(), reOper.getElement());
-//			}
-//			break;
-//		case RandomDeleteNode:
-//			success = reOper.getRankElement().doDeleteNode(reOper.getNode());
-//			break;
-//		case DeleteNode:
-//			success = doDeleteNode(reOper.getNode());
-//			break;
-//		case Add:
-//			success = doAdd(reOper.getElement());
-//			if(success){
-//				reOper.getElement().unLock();
-//			}else if(reOper.getTimes()>=errorReoperTimes){
-//				reOper.getElement().unLock();
-//			}
-//			break;
-//		case Update:
-//			success = doUpdate(reOper.getOldElement(),reOper.getElement());
-//			if(!success && reOper.getTimes()>=errorReoperTimes){
-//				reOper.getElement().unLock();
-//				// 简单放进去，这样并不托，这里发生的时候就是大问题了
-//				elementMap.put(reOper.getOldElement().getId(), reOper.getOldElement());
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-//		return success;
-//	}
 	
 	public Element getFailElement() {
 		return failElement;

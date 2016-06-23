@@ -21,11 +21,5 @@ public abstract class AbNode extends AbLinkBase {
 	public int getCount(){ // node的继承重写这个方法，判断是否为maxLong，返回0
 		return elementCount.get();
 	}
-	/**
-	 * 返回该value在该abnode中的排名，没有则返回-1
-	 * @param value
-	 * @return
-	 */
-//	public abstract int getrRankNumByValue(long value);
 	
 }

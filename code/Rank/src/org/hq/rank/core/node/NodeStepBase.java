@@ -43,9 +43,7 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 				nodeStepBase.writeLock.lock();
 				int currentCount = 0;
 				AbNode currentNode = this.head;
-//				if(this.head.getParentNS() == null){
-//					System.err.println("null" +this.head.getValue());
-//				}
+				
 				nodeStepBase.head = currentNode;
 				
 				nodeStepBase.next =this; // 先设置，有先设置的好处，提高查询的命中率
@@ -305,10 +303,6 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 			}
 		}
 	}
-	
-//	public int getrRankNumByValue(long value){
-//		
-//	}
 
 	
 	public void addElement(int count){

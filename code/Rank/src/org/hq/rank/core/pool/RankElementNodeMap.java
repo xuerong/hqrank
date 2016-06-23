@@ -25,7 +25,7 @@ public class RankElementNodeMap {
 	
 	public RankElementNodeMap(Rank rank){
 		this.rank = rank;
-		this.mapCount = 1000;
+		this.mapCount = rank.getRankConfigure().getRankElementNodeMapCount();
 		if(rank.getRankConfigure().getRankConditionCount() > 1){
 			maps = new ConcurrentHashMap[this.mapCount];
 			for(int i = 0;i< mapCount;i++){
