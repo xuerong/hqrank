@@ -66,8 +66,10 @@ public static void main(String[] args) {
 对于每一层级的操作仅对该层级的对象加锁，同时对多个层级操作需要对多个层级加锁（如因为node数量增加而创建nodeStep），每个层级的锁尽量在本层级释放
 * 查询不加锁
 * 重新执行方案：当一个操作，包括对数据的增删改和对node的删除，加锁失败时，不等待锁，而是放入reoper池，重新执行。 重新执行时间和最多执行次数由工具参数配置决定  
+
 #####3、对象池
 * 排行所用到的数据对象，包括node,element,rankElement,nodeStep,elementStep，通过对象池来管理，以避免过多的创建对象  
+
 #####4、其它
 * 系统所配置参数对象RankConfigure
 * 排行异常(目前还没有具体实现)RankException
