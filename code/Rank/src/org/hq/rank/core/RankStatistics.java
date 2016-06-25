@@ -37,6 +37,7 @@ public class RankStatistics {
 	 * 执行的get次数
 	 * 执行的delete次数
 	 * 以上三者的执行频率，效率等
+	 * 定位难度（平均即每个访问需要花费的定位访问次数）
 	 * 
 	 * 
 	 * 
@@ -51,6 +52,7 @@ public class RankStatistics {
 	 * 大小关系
 	 * 效率验证
 	 * 配置状态
+	 * 
 	 */
 	private final Rank rank;
 	public RankStatistics(final Rank rank){
@@ -131,6 +133,16 @@ public class RankStatistics {
 		return deleteCount.getAndIncrement();
 	}
 	/**
+	 * 一个执行所花费的循环次数，doAdd
+	 */
+	private AtomicInteger searchNodeCountPer = new AtomicInteger(0);
+	private AtomicInteger searchNodeCycCountPer = new AtomicInteger(0);
+	public void addSearchNodeCycCount(int count){
+		searchNodeCycCountPer.addAndGet(count);
+		searchNodeCountPer.incrementAndGet();
+	}
+	
+	/**
 	 * 重现执行次数
 	 */
 	private AtomicInteger reOperCount = new AtomicInteger(0);
@@ -210,9 +222,15 @@ public class RankStatistics {
 		for (NodeStepBase nodeStepStep : nodeStepStepList) {
 			nodeStepCount += nodeStepStep.getNodeCount();
 		}
+		// 定位复杂度
+		int countSearchNodeCountPer=searchNodeCountPer.get();
+		int countPerDoAdd = searchNodeCycCountPer.get()/countSearchNodeCountPer;
+		searchNodeCountPer.set(0);
+		searchNodeCycCountPer.set(0);
 		StringBuilder sb = new StringBuilder();
 		sb.append("nodeStepStepCount:"+nodeStepStepCount+"\n");
 		sb.append("nodeStepCount:"+nodeStepCount+"\n");
+		sb.append("SearchNodeCycCountPer(difficulty of location):"+countPerDoAdd+",searchNodeCountPer:"+countSearchNodeCountPer+"\n");
 		return sb.toString();
 	}
 	@Override
@@ -250,6 +268,10 @@ public class RankStatistics {
 			elementCount3 += node.getCount();
 		}
 		elementCount4 = rank.getElementCount();
+		// 定位复杂度
+		int countPerDoAdd = searchNodeCycCountPer.get()/searchNodeCountPer.get();
+		searchNodeCountPer.set(0);
+		searchNodeCycCountPer.set(0);
 		// 统计
 		sb.append("nodeStepStepCount:"+nodeStepStepCount+"\n");
 		sb.append("nodeStepCount:"+nodeStepCount1+","+nodeStepCount2+"\n");
@@ -267,6 +289,7 @@ public class RankStatistics {
 		
 		sb.append("reOperTimes:"+reOperCount.get()+"\n");
 		sb.append("nodeCount by cycleTestNode:"+cycleTestNode()+"\n");
+		sb.append("countPerDoAdd(difficulty of location):"+countPerDoAdd+"\n");
 		
 		// 校验
 		// 详细

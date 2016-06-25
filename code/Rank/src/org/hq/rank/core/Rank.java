@@ -3,6 +3,7 @@ package org.hq.rank.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hq.rank.core.element.Element;
 import org.hq.rank.core.node.AbNode;
@@ -234,6 +235,7 @@ public class Rank implements IRank {
 		}
 		int times = 0;
 		while(times++<maxGetTimes){
+			countLocal.set(0);
 			RankData rankData = doGet(element);
 			if(rankData != null){
 				return rankData;
@@ -388,7 +390,9 @@ public class Rank implements IRank {
 		AbNode currentNode = nodeStep.getHead();
 		NodeStepBase currentNodeStep = nodeStep;
 		NodeStepBase previousNodeStep = null;
+		int count = 0;
 		while(currentNodeStep != null){
+			count++;
 			if(currentNodeStep.getValue() < value){
 //				System.err.println("currentNodeStepStep.getValue():"+currentNodeStepStep.getValue()+",value:"+value);
 				if(previousNodeStep != null && previousNodeStep.getValue() >= value){
@@ -431,8 +435,11 @@ public class Rank implements IRank {
 			previousNodeStep = currentNodeStep;
 			currentNodeStep = (NodeStepBase)currentNodeStep.getNext();
 		}
+		countLocal.set(countLocal.get()+count);
 		return new SearchAbNodeResult(currentNode, rankNum);
 	}
+	// 定位复杂度统计参数
+	private ThreadLocal<Integer> countLocal = new ThreadLocal<Integer>();
 	private SearchAbNodeResult getStartNodeByNodeStep(long value){
 		int rankNum = 0;
 		NodeStepBase nodeStepBase = getHeadNodesStep();
@@ -577,7 +584,13 @@ public class Rank implements IRank {
 	 * 如何防止重复添加
 	 * 
 	 * */
-	private boolean doAdd(Element element) {
+	private boolean doAdd(Element element){
+		countLocal.set(0);
+		boolean result = doAdd_(element);
+		rankStatistics.addSearchNodeCycCount(countLocal.get());
+		return result;
+	}
+	private boolean doAdd_(Element element) {
 		long[] _value = element.getValue();
 		long value = _value[0];
 		Node valueNode = nodeMap.get(value);
@@ -593,48 +606,54 @@ public class Rank implements IRank {
 			log.warn("currentNode.getValue()<value，这说明上面命中之后被修改过");
 			currentNode = head;
 		} 
-		while(currentNode != null){
-			if(currentNode.getValue()>value){
-				prePreNode = previousNode;
-				previousNode = currentNode;
-				currentNode = (Node)currentNode.getNext();
-				if(currentNode == null){
-					// 删除的时候需要校验该lock
+		int count=0;
+		try{// 为了统计循环次数才加的这个，没有其它目的
+			while(currentNode != null){
+				count++;
+				if(currentNode.getValue()>value){
+					prePreNode = previousNode;
+					previousNode = currentNode;
+					currentNode = (Node)currentNode.getNext();
+					if(currentNode == null){
+						// 删除的时候需要校验该lock
+						Node node = rankPool.getNode(element,value,rankConfigure.getRankConditionCount()-1);
+						// 可能另外一个线程在这个地方执行的add，所以在锁住之后，还要进行一个校验
+						boolean isLock = lockMultipleNode(previousNode,node);
+						if(!isLock){
+							return false;
+						}
+						// 再次校验，这个地方需要上一层的校验，否则有可能previous是错误的，
+						if(previousNode.getNext()!=null || (previousNode.getPrevious() != prePreNode) || 
+								(previousNode != head && prePreNode.getNext() != previousNode)){
+							unLockMultipleNode(previousNode,node);
+							return false;
+						}
+						addToNodeLinkedList(previousNode, node, currentNode);
+						unLockMultipleNode(previousNode,node);
+						return true;
+					}
+				}else if(currentNode.getValue() == value){
+					element = currentNode.add(element);
+					return element != null;
+				}else{
 					Node node = rankPool.getNode(element,value,rankConfigure.getRankConditionCount()-1);
-					// 可能另外一个线程在这个地方执行的add，所以在锁住之后，还要进行一个校验
-					boolean isLock = lockMultipleNode(previousNode,node);
+					boolean isLock = lockMultipleNode(previousNode,node,currentNode);
 					if(!isLock){
 						return false;
 					}
-					// 再次校验，这个地方需要上一层的校验，否则有可能previous是错误的，
-					if(previousNode.getNext()!=null || (previousNode.getPrevious() != prePreNode) || 
-							(previousNode != head && prePreNode.getNext() != previousNode)){
-						unLockMultipleNode(previousNode,node);
+					// 再次校验前中后关系
+					if(previousNode.getNext()!=currentNode 
+							|| currentNode.getPrevious()!=previousNode){
+						unLockMultipleNode(previousNode,node,currentNode);
 						return false;
 					}
 					addToNodeLinkedList(previousNode, node, currentNode);
-					unLockMultipleNode(previousNode,node);
+					unLockMultipleNode(previousNode,node,currentNode);
 					return true;
 				}
-			}else if(currentNode.getValue() == value){
-				element = currentNode.add(element);
-				return element != null;
-			}else{
-				Node node = rankPool.getNode(element,value,rankConfigure.getRankConditionCount()-1);
-				boolean isLock = lockMultipleNode(previousNode,node,currentNode);
-				if(!isLock){
-					return false;
-				}
-				// 再次校验前中后关系
-				if(previousNode.getNext()!=currentNode 
-						|| currentNode.getPrevious()!=previousNode){
-					unLockMultipleNode(previousNode,node,currentNode);
-					return false;
-				}
-				addToNodeLinkedList(previousNode, node, currentNode);
-				unLockMultipleNode(previousNode,node,currentNode);
-				return true;
 			}
+		}finally{
+			countLocal.set(countLocal.get()+count);
 		}
 		
 		return false;
