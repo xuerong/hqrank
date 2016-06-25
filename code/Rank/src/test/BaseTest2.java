@@ -2,6 +2,8 @@ package test;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.hq.rank.core.RankData;
 import org.hq.rank.service.IRankService;
@@ -32,8 +34,8 @@ public class BaseTest2 {
 		
 		BaseTest2 test = new BaseTest2();
 //		test.test1(rankService);
-		test.test2(rankService);
-//		test.test3(rankService);
+//		test.test2(rankService);
+		test.test3(rankService);
 		
 		rankService.deleteAllRank();
 	}
@@ -116,7 +118,7 @@ public class BaseTest2 {
 		final JedisPoolConfig config = new JedisPoolConfig();
 		config.setMaxTotal(threadCount);
 		config.setMinIdle(threadCount);
-		final JedisPool pool = new JedisPool(config, "192.168.1.240");
+		final JedisPool pool = new JedisPool(config, "127.0.0.1");
 		
 		final boolean isRedis = true;
 		final boolean isDel = true;
@@ -213,26 +215,26 @@ public class BaseTest2 {
 		rankService.createRank(rankName1);
 		rankService.createRank(rankName2, 3);
 		final JedisPoolConfig config = new JedisPoolConfig();
-		config.setMaxTotal(threadCount);
-		config.setMinIdle(threadCount);
-		final JedisPool pool = new JedisPool(config, "192.168.1.240");
+		config.setMaxTotal(threadCount+2);// 这个mac下比win下少计数2个
+		config.setMinIdle(threadCount+3);
+		final JedisPool pool = new JedisPool(config, "127.0.0.1");
 		// 删除之前的数据，或可能存在的数据
 		Jedis jedis = pool.getResource();
 		jedis.del(rankName1);
 		jedis.del(rankName2);
-		
 		final int intervalPerGet = 10000; // 每intervalPerGet执行一次get操作，查看数据排行的变化
 		final int intervalPerSet = 100; //  每intervalPerSet/2毫秒添加或修改一次，random.nextInt(intervalPerSet)
+		// 目前测试，貌似600*600nodestep适合百万级别的，千万级别的有问题，这个貌似不合理论值，要检查原因
+		// 看来单字段没什么问题，多字段有问题，多字段还需要……，单字段也不能太多，好像300万就虚了，还是要
 		final int maxId = 1000000;// id范围
 		final Random random = new Random();
 		final boolean isUseRank = true;
-		final boolean isUseRedis = true;
-		final boolean isUseRank2 = true;
-		
+		final boolean isUseRedis = false;
+		final boolean isUseRank2 = false;
+		ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 		for(int i=0;i<threadCount;i++){
-			Thread thread = new Thread(){
-				@Override
-				public void run(){
+			executorService.execute(new Runnable() {
+				public void run() {
 					Jedis jedis ;
 					if(isUseRedis){
 						jedis = pool.getResource();
@@ -262,8 +264,7 @@ public class BaseTest2 {
 						}
 					}
 				}
-			};
-			thread.start();
+			});
 		}
 		// 每10秒打印一次 结果
 		new Thread(){
@@ -335,7 +336,7 @@ public class BaseTest2 {
 		Long jedisValue = jedis.zrevrank(rankName, ""+id);
 		if((rankData!=null && jedisValue == null) || (rankData==null && jedisValue != null)){
 			// 这里出现说明有错误
-			log.error(rankData+",-----------------------------"+jedisValue);
+			log.error(rankData+",-----------------------------,id="+id+",value="+jedisValue);
 			return true;
 		}
 		if(rankData != null && jedisValue != null){

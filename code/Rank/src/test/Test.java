@@ -117,10 +117,10 @@ public class Test {
 		final int initValueCount = 100000;
 		final int intervalPerSet = 50; //  每50毫秒添加或修改一次，random.nextInt(100)
 		final long maxValue = 1000000000000000000l;// 值的范围
-		final int maxId = 2000000;// id范围
+		final int maxId = 10000000;// id范围
 		final Random random = new Random();
 		final String redisKey = "redisKey1";
-		final boolean isUseRank = true;
+		final boolean isUseRank = false;
 		final boolean isUseRedis = false;
 		final boolean isUseRank2 = true;
 //		final HashSet<Integer> ids = new HashSet<>();
@@ -217,7 +217,7 @@ public class Test {
 						}
 						System.out.println(sb.toString());
 					}
-					System.out.println("ranElementId:"+rank.getRankElementNodeMap().getId()+"|"+rank.getRankPool());
+//					System.out.println("ranElementId:"+rank.getRankElementNodeMap().getId()+"|"+rank.getRankPool());
 //					if(ids.size()>0){
 //						for(int i=0;i<10;i++){
 //							int id = ids.get(random.nextInt(ids.size()));

@@ -913,7 +913,8 @@ public class Rank implements IRank {
 	}
 	
 	public String rankStatisticsInfo(){
-		return rankStatistics.toString();
+		return rankStatistics.getNodeAndStepCount();
+//		return rankStatistics.toString();
 	}
 
 	public static enum ReOperType{

@@ -200,7 +200,21 @@ public class RankStatistics {
 		}
 		return count;
 	}
-	
+	public String getNodeAndStepCount(){
+		int nodeStepStepCount = 0; // 自身链表
+		int nodeStepCount = 0; // nodeStepStep中，自身链表
+		// NodeStepStep
+		List<NodeStepBase> nodeStepStepList = getNodeStepStepList(rank.getHead().getParentNS().getParentNS());
+		nodeStepStepCount = nodeStepStepList.size();
+		// NodeStep
+		for (NodeStepBase nodeStepStep : nodeStepStepList) {
+			nodeStepCount += nodeStepStep.getNodeCount();
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append("nodeStepStepCount:"+nodeStepStepCount+"\n");
+		sb.append("nodeStepCount:"+nodeStepCount+"\n");
+		return sb.toString();
+	}
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
