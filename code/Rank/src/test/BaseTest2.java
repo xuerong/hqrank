@@ -224,8 +224,7 @@ public class BaseTest2 {
 		jedis.del(rankName2);
 		final int intervalPerGet = 10000; // 每intervalPerGet执行一次get操作，查看数据排行的变化
 		final int intervalPerSet = 100; //  每intervalPerSet/2毫秒添加或修改一次，random.nextInt(intervalPerSet)
-		// 目前测试，貌似600*600nodestep适合百万级别的，千万级别的有问题，这个貌似不合理论值，要检查原因
-		// 看来单字段没什么问题，多字段有问题，多字段还需要……，单字段也不能太多，好像300万就虚了，还是要
+		
 		final int maxId = 1000000;// id范围
 		final Random random = new Random();
 		final boolean isUseRank = true;

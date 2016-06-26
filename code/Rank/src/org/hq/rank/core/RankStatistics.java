@@ -219,9 +219,12 @@ public class RankStatistics {
 		List<NodeStepBase> nodeStepStepList = getNodeStepStepList(rank.getHead().getParentNS().getParentNS());
 		nodeStepStepCount = nodeStepStepList.size();
 		// NodeStep
+		int elementCount=0;
 		for (NodeStepBase nodeStepStep : nodeStepStepList) {
 			nodeStepCount += nodeStepStep.getNodeCount();
+			elementCount += nodeStepStep.getElementCount();
 		}
+		
 		// ∂®Œª∏¥‘”∂»
 		int countSearchNodeCountPer=searchNodeCountPer.get();
 		int countPerDoAdd = searchNodeCycCountPer.get()/countSearchNodeCountPer;
@@ -230,6 +233,7 @@ public class RankStatistics {
 		StringBuilder sb = new StringBuilder();
 		sb.append("nodeStepStepCount:"+nodeStepStepCount+"\n");
 		sb.append("nodeStepCount:"+nodeStepCount+"\n");
+		sb.append("elementCount:"+elementCount+"\n");
 		sb.append("SearchNodeCycCountPer(difficulty of location):"+countPerDoAdd+",searchNodeCountPer:"+countSearchNodeCountPer+"\n");
 		return sb.toString();
 	}
