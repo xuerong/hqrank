@@ -1,7 +1,7 @@
-package org.hq.rank.core.node;
+锘縫ackage org.hq.rank.core.node;
 
 /**
- * 作为一个返回值用
+ * 浣滀负涓�涓繑鍥炲�肩敤
  * @author a
  *
  */

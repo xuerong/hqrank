@@ -1,4 +1,4 @@
-package test;
+ï»¿package test;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -7,23 +7,23 @@ import org.hq.rank.service.RankService;
 
 
 /***
- * Õâ¸ö´´½¨Ò»ÖÖ²âÊÔ£¬Õâ¸ö²âÊÔÔËÐÐÒ»ÏÂ¾ÍÄÜ½«ºÜ¶àÖÖ¿ÉÄÜ²âÊÔÒ»±é
- * ÐèÒª²âÊÔµÄÇé¿öÈçÏÂ£º
- * id£º¹Ì¶¨£¬Ëæ»ú£¬½ÏÉÙ£¨¶àÖØ¸´£©
+ * è¿™ä¸ªåˆ›å»ºä¸€ç§æµ‹è¯•ï¼Œè¿™ä¸ªæµ‹è¯•è¿è¡Œä¸€ä¸‹å°±èƒ½å°†å¾ˆå¤šç§å¯èƒ½æµ‹è¯•ä¸€é
+ * éœ€è¦æµ‹è¯•çš„æƒ…å†µå¦‚ä¸‹ï¼š
+ * idï¼šå›ºå®šï¼Œéšæœºï¼Œè¾ƒå°‘ï¼ˆå¤šé‡å¤ï¼‰
  * 
- * µ¥×Ö¶Î£º
- * ¹Ì¶¨value£¬
- * Ëæ»úvalue£¬
- * ÓÐÏÞvalue£¬
- * Á½¸ö×Ö¶Î£º
- * Ëæ»ú½ÏÉÙ
- * µÚÒ»¸ö¶à£¬µÚ¶þ¸öÉÙ
- * µÚÒ»¸öÉÙ£¬µÚ¶þ¸ö¶à
- * ¶¼¶à
- * Èý¸ö×Ö¶Î£º
+ * å•å­—æ®µï¼š
+ * å›ºå®švalueï¼Œ
+ * éšæœºvalueï¼Œ
+ * æœ‰é™valueï¼Œ
+ * ä¸¤ä¸ªå­—æ®µï¼š
+ * éšæœºè¾ƒå°‘
+ * ç¬¬ä¸€ä¸ªå¤šï¼Œç¬¬äºŒä¸ªå°‘
+ * ç¬¬ä¸€ä¸ªå°‘ï¼Œç¬¬äºŒä¸ªå¤š
+ * éƒ½å¤š
+ * ä¸‰ä¸ªå­—æ®µï¼š
  * 
  * 
- * É¾³ýÏà¹Ø
+ * åˆ é™¤ç›¸å…³
  * @author zhen
  *
  */

@@ -1,4 +1,4 @@
-package org.hq.rank.core.reoper;
+ï»¿package org.hq.rank.core.reoper;
 
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
@@ -27,17 +27,17 @@ public class ReOperService {
 	private LinkedBlockingQueue<ReOper> reOperQueue = new LinkedBlockingQueue<ReOper>();
 	private Random random = new Random();
 	private ScheduledExecutorService scheduleExecutorService = null;
-	private ExecutorService singleExecutorService = Executors.newSingleThreadExecutor(); // ÓÃÀ´´¦ÀíreOperQueue
+	private ExecutorService singleExecutorService = Executors.newSingleThreadExecutor(); // ç”¨æ¥å¤„ç†reOperQueue
 	private ExecutorService multiExecutorService = null;
-	// ÅäÖÃ
+	// é…ç½®
 	private final int maxScheduleTime ;
 	private final int warnReOperTimes;
 	private final int errorReoperTimes;
-	// distory Ïà¹Ø²ÎÊı
+	// distory ç›¸å…³å‚æ•°
 	private volatile boolean isReOperRun = true;
 	private volatile Thread distoryThread = null;
 	private AtomicInteger reOperTaskCount = new AtomicInteger(0);
-	// oper fail Í¨¹ıÕâ¸ö£¬Ã¿´Î³öÏÖÎÊÌâ£¬¶¼ÄÜÍ¨¹ıÕ»×·×Ùµ½ÎÊÌâ·¢ÉúµÄµã£¬²âÊÔÓÃµÄ
+	// oper fail é€šè¿‡è¿™ä¸ªï¼Œæ¯æ¬¡å‡ºç°é—®é¢˜ï¼Œéƒ½èƒ½é€šè¿‡æ ˆè¿½è¸ªåˆ°é—®é¢˜å‘ç”Ÿçš„ç‚¹ï¼Œæµ‹è¯•ç”¨çš„
 	private Element failElement = null;
 	
 	
@@ -80,7 +80,7 @@ public class ReOperService {
 		}else{
 			log.warn("rank distory success");
 		}
-		// ´ò¶ÏËùÓĞµÄreoperÏß³Ì
+		// æ‰“æ–­æ‰€æœ‰çš„reoperçº¿ç¨‹
 		switch (rank.getRankConfigure().getReOperType()) {
 		case SingleThread:
 			singleExecutorService.shutdownNow();

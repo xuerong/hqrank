@@ -1,4 +1,4 @@
-package org.hq.rank.core.node;
+ï»¿package org.hq.rank.core.node;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -18,7 +18,7 @@ public abstract class AbNode extends AbLinkBase {
 		this.parentNS = parentNS;
 	}
 	
-	public int getCount(){ // nodeµÄ¼Ì³ĞÖØĞ´Õâ¸ö·½·¨£¬ÅĞ¶ÏÊÇ·ñÎªmaxLong£¬·µ»Ø0
+	public int getCount(){ // nodeçš„ç»§æ‰¿é‡å†™è¿™ä¸ªæ–¹æ³•ï¼Œåˆ¤æ–­æ˜¯å¦ä¸ºmaxLongï¼Œè¿”å›0
 		return elementCount.get();
 	}
 	

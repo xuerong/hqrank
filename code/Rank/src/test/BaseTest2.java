@@ -1,4 +1,4 @@
-package test;
+ï»¿package test;
 
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -16,13 +16,13 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * Ñ¹Á¦²âÊÔ:loadrunner,qtp,silktest
- * ·ÖÎª£º
- * 1¡¢Ñ¹Á¦²âÊÔÏÂµÄÕıÈ·ĞÔ£¬ÓÃredis²âÊÔ
- * 2¡¢´óÊı¾İÖ´ĞĞĞ§ÂÊ£¬¼´Ö´ĞĞÊ±¼ä
- * ²âÊÔ·½·¨·ÖÎªÁ½ÖÖ£º
- * 1¡¢Ò»¶¨Á¿µÄÊı¾İºÍÏß³Ì£¬Òª¶à¾ÃÖ´ĞĞÍê³É
- * 2¡¢Ã¿ÃëÖÓÖ´ĞĞÒ»¶¨Á¿µÄÏß³ÌºÍÊı¾İ£¬³ÖĞø½øĞĞ
+ * å‹åŠ›æµ‹è¯•:loadrunner,qtp,silktest
+ * åˆ†ä¸ºï¼š
+ * 1ã€å‹åŠ›æµ‹è¯•ä¸‹çš„æ­£ç¡®æ€§ï¼Œç”¨redisæµ‹è¯•
+ * 2ã€å¤§æ•°æ®æ‰§è¡Œæ•ˆç‡ï¼Œå³æ‰§è¡Œæ—¶é—´
+ * æµ‹è¯•æ–¹æ³•åˆ†ä¸ºä¸¤ç§ï¼š
+ * 1ã€ä¸€å®šé‡çš„æ•°æ®å’Œçº¿ç¨‹ï¼Œè¦å¤šä¹…æ‰§è¡Œå®Œæˆ
+ * 2ã€æ¯ç§’é’Ÿæ‰§è¡Œä¸€å®šé‡çš„çº¿ç¨‹å’Œæ•°æ®ï¼ŒæŒç»­è¿›è¡Œ
  * @author a
  *
  */
@@ -40,7 +40,7 @@ public class BaseTest2 {
 		rankService.deleteAllRank();
 	}
 	/**
-	 * ¶àÏß³Ì
+	 * å¤šçº¿ç¨‹
 	 * @param rankService
 	 * @throws InterruptedException
 	 */
@@ -57,7 +57,7 @@ public class BaseTest2 {
 		final CountDownLatch latch = new CountDownLatch(threadCount);
 		
 		rankService.createRank(rankName);
-		// Éú³ÉidºÍÊı¾İ
+		// ç”Ÿæˆidå’Œæ•°æ®
 		for(int i = 0;i<threadCount;i++){
 			ids[i] = new int[dataCountPerThread];
 			values[i] = new long[dataCountPerThread];
@@ -66,7 +66,7 @@ public class BaseTest2 {
 				values[i][j] = randomValue(maxValue);
 			}
 		}
-		// Éú³ÉÏß³Ì
+		// ç”Ÿæˆçº¿ç¨‹
 		for(int threadI=0;threadI<threadCount ;threadI++){
 			final int threadIndex = threadI;
 			Thread thread = new Thread("threadIndex"+threadIndex){
@@ -80,7 +80,7 @@ public class BaseTest2 {
 			};
 			threads[threadI] = thread;
 		}
-		// Ö´ĞĞ
+		// æ‰§è¡Œ
 		long t1 = System.nanoTime();
 		for(int threadI=0;threadI<threadCount ;threadI++){
 			threads[threadI].start();
@@ -100,8 +100,8 @@ public class BaseTest2 {
 		log.info("rankData2:"+rankData2);
 	}
 	/**
-	 * ¶àÏß³Ì¿ìËÙ·ÃÎÊ£¬½áºÏredisµÄ²âÊÔÆäÕıÈ·ĞÔ
-	 * ÔöÉ¾¸Ä½áºÏ
+	 * å¤šçº¿ç¨‹å¿«é€Ÿè®¿é—®ï¼Œç»“åˆredisçš„æµ‹è¯•å…¶æ­£ç¡®æ€§
+	 * å¢åˆ æ”¹ç»“åˆ
 	 * @param rankService
 	 * @throws InterruptedException
 	 */
@@ -126,7 +126,7 @@ public class BaseTest2 {
 		final CountDownLatch latch = new CountDownLatch(threadCount);
 		
 		rankService.createRank(rankName);
-		// Éú³ÉidºÍÊı¾İ
+		// ç”Ÿæˆidå’Œæ•°æ®
 		for(int i = 0;i<threadCount;i++){
 			ids[i] = new int[dataCountPerThread];
 			values[i] = new long[dataCountPerThread];
@@ -135,7 +135,7 @@ public class BaseTest2 {
 				values[i][j] = randomValue(maxValue);
 			}
 		}
-		// Éú³ÉÏß³Ì
+		// ç”Ÿæˆçº¿ç¨‹
 		for(int threadI=0;threadI<threadCount ;threadI++){
 			final int threadIndex = threadI;
 			Thread thread = new Thread("threadIndex"+threadIndex){
@@ -161,7 +161,7 @@ public class BaseTest2 {
 			};
 			threads[threadI] = thread;
 		}
-		// Ö´ĞĞ
+		// æ‰§è¡Œ
 		long t1 = System.nanoTime();
 		for(int threadI=0;threadI<threadCount ;threadI++){
 			threads[threadI].start();
@@ -172,7 +172,7 @@ public class BaseTest2 {
 		// get
 		final Jedis jedis = pool.getResource();
 		int testId=30;
-		// ²é¿´²îÖµÇé¿ö£¬´æÔÚ²îÖµÊÇºÜÕı³£µÄÇé¿ö£¬ÒòÎª¶àÏß³ÌÇÒÓĞ¸üĞÂ£¬hqrankºÍredis´¦Àí¿ÉÄÜ²»Í¬
+		// æŸ¥çœ‹å·®å€¼æƒ…å†µï¼Œå­˜åœ¨å·®å€¼æ˜¯å¾ˆæ­£å¸¸çš„æƒ…å†µï¼Œå› ä¸ºå¤šçº¿ç¨‹ä¸”æœ‰æ›´æ–°ï¼Œhqrankå’Œrediså¤„ç†å¯èƒ½ä¸åŒ
 		int difNum = 0;
 		for (int[] is : ids) {
 			for (int i : is) {
@@ -182,8 +182,8 @@ public class BaseTest2 {
 			}
 		}
 		log.info("difNum:"+difNum);
-		// Í¨¹ıÉèÖÃÒ»¸öĞ¡µÄÖµ²é¿´×ÜÊı£¬²¢²âÊÔ×ÜÊıÊÇ·ñÏàÍ¬£¬
-		// Èç¹û²»Í¬£ºÈç¹û´æÔÚÉ¾³ı£¬ÄÇÃ´ÊÇÓÉ¿ÉÄÜµÄ£¬µ«ÊÇÏà²î²»ÄÜÌ«´ó£¬ÍÂ¹ı²»´æÔÚÉ¾³ıËµÃ÷ÓÉÎÊÌâ
+		// é€šè¿‡è®¾ç½®ä¸€ä¸ªå°çš„å€¼æŸ¥çœ‹æ€»æ•°ï¼Œå¹¶æµ‹è¯•æ€»æ•°æ˜¯å¦ç›¸åŒï¼Œ
+		// å¦‚æœä¸åŒï¼šå¦‚æœå­˜åœ¨åˆ é™¤ï¼Œé‚£ä¹ˆæ˜¯ç”±å¯èƒ½çš„ï¼Œä½†æ˜¯ç›¸å·®ä¸èƒ½å¤ªå¤§ï¼Œåè¿‡ä¸å­˜åœ¨åˆ é™¤è¯´æ˜ç”±é—®é¢˜
 		setValue(rankService, jedis, rankName, testId, 0, isRedis);
 		RankData rankData = rankService.getRankDataById(rankName, testId);
 		log.info("rankData:"+rankData);
@@ -194,7 +194,7 @@ public class BaseTest2 {
 				if(isDel){
 					log.warn("jedisValue!=rankData.getRankNum()");
 				}else{
-					log.error("ÕâÀï´æÔÚ´íÎó£ºjedisValue!=rankData.getRankNum()");
+					log.error("è¿™é‡Œå­˜åœ¨é”™è¯¯ï¼šjedisValue!=rankData.getRankNum()");
 				}
 			}
 		}
@@ -203,7 +203,7 @@ public class BaseTest2 {
 		pool.close();
 	}
 	/**
-	 * Ã¿¸öÒ»¸öÊ±¼ä¶Î¶ÔÊı¾İ½øĞĞÌí¼Ó/ĞŞ¸Ä£¬°üÀ¨µ¥×Ö¶Î£¬¶à×Ö¶ÎºÍredisÒ»Æğ½øĞĞ
+	 * æ¯ä¸ªä¸€ä¸ªæ—¶é—´æ®µå¯¹æ•°æ®è¿›è¡Œæ·»åŠ /ä¿®æ”¹ï¼ŒåŒ…æ‹¬å•å­—æ®µï¼Œå¤šå­—æ®µå’Œredisä¸€èµ·è¿›è¡Œ
 	 * @param rankService
 	 * @throws InterruptedException
 	 */
@@ -215,17 +215,17 @@ public class BaseTest2 {
 		rankService.createRank(rankName1);
 		rankService.createRank(rankName2, 3);
 		final JedisPoolConfig config = new JedisPoolConfig();
-		config.setMaxTotal(threadCount+2);// Õâ¸ömacÏÂ±ÈwinÏÂÉÙ¼ÆÊı2¸ö
+		config.setMaxTotal(threadCount+2);// è¿™ä¸ªmacä¸‹æ¯”winä¸‹å°‘è®¡æ•°2ä¸ª
 		config.setMinIdle(threadCount+3);
 		final JedisPool pool = new JedisPool(config, "127.0.0.1");
-		// É¾³ıÖ®Ç°µÄÊı¾İ£¬»ò¿ÉÄÜ´æÔÚµÄÊı¾İ
+		// åˆ é™¤ä¹‹å‰çš„æ•°æ®ï¼Œæˆ–å¯èƒ½å­˜åœ¨çš„æ•°æ®
 		Jedis jedis = pool.getResource();
 		jedis.del(rankName1);
 		jedis.del(rankName2);
-		final int intervalPerGet = 10000; // Ã¿intervalPerGetÖ´ĞĞÒ»´Îget²Ù×÷£¬²é¿´Êı¾İÅÅĞĞµÄ±ä»¯
-		final int intervalPerSet = 100; //  Ã¿intervalPerSet/2ºÁÃëÌí¼Ó»òĞŞ¸ÄÒ»´Î£¬random.nextInt(intervalPerSet)
+		final int intervalPerGet = 10000; // æ¯intervalPerGetæ‰§è¡Œä¸€æ¬¡getæ“ä½œï¼ŒæŸ¥çœ‹æ•°æ®æ’è¡Œçš„å˜åŒ–
+		final int intervalPerSet = 100; //  æ¯intervalPerSet/2æ¯«ç§’æ·»åŠ æˆ–ä¿®æ”¹ä¸€æ¬¡ï¼Œrandom.nextInt(intervalPerSet)
 		
-		final int maxId = 1000000;// id·¶Î§
+		final int maxId = 1000000;// idèŒƒå›´
 		final Random random = new Random();
 		final boolean isUseRank = true;
 		final boolean isUseRedis = false;
@@ -265,7 +265,7 @@ public class BaseTest2 {
 				}
 			});
 		}
-		// Ã¿10Ãë´òÓ¡Ò»´Î ½á¹û
+		// æ¯10ç§’æ‰“å°ä¸€æ¬¡ ç»“æœ
 		new Thread(){
 			@Override
 			public void run(){
@@ -299,7 +299,7 @@ public class BaseTest2 {
 				}
 			}
 		}.start();
-		// ÈÃÖ÷Ïß³ÌÍ£ÔÚÕâÀï
+		// è®©ä¸»çº¿ç¨‹åœåœ¨è¿™é‡Œ
 		synchronized (this) {
 			wait();
 		}
@@ -321,20 +321,20 @@ public class BaseTest2 {
 		}
 	}
 	/**
-	 * »ñÈ¡²¢ÏÔÊ¾²»Í¬
+	 * è·å–å¹¶æ˜¾ç¤ºä¸åŒ
 	 * @param rankService
 	 * @param jedis
 	 * @param rankName
 	 * @param id
-	 * @param D_value ²îÖµ£¬µ±´óÓÚ¸Ã²îÖµµÄÊ±ºò±ãÏÔÊ¾
-	 * @return ÊÇ·ñ²»Í¬
+	 * @param D_value å·®å€¼ï¼Œå½“å¤§äºè¯¥å·®å€¼çš„æ—¶å€™ä¾¿æ˜¾ç¤º
+	 * @return æ˜¯å¦ä¸åŒ
 	 */
 	private boolean getAndShowIfDiff(IRankService rankService,Jedis jedis,
 			String rankName,int id,int D_value){
 		RankData rankData = rankService.getRankDataById(rankName, id);
 		Long jedisValue = jedis.zrevrank(rankName, ""+id);
 		if((rankData!=null && jedisValue == null) || (rankData==null && jedisValue != null)){
-			// ÕâÀï³öÏÖËµÃ÷ÓĞ´íÎó
+			// è¿™é‡Œå‡ºç°è¯´æ˜æœ‰é”™è¯¯
 			log.error(rankData+",-----------------------------,id="+id+",value="+jedisValue);
 			return true;
 		}

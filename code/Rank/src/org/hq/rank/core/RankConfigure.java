@@ -1,10 +1,10 @@
-package org.hq.rank.core;
+ï»¿package org.hq.rank.core;
 
 import org.hq.rank.core.Rank.ReOperType;
 
 public class RankConfigure {
 	/**
-	 * rankµÄÅäÖÃ
+	 * rankçš„é…ç½®
 	 * ReOperType
 	 * scheduleThreadCount
 	 * maxScheduleTime
@@ -18,11 +18,11 @@ public class RankConfigure {
 	 * ElementStep.fullCount
 	 * ElementStep.deleteCount
 	 */
-	// Ä¬ÈÏÖµ
+	// é»˜è®¤å€¼
 	private static final ReOperType REOPERTYPE_DEFAULT = ReOperType.MultiSche;
 	private static final int SCHEDULETHREADCOUNT_DEFAULT = 10;
 	private static final int MAXSCHEDULETHREADCOUNT_DEFAULT = 100;
-	private static final int MAXSCHEDULETIME_DEFAULT = 100000;// ÄÉÃë
+	private static final int MAXSCHEDULETIME_DEFAULT = 100000;// çº³ç§’
 	private static final int MULTITHREADCOUNT_DEFAULT = 10;
 	private static final int WARNREOPERTIMES_DEFAULT = 2000;
 	private static final int ERRORREOPERTIMES_DEFAULT = 10000;
@@ -37,35 +37,35 @@ public class RankConfigure {
 	private static final int RANKELEMENTNODEMAPCOUNT_DEFAULT = 1000;
 	//
 	private String rankName;
-	// ±äÁ¿
+	// å˜é‡
 	private ReOperType reOperType = REOPERTYPE_DEFAULT;
 	private int scheduleThreadCount = SCHEDULETHREADCOUNT_DEFAULT;
 	private int maxScheduleThreadCount = MAXSCHEDULETHREADCOUNT_DEFAULT;
 	private int maxScheduleTime = MAXSCHEDULETIME_DEFAULT;
-	private int multiThreadCount = MULTITHREADCOUNT_DEFAULT; //MultiThread Ê¹ÓÃ
+	private int multiThreadCount = MULTITHREADCOUNT_DEFAULT; //MultiThread ä½¿ç”¨
 	private int warnReOperTimes = WARNREOPERTIMES_DEFAULT; //
 	private int errorReoperTimes = ERRORREOPERTIMES_DEFAULT;
 	
 	private int cutCountNodeStep = CUTCOUNTNODESTEP_DEFAULT;
 	private int combineCountNodeStep = COMBINECOUNTNODESTEP_DEFAULT;
 	private int maxHitTimesNodeStep = MAXHITTIMESNODESTEP_DEFAULT;
-	// ÂúµÄÊıÁ¿£¬µ±´ïµ½Õâ¸öÊıÁ¿Ê±£¬¿ªÆôÏÂÒ»¸östep
+	// æ»¡çš„æ•°é‡ï¼Œå½“è¾¾åˆ°è¿™ä¸ªæ•°é‡æ—¶ï¼Œå¼€å¯ä¸‹ä¸€ä¸ªstep
 	private int cutCountElementStep = CUTCOUNTELEMENTSTEP_DEFAULT;
-	// È¥µôËüµÄcount£¬Ğ¡ÓÚ¸ÃÊıÁ¿Ê±£¬½«ÆäºÏ²¢µ½ÉÏÒ»¸östep£¬Ò²¾ÍÊÇËµ£¬Ò»¸östep×î¶àÓĞ¿ÉÄÜ´ïµ½(fullCount+deleteCount)¸ö
+	// å»æ‰å®ƒçš„countï¼Œå°äºè¯¥æ•°é‡æ—¶ï¼Œå°†å…¶åˆå¹¶åˆ°ä¸Šä¸€ä¸ªstepï¼Œä¹Ÿå°±æ˜¯è¯´ï¼Œä¸€ä¸ªstepæœ€å¤šæœ‰å¯èƒ½è¾¾åˆ°(fullCount+deleteCount)ä¸ª
 	private int combineCountElementStep = COMBINECOUNTELEMENTSTEP_DEFAULT;
 	
 	private int maxGetRankDataTimes = MAXGETRANKDATATIMES_DEFAULT;
-	//rankElement±È½Ï¶à£¬Ã¿¸öÀïÃæµ¥¶ÀÒ»¸öConcurrentHashMapÕ¼ÓÃÌ«¶àÄÚ´æ, Í³Ò»ÓÃÒ»×éConcurrentHashMap£¬ÊıÁ¿¿ÉÅäÖÃ
+	//rankElementæ¯”è¾ƒå¤šï¼Œæ¯ä¸ªé‡Œé¢å•ç‹¬ä¸€ä¸ªConcurrentHashMapå ç”¨å¤ªå¤šå†…å­˜, ç»Ÿä¸€ç”¨ä¸€ç»„ConcurrentHashMapï¼Œæ•°é‡å¯é…ç½®
 	private int rankElementNodeMapCount = RANKELEMENTNODEMAPCOUNT_DEFAULT;
 	
-	// ¶àÌõ¼şÅÅĞĞ£¬Ìõ¼şÊıÁ¿
+	// å¤šæ¡ä»¶æ’è¡Œï¼Œæ¡ä»¶æ•°é‡
 	private int rankConditionCount = 1; // >0
 	
 	public RankConfigure() {
 		rankName = "rank";
 	}
 	/**
-	 * ·µ»Øµ±Ç°ÅäÖÃÊÇ·ñºÏÀí
+	 * è¿”å›å½“å‰é…ç½®æ˜¯å¦åˆç†
 	 * @return
 	 */
 	public boolean check(){

@@ -1,4 +1,4 @@
-package org.hq.rank.core.element;
+ï»¿package org.hq.rank.core.element;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 public class Element implements RankPoolElement{
 	private static Logger log = LoggerFactory
 			.getLogger(Element.class);
-	private final Rank rank; //  ¸ÃElementËù´¦µÄRank
+	private final Rank rank; //  è¯¥Elementæ‰€å¤„çš„Rank
 	
 	private int id;
 	private AtomicInteger locker = new AtomicInteger(0);
@@ -53,7 +53,7 @@ public class Element implements RankPoolElement{
 		return true;
 	}
 	/**
-	 * Ö»ÓĞlock³É¹¦£¬²ÅÄÜunlock
+	 * åªæœ‰lockæˆåŠŸï¼Œæ‰èƒ½unlock
 	 * */
 	public void unLock(){
 		rank.getRankStatistics().addElementUnlockCount();
@@ -89,7 +89,7 @@ public class Element implements RankPoolElement{
 		this.step = step;
 	}
 	/**
-	 * Á½¸öElementµÄÖµÊÇ·ñÏàµÈ
+	 * ä¸¤ä¸ªElementçš„å€¼æ˜¯å¦ç›¸ç­‰
 	 * @param element
 	 * @return
 	 */

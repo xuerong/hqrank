@@ -1,4 +1,4 @@
-package org.hq.rank.core.reoper;
+ï»¿package org.hq.rank.core.reoper;
 
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -16,7 +16,7 @@ public class RankScheduledThreadPool extends ScheduledThreadPoolExecutor{
 				new RankThreadFactory(rank.getRankConfigure().getRankName()),
 				new RankRejectedExecutionHandler(rank.getRankConfigure().getRankName()));
 		this.rank = rank;
-		// ×î´óÖµÒªºÏÊÊ£¬²»ÄÜÓ°ÏìÆäËüÒµÎñ
+		// æœ€å¤§å€¼è¦åˆé€‚ï¼Œä¸èƒ½å½±å“å…¶å®ƒä¸šåŠ¡
 		setMaximumPoolSize(rank.getRankConfigure().getMaxScheduleThreadCount());
 	}
 	
@@ -53,7 +53,7 @@ public class RankScheduledThreadPool extends ScheduledThreadPoolExecutor{
 	 * copy from 
 	 * {@code java.util.concurrent.ThreadPoolExecutor.AbortPolicy}
 	 * 
-	 * ÕâÀïÒª¶ÔÅÅĞĞ´¦ÀíÊ§°ÜµÄÊı¾İ³Ö¾Ã»¯£¬Èç¹ûÕâÀï³öÏÖÎÊÌâ£¬ËµÃ÷³öÏÖÁË´óÎÊÌâ£¬ÈçÅÅĞĞÊı¾İ·ÃÎÊÁ¿¹ı´ó
+	 * è¿™é‡Œè¦å¯¹æ’è¡Œå¤„ç†å¤±è´¥çš„æ•°æ®æŒä¹…åŒ–ï¼Œå¦‚æœè¿™é‡Œå‡ºç°é—®é¢˜ï¼Œè¯´æ˜å‡ºç°äº†å¤§é—®é¢˜ï¼Œå¦‚æ’è¡Œæ•°æ®è®¿é—®é‡è¿‡å¤§
 	 * 
 	 * @author zhen
 	 *

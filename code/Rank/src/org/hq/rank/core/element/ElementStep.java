@@ -1,4 +1,4 @@
-package org.hq.rank.core.element;
+ï»¿package org.hq.rank.core.element;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
@@ -17,9 +17,9 @@ public class ElementStep implements RankPoolElement{
 	private final Rank rank;
 	
 	/**
-	 * ÕâÁ½¸öÖµµÃÉèÖÃ¹æÔòÈçÏÂ£º
-	 * 1¡¢fullCount×îºÃÎªnode¿ÉÄÜÊıÁ¿µÄ¿ª·½*2£¬µ«×îºÃ²»ÒªĞ¡ÓÚ100£¬Ã»±ØÒª
-	 * 2¡¢deleteCount×îºÃÎªfullCount/10£¬µ«×îºÃ²»ÒªĞ¡ÓÚ20£¬Ã»±ØÒª
+	 * è¿™ä¸¤ä¸ªå€¼å¾—è®¾ç½®è§„åˆ™å¦‚ä¸‹ï¼š
+	 * 1ã€fullCountæœ€å¥½ä¸ºnodeå¯èƒ½æ•°é‡çš„å¼€æ–¹*2ï¼Œä½†æœ€å¥½ä¸è¦å°äº100ï¼Œæ²¡å¿…è¦
+	 * 2ã€deleteCountæœ€å¥½ä¸ºfullCount/10ï¼Œä½†æœ€å¥½ä¸è¦å°äº20ï¼Œæ²¡å¿…è¦
 	 * **/
 	private ElementNode node;
 	
@@ -46,7 +46,7 @@ public class ElementStep implements RankPoolElement{
 		element.setStep(this);
 		count.getAndIncrement();
 	}
-	// ¶ÔÓÚÏñpreviousÕâÑùµÄÈ«¾Ö±äÁ¿£¬¼ÓËøÖ®ºóÒªÖØĞÂĞ£Ñé
+	// å¯¹äºåƒpreviousè¿™æ ·çš„å…¨å±€å˜é‡ï¼ŒåŠ é”ä¹‹åè¦é‡æ–°æ ¡éªŒ
 	private ElementStep lockPrevious(){
 		ElementStep _previous = previous;
 		if(_previous == null){
@@ -65,7 +65,7 @@ public class ElementStep implements RankPoolElement{
 	}
 	
 	public void removeElement(Element element){
-		//  ´ËÊ±elementºÍÆäÇ°ºóÁ½¸öelementÊÇ±»Ëø×¡µÄ
+		//  æ­¤æ—¶elementå’Œå…¶å‰åä¸¤ä¸ªelementæ˜¯è¢«é”ä½çš„
 		count.getAndDecrement();
 		if(this.head == element){
 			this.head = element.getNext();
@@ -73,7 +73,7 @@ public class ElementStep implements RankPoolElement{
 		
 		if(count.get() < rank.getRankConfigure().getCombineCountElementStep()){//deleteCount){
 			if(this != node.getTailStep() && this !=node.getHeadStep()){
-				// ºÏ²¢step
+				// åˆå¹¶step
 				if(lockPrevious() == null){
 					return ;
 				}
@@ -99,7 +99,7 @@ public class ElementStep implements RankPoolElement{
 				if(next != null){
 					next.previous = previous;
 				}
-				// µ÷ÕûÒıÓÃĞ§ÂÊÊÜdeleteCountÓ°Ïì
+				// è°ƒæ•´å¼•ç”¨æ•ˆç‡å—deleteCountå½±å“
 				if(count.get()>0){
 					Element cuElement = head;
 					while(cuElement.getStep() == this){
@@ -109,7 +109,7 @@ public class ElementStep implements RankPoolElement{
 				}else{
 					log.warn("why count.get() = "+count.get());
 				}
-				// ºÏ²¢Íê³É
+				// åˆå¹¶å®Œæˆ
 				ElementStep _previous = previous;
 				ElementStep _next = next;
 				rank.getRankPool().putElementStep(this);

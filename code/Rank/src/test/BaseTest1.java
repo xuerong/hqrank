@@ -1,4 +1,4 @@
-package test;
+ï»¿package test;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * ²âÊÔÒ»Ğ©»ù±¾µÄ²Ù×÷
- * °üÀ¨£ºserviceÖĞµÄ½Ó¿ÚµÄ¼òµ¥·ÃÎÊ£¬Ö÷ÒªËµÃ÷¹¤¾ßµÄÊ¹ÓÃ·½·¨ºÍ¶ÔÆäÕıÈ·ĞÔµÄ²âÊÔ
+ * æµ‹è¯•ä¸€äº›åŸºæœ¬çš„æ“ä½œ
+ * åŒ…æ‹¬ï¼šserviceä¸­çš„æ¥å£çš„ç®€å•è®¿é—®ï¼Œä¸»è¦è¯´æ˜å·¥å…·çš„ä½¿ç”¨æ–¹æ³•å’Œå¯¹å…¶æ­£ç¡®æ€§çš„æµ‹è¯•
  * @author a
  *
  */
@@ -31,7 +31,7 @@ public class BaseTest1 {
 		rankService.deleteAllRank();
 	}
 	/**
-	 * ¶ÔrankµÄ´´½¨£¬É¾³ı
+	 * å¯¹rankçš„åˆ›å»ºï¼Œåˆ é™¤
 	 */
 	private void test1(IRankService rankService){
 		boolean hasRankA,hasRankB;
@@ -57,7 +57,7 @@ public class BaseTest1 {
 		log.info("hasRankA:"+hasRankA+",hasRankB:"+hasRankB);
 	}
 	/**
-	 * »ù±¾µÄÔöÉ¾¸Ã²é
+	 * åŸºæœ¬çš„å¢åˆ è¯¥æŸ¥
 	 * @param rankService
 	 */
 	private void test2(IRankService rankService){
@@ -81,7 +81,7 @@ public class BaseTest1 {
 	}
 	
 	/**
-	 * Ò»Ğ©get²Ù×÷
+	 * ä¸€äº›getæ“ä½œ
 	 * @param rankService
 	 */
 	public void test3(IRankService rankService){
@@ -106,7 +106,7 @@ public class BaseTest1 {
 		log.info("rankNum:"+rankNum);
 	}
 	/**
-	 * ¶à×Ö¶ÎµÄ²Ù×÷
+	 * å¤šå­—æ®µçš„æ“ä½œ
 	 * @param rankService
 	 */
 	public void test4(IRankService rankService){
@@ -129,7 +129,7 @@ public class BaseTest1 {
 		log.info("rankData3:"+rankData3);
 	}
 	/**
-	 * ¶àÏß³Ì²Ù×÷
+	 * å¤šçº¿ç¨‹æ“ä½œ
 	 * @param rankService
 	 * @throws InterruptedException 
 	 */

@@ -1,6 +1,6 @@
-package org.hq.rank.core;
+ï»¿package org.hq.rank.core;
 /**
- * ËùÓĞ´¦ÓÚÁ´ÖĞµÄÀà¶¼¼¯³É×Ô¸ÃÀà£¬°üÀ¨£º
+ * æ‰€æœ‰å¤„äºé“¾ä¸­çš„ç±»éƒ½é›†æˆè‡ªè¯¥ç±»ï¼ŒåŒ…æ‹¬ï¼š
  * {@code Node}
  * {@code Element}
  * {@code NodeStep}

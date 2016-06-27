@@ -1,4 +1,4 @@
-package org.hq.rank.core.node;
+ï»¿package org.hq.rank.core.node;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,21 +14,21 @@ public class RankElement implements RankPoolElement{
 	private static Logger log = LoggerFactory
 			.getLogger(RankElement.class);
 	private final Rank rank;
-	// ²»Ö§³Ö¸º·Ö
+	// ä¸æ”¯æŒè´Ÿåˆ†
 	private Node head;
 	//
 	private int conditionLevel; // >0
-	// µ±Ç°rankElementÖĞµÄnodeÊıÁ¿£¬²»°üÀ¨head
+	// å½“å‰rankElementä¸­çš„nodeæ•°é‡ï¼Œä¸åŒ…æ‹¬head
 	private final AtomicInteger nodeCount = new AtomicInteger(0);
 	
 	public final String id ;
 	public RankElement(final Rank rank){
 		this.rank = rank;
 		id = rank.getRankElementNodeMap().getNewId();
-		// NodeµÄ¹¹Ôì·½·¨ÖĞ×öÁËÅĞ¶Ï£¬ÆğÊ¼µÄnode²»»á´´½¨rankElelment
-		// ÕâÀï¾Í´´½¨head£¬¶øÔÚÖØÓÃËüµÄÊ±ºò²»ÔÙ´´½¨
+		// Nodeçš„æ„é€ æ–¹æ³•ä¸­åšäº†åˆ¤æ–­ï¼Œèµ·å§‹çš„nodeä¸ä¼šåˆ›å»ºrankElelment
+		// è¿™é‡Œå°±åˆ›å»ºheadï¼Œè€Œåœ¨é‡ç”¨å®ƒçš„æ—¶å€™ä¸å†åˆ›å»º
 		head = rank.getRankPool().getNode(Long.MAX_VALUE, 0,conditionLevel);
-		// head²»·ÅÈëÆäÖĞ
+		// headä¸æ”¾å…¥å…¶ä¸­
 //		putTo(head.getValue(), head);
 	}
 	private void putTo(long value,Node node){
@@ -55,8 +55,8 @@ public class RankElement implements RankPoolElement{
 	}
 	
 	/**
-	 * µ±É¾³ıÔÚ½øĞĞµÄÊ±ºò£¬ÆäËü²Ù×÷¶¼²»ÄÜ½øĞĞ
-	 * 1¡¢ µ±É¾³ıÒ»¸önodeµÄÊ±ºò£¬²»ÄÜÏòÆäÖĞÌí¼Óµã
+	 * å½“åˆ é™¤åœ¨è¿›è¡Œçš„æ—¶å€™ï¼Œå…¶å®ƒæ“ä½œéƒ½ä¸èƒ½è¿›è¡Œ
+	 * 1ã€ å½“åˆ é™¤ä¸€ä¸ªnodeçš„æ—¶å€™ï¼Œä¸èƒ½å‘å…¶ä¸­æ·»åŠ ç‚¹
 	 * */
 	public boolean delete(final Element element) {
 		if(element == null){
@@ -67,7 +67,7 @@ public class RankElement implements RankPoolElement{
 	/**
 	 * 
 	 * @param element
-	 * @return ·µ»ØµÄÊÇ¸ÃElementÔÚ¸ÃrankÖĞµÄÅÅĞĞ -1´ú±íÃ»ÓĞÕÒµ½
+	 * @return è¿”å›çš„æ˜¯è¯¥Elementåœ¨è¯¥rankä¸­çš„æ’è¡Œ -1ä»£è¡¨æ²¡æœ‰æ‰¾åˆ°
 	 */
 	public int get(Element element){
 		long value = element.getValue()[rank.getRankConfigure().getRankConditionCount() - conditionLevel];
@@ -80,7 +80,7 @@ public class RankElement implements RankPoolElement{
 		NodeStepBase nodeStep = currentNode.getParentNS();
 		int rankNum = result.rankNum;
 		if (currentNode.getValue()<value) {
-			log.warn("currentNode.getValue()<value£¬ÕâËµÃ÷ÉÏÃæÃüÖĞÖ®ºó±»ĞŞ¸Ä¹ı");
+			log.warn("currentNode.getValue()<valueï¼Œè¿™è¯´æ˜ä¸Šé¢å‘½ä¸­ä¹‹åè¢«ä¿®æ”¹è¿‡");
 			currentNode = head;
 		}
 		
@@ -104,7 +104,7 @@ public class RankElement implements RankPoolElement{
 		return rankNum;
 	}
 	public void getElementsByRankNum(List<Element> elementList,int begin, int length) {
-		// ÏÈÕÒµ½beginµÄÍæ¼Òelement£¬ºóÃæµÄelement»òÕßºóÃænodeµÄelement
+		// å…ˆæ‰¾åˆ°beginçš„ç©å®¶elementï¼Œåé¢çš„elementæˆ–è€…åé¢nodeçš„element
 		int rankNum = 0;
 		Node currentNode = head;
 		NodeStepBase currentNodeStep = head.getParentNS();
@@ -167,13 +167,13 @@ public class RankElement implements RankPoolElement{
 		return ;
 	}
 	/**
-	 * ÕâÀï·µ»ØµÄNodeÒ»¶¨ÊÇ¿ÉÒÔ×÷Îªvalue¶ÔÓ¦nodeµÄÇ°node£¬ÓĞ¿ÉÄÜÊÇhead
+	 * è¿™é‡Œè¿”å›çš„Nodeä¸€å®šæ˜¯å¯ä»¥ä½œä¸ºvalueå¯¹åº”nodeçš„å‰nodeï¼Œæœ‰å¯èƒ½æ˜¯head
 	 * */
 	private SearchNodeStepResult getStartNodeByNodeStep(long value){
 		int rankNum = 0;
 		int currentHitTimes = 0;
 		Node currentNode=head;
-		// Í¨¹ınodestepstepÑ°ÕÒÅªµÃstep
+		// é€šè¿‡nodestepstepå¯»æ‰¾å¼„å¾—step
 		NodeStepBase currentNodeStep = head.getParentNS();
 		if(currentNodeStep != null){
 			NodeStepBase currentNodeStepStep = head.getParentNS().getParentNS();
@@ -183,7 +183,7 @@ public class RankElement implements RankPoolElement{
 					if(previousNodeStepStep != null && previousNodeStepStep.getValue() >= value){
 						currentNodeStep = (NodeStepBase)previousNodeStepStep.getHead();
 						if(currentNodeStep.getHead().getValue() < value){
-							log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode1");
+							log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node1");
 							rankNum = 0;
 							currentNodeStep = head.getParentNS();
 						}
@@ -201,13 +201,13 @@ public class RankElement implements RankPoolElement{
 						Thread.yield();
 						continue;
 					}
-				}else if(currentNodeStepStep.getNext() == null){ // Èç¹ûÊÇ×îºóÒ»¸ö
+				}else if(currentNodeStepStep.getNext() == null){ // å¦‚æœæ˜¯æœ€åä¸€ä¸ª
 					if(previousNodeStepStep != null){
 						rankNum += previousNodeStepStep.getElementCount();
 					}
 					currentNodeStep = (NodeStepBase)currentNodeStepStep.getHead();
 					if(currentNodeStep.getHead().getValue() < value){
-						log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode1");
+						log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node1");
 						rankNum = 0;
 						currentNodeStep = head.getParentNS();
 					}
@@ -219,22 +219,22 @@ public class RankElement implements RankPoolElement{
 				previousNodeStepStep = currentNodeStepStep;
 				currentNodeStepStep = (NodeStepBase)currentNodeStepStep.getNext();
 			}
-			// Í¨¹ınodestepÑ°ÕÒnode
+			// é€šè¿‡nodestepå¯»æ‰¾node
 			currentHitTimes = 0;
 			
 			NodeStepBase previouNodeStep = null;
 			while(currentNodeStep != null){
 				if(currentNodeStep.getHead().getValue() < value){
-					// ÓĞ¿ÉÄÜ²»ÃüÖĞ£¬µ±¶ÔÓ¦µÄnodestepÕıÔÚ²ğ·Ö»òÕßºÏ²¢µÄÊ±ºò£¬¿ÉÄÜ²»ÃüÖĞ
+					// æœ‰å¯èƒ½ä¸å‘½ä¸­ï¼Œå½“å¯¹åº”çš„nodestepæ­£åœ¨æ‹†åˆ†æˆ–è€…åˆå¹¶çš„æ—¶å€™ï¼Œå¯èƒ½ä¸å‘½ä¸­
 					if(previouNodeStep!=null && previouNodeStep.getHead().getValue() >= value){
-						currentNode=(Node)previouNodeStep.getHead(); // Õâ¸öµØ·½²»¿ÉÄÜÊÇnull
+						currentNode=(Node)previouNodeStep.getHead(); // è¿™ä¸ªåœ°æ–¹ä¸å¯èƒ½æ˜¯null
 						if(currentNode.getValue()<value){
-							log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode2");
+							log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node2");
 							currentNode = head;
 							rankNum = 0;
 						}
 						break;
-					}else{ // Ã»ÓĞÃüÖĞµÄ»°£¬²ÉÈ¡´«Í³µÄ·½·¨£¬ÖØÍ·µ½Î²
+					}else{ // æ²¡æœ‰å‘½ä¸­çš„è¯ï¼Œé‡‡å–ä¼ ç»Ÿçš„æ–¹æ³•ï¼Œé‡å¤´åˆ°å°¾
 						rankNum = 0;
 						currentNode=head;
 						currentNodeStep = head.getParentNS();
@@ -246,13 +246,13 @@ public class RankElement implements RankPoolElement{
 						Thread.yield();
 						continue;
 					}
-				}else if(currentNodeStep.getNext() == null){ // Èç¹ûÊÇ×îºóÒ»¸ö
+				}else if(currentNodeStep.getNext() == null){ // å¦‚æœæ˜¯æœ€åä¸€ä¸ª
 					if(previouNodeStep != null){
 						rankNum += previouNodeStep.getElementCount();
 					}
 					currentNode=(Node)currentNodeStep.getHead(); 
 					if(currentNode.getValue()<value){
-						log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode2");
+						log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node2");
 						currentNode = head;
 						rankNum = 0;
 					}
@@ -268,7 +268,7 @@ public class RankElement implements RankPoolElement{
 			if(currentNodeStep == null){
 				currentNode=(Node)previouNodeStep.getHead();
 				if(previouNodeStep.getHead() == null || previouNodeStep.getHead().getValue() < value){
-					log.warn("×îºó»¹ÊÇÃ»ÓĞÃüÖĞ£¬ÃüÖĞÊ§°Ü£¬ÕâËµÃ÷ÉÏÃæÃüÖĞÖ®ºó±»ĞŞ¸Ä¹ı");
+					log.warn("æœ€åè¿˜æ˜¯æ²¡æœ‰å‘½ä¸­ï¼Œå‘½ä¸­å¤±è´¥ï¼Œè¿™è¯´æ˜ä¸Šé¢å‘½ä¸­ä¹‹åè¢«ä¿®æ”¹è¿‡");
 					rankNum = 0;
 					currentNode=head;
 				}
@@ -281,7 +281,7 @@ public class RankElement implements RankPoolElement{
 		return result;
 	}
 	/**
-	 * ×÷ÎªÒ»¸ö·µ»ØÖµÓÃ
+	 * ä½œä¸ºä¸€ä¸ªè¿”å›å€¼ç”¨
 	 * @author a
 	 *
 	 */
@@ -290,20 +290,20 @@ public class RankElement implements RankPoolElement{
 		int rankNum;
 	}
 	/**
-	 * ÕÒµ½Î»ÖÃ
-	 * 1¡¢Ã»ÓĞ¶ÔÓ¦µÄnode
-	 * Ëø¶¨ÉÏÏÂnode
-	 * ÖØĞÂĞ£Ñé
-	 * ´´½¨²¢Ìí¼Ó
-	 * ½âËø
-	 * 2¡¢´æÔÚ¶ÔÓ¦µÄnode
-	 * add¾Í¿ÉÒÔ
+	 * æ‰¾åˆ°ä½ç½®
+	 * 1ã€æ²¡æœ‰å¯¹åº”çš„node
+	 * é”å®šä¸Šä¸‹node
+	 * é‡æ–°æ ¡éªŒ
+	 * åˆ›å»ºå¹¶æ·»åŠ 
+	 * è§£é”
+	 * 2ã€å­˜åœ¨å¯¹åº”çš„node
+	 * addå°±å¯ä»¥
 	 * 
-	 * ÈçºÎ·ÀÖ¹ÖØ¸´Ìí¼Ó
-	 * @param value :Õâ¸övalueÊÇ¸Ã²ã¼¶µÄÅÅĞĞÌõ¼şµÄvalue
+	 * å¦‚ä½•é˜²æ­¢é‡å¤æ·»åŠ 
+	 * @param value :è¿™ä¸ªvalueæ˜¯è¯¥å±‚çº§çš„æ’è¡Œæ¡ä»¶çš„value
 	 * */
 	public boolean add(Element element) {
-		// ¸ù¾İconditionLevel»ñÈ¡¶ÔÓ¦µÄÅÅĞĞÖµ
+		// æ ¹æ®conditionLevelè·å–å¯¹åº”çš„æ’è¡Œå€¼
 		long value = element.getValue()[rank.getRankConfigure().getRankConditionCount() - conditionLevel];
 		Node valueNode = getFrom(value);//nodeMap.get(value);
 		if(valueNode != null){
@@ -315,9 +315,9 @@ public class RankElement implements RankPoolElement{
 		Node currentNode = result.node;
 		Node previousNode = (Node)currentNode.getPrevious();
 		Node prePreNode ;
-		int level = conditionLevel-1; // ÕâÀïÓÃµ½µÄnodeµÄËø¶¼ÊÇÕâÒ»²ãµÄ
+		int level = conditionLevel-1; // è¿™é‡Œç”¨åˆ°çš„nodeçš„é”éƒ½æ˜¯è¿™ä¸€å±‚çš„
 		if (currentNode.getValue()<value) {
-			log.warn("currentNode.getValue()<value£¬ÕâËµÃ÷ÉÏÃæÃüÖĞÖ®ºó±»ĞŞ¸Ä¹ı");
+			log.warn("currentNode.getValue()<valueï¼Œè¿™è¯´æ˜ä¸Šé¢å‘½ä¸­ä¹‹åè¢«ä¿®æ”¹è¿‡");
 			currentNode = head;
 		} 
 		while(currentNode != null){
@@ -326,14 +326,14 @@ public class RankElement implements RankPoolElement{
 				previousNode = currentNode;
 				currentNode = (Node)currentNode.getNext();
 				if(currentNode == null){
-					// É¾³ıµÄÊ±ºòĞèÒªĞ£Ñé¸Ãlock
+					// åˆ é™¤çš„æ—¶å€™éœ€è¦æ ¡éªŒè¯¥lock
 					Node node = rank.getRankPool().getNode(element,value,level);
-					// ¿ÉÄÜÁíÍâÒ»¸öÏß³ÌÔÚÕâ¸öµØ·½Ö´ĞĞµÄadd£¬ËùÒÔÔÚËø×¡Ö®ºó£¬»¹Òª½øĞĞÒ»¸öĞ£Ñé
+					// å¯èƒ½å¦å¤–ä¸€ä¸ªçº¿ç¨‹åœ¨è¿™ä¸ªåœ°æ–¹æ‰§è¡Œçš„addï¼Œæ‰€ä»¥åœ¨é”ä½ä¹‹åï¼Œè¿˜è¦è¿›è¡Œä¸€ä¸ªæ ¡éªŒ
 					boolean isLock = lockMultipleNode(level,previousNode,node);
-					if(!isLock){	// ÕâÀïÒª²»Òª°Ñnode·Å»Ø³ØÖĞ?
+					if(!isLock){	// è¿™é‡Œè¦ä¸è¦æŠŠnodeæ”¾å›æ± ä¸­?
 						return false;
 					}
-					// ÔÙ´ÎĞ£Ñé:Èç¹ûÂú×ãÕâÈı¸öÌõ¼ş£¬¾Í¿ÉÒÔµÄ
+					// å†æ¬¡æ ¡éªŒ:å¦‚æœæ»¡è¶³è¿™ä¸‰ä¸ªæ¡ä»¶ï¼Œå°±å¯ä»¥çš„
 					if(previousNode.getNext()!=null || (previousNode.getPrevious() != prePreNode) || 
 							(previousNode != head && prePreNode.getNext() != previousNode)){
 						unLockMultipleNode(level,previousNode,node);
@@ -344,7 +344,7 @@ public class RankElement implements RankPoolElement{
 					unLockMultipleNode(level,previousNode,node);
 					return true;
 				}
-			}else if(currentNode.getValue() == value){ // Èç¹û×ßµ½ÕâÀï£¬ËµÃ÷¸ÃnodeÔÚÁ´±íÖĞ£¬µ«ÊÇÖ®Ç°Ã»ÓĞÔÚmapÖĞ
+			}else if(currentNode.getValue() == value){ // å¦‚æœèµ°åˆ°è¿™é‡Œï¼Œè¯´æ˜è¯¥nodeåœ¨é“¾è¡¨ä¸­ï¼Œä½†æ˜¯ä¹‹å‰æ²¡æœ‰åœ¨mapä¸­
 				element = currentNode.add(element);
 				return element != null;
 			}else{
@@ -353,7 +353,7 @@ public class RankElement implements RankPoolElement{
 				if(!isLock){
 					return false;
 				}
-				// ÔÙ´ÎĞ£ÑéÇ°ÖĞºó¹ØÏµ
+				// å†æ¬¡æ ¡éªŒå‰ä¸­åå…³ç³»
 				if(previousNode.getNext()!=currentNode 
 						|| currentNode.getPrevious()!=previousNode){
 					unLockMultipleNode(level,previousNode,node,currentNode);
@@ -368,15 +368,15 @@ public class RankElement implements RankPoolElement{
 	}
 	
 	private void addToNodeLinkedList(Node previous,Node node,Node next){
-		node.setNext(next); // ×¢Òâ£¬ÕâÀïµÄË³Ğò²»ÄÜËæÒâ£¬·ñÕß¶àÏß³Ì²éÑ¯»á³ö´í
-		NodeStepBase nodeStep = previous.getParentNS(); // ĞèÒªÊ±Í¬Ò»¸önodestep£¬²¢ÇÒ£¬ÒªÔÚ¼ÓÈëÁ´±íÖ®Ç°ÉèÖÃ£¬¼ÓÈëÁ´±íÖ®ºóÌí¼Óµ½nodeStep
-		// ÅĞ¶Ï²¢´´½¨nodestep
+		node.setNext(next); // æ³¨æ„ï¼Œè¿™é‡Œçš„é¡ºåºä¸èƒ½éšæ„ï¼Œå¦è€…å¤šçº¿ç¨‹æŸ¥è¯¢ä¼šå‡ºé”™
+		NodeStepBase nodeStep = previous.getParentNS(); // éœ€è¦æ—¶åŒä¸€ä¸ªnodestepï¼Œå¹¶ä¸”ï¼Œè¦åœ¨åŠ å…¥é“¾è¡¨ä¹‹å‰è®¾ç½®ï¼ŒåŠ å…¥é“¾è¡¨ä¹‹åæ·»åŠ åˆ°nodeStep
+		// åˆ¤æ–­å¹¶åˆ›å»ºnodestep
 		if(nodeStep == null && nodeCount.get()>rank.getRankConfigure().getCutCountNodeStep()){//nodeMap.size() > rank.getRankConfigure().getCutCountNodeStep()){
 			rank.getLockerPool().lockRankElementWLocker(this, conditionLevel);
-			// ¼ÓËøÖ®ºóĞ£Ñé
+			// åŠ é”ä¹‹åæ ¡éªŒ
 			nodeStep = previous.getParentNS();
 			if(nodeStep == null){
-				// ÕâÀï´«Èënull£¬È·±£ÕâÊÇ×î¸ß²ã
+				// è¿™é‡Œä¼ å…¥nullï¼Œç¡®ä¿è¿™æ˜¯æœ€é«˜å±‚
 				NodeStepBase nodeStepStep = rank.getRankPool().getNodeStepBase(null);
 				
 				NodeStepBase newNodeStep = rank.getRankPool().getNodeStepBase(nodeStepStep);
@@ -401,7 +401,7 @@ public class RankElement implements RankPoolElement{
 				nodeStep = previous.getParentNS();
 			}
 			nodeStep.getReadLock().lock();
-			while(nodeStep != previous.getParentNS()){ // ÔÙĞ£Ñé
+			while(nodeStep != previous.getParentNS()){ // å†æ ¡éªŒ
 				nodeStep.getReadLock().unlock();
 				nodeStep = previous.getParentNS();
 				nodeStep.getReadLock().lock();
@@ -409,7 +409,7 @@ public class RankElement implements RankPoolElement{
 			node.setParentNS(nodeStep);
 		}
 		
-		if(previous != null){ // ÊÂÊµÉÏÕâ¸öÒ»¶¨ÓĞ£¬ÒòÎªÍ·²¿ÊÇÒ»¸öLong.MAX_VALUE
+		if(previous != null){ // äº‹å®ä¸Šè¿™ä¸ªä¸€å®šæœ‰ï¼Œå› ä¸ºå¤´éƒ¨æ˜¯ä¸€ä¸ªLong.MAX_VALUE
 			node.setPrevious(previous);
 			previous.setNext(node);
 		}
@@ -426,7 +426,7 @@ public class RankElement implements RankPoolElement{
 	}
 	
 	/**
-	 * Èç¹ûÉ¾³ı³É¹¦£¬»òÕßnodeÖĞÓĞelement£¬Ôò·µ»Ø³É¹¦£¬·ñÕß£¬·Å»ØÊ§°Ü
+	 * å¦‚æœåˆ é™¤æˆåŠŸï¼Œæˆ–è€…nodeä¸­æœ‰elementï¼Œåˆ™è¿”å›æˆåŠŸï¼Œå¦è€…ï¼Œæ”¾å›å¤±è´¥
 	 * */
 	public boolean deleteNode(Node node){
 		boolean success = doDeleteNode(node);
@@ -436,7 +436,7 @@ public class RankElement implements RankPoolElement{
 		return true;
 	}
 	/**
-	 * Èç¹ûÉ¾³ı³É¹¦£¬»òÕßnodeÖĞÓĞelement£¬Ôò·µ»Ø³É¹¦£¬·ñÕß£¬·Å»ØÊ§°Ü
+	 * å¦‚æœåˆ é™¤æˆåŠŸï¼Œæˆ–è€…nodeä¸­æœ‰elementï¼Œåˆ™è¿”å›æˆåŠŸï¼Œå¦è€…ï¼Œæ”¾å›å¤±è´¥
 	 * */
 	public boolean doDeleteNode(Node node){
 		if(node.getCount() <= 0){
@@ -444,36 +444,36 @@ public class RankElement implements RankPoolElement{
 			
 			Node pre = (Node)node.getPrevious();
 			Node next = (Node)node.getNext();
-			// ÕâÑù»áµ¼ÖÂºÜ¶àreoper£¬×îºÃÔÚ¼ÓËøÍê³ÉµÚÒ»¸öÖ®ºó£¬¾ÍÅĞ¶ÏÊÇ·ñÊÇÒª¼ÓËøµÄ
+			// è¿™æ ·ä¼šå¯¼è‡´å¾ˆå¤šreoperï¼Œæœ€å¥½åœ¨åŠ é”å®Œæˆç¬¬ä¸€ä¸ªä¹‹åï¼Œå°±åˆ¤æ–­æ˜¯å¦æ˜¯è¦åŠ é”çš„
 			boolean isLock = lockMultipleNode(level,pre,node,next); 
 			if(!isLock){
 				return false;
 			}
-			if(node.getCount() > 0){ // ËµÃ÷ÔÚÉ¾³ı¹ı³ÌÖĞ£¬ÓĞÁËĞÂµÄÌí¼Ó½øÈ¥£¬ÕâÑù¾Í²»É¾³ıËüÁË
+			if(node.getCount() > 0){ // è¯´æ˜åœ¨åˆ é™¤è¿‡ç¨‹ä¸­ï¼Œæœ‰äº†æ–°çš„æ·»åŠ è¿›å»ï¼Œè¿™æ ·å°±ä¸åˆ é™¤å®ƒäº†
 				unLockMultipleNode(level,pre,node,next);
 				return true;
 			}
 			
-			// ÔÙĞ£Ñé
-			if(pre != node.getPrevious() || next != node.getNext()){ // Õâ¸ö¹ıÖĞ£¬ÊÇ·ñÓĞËüÉÏÏÂµÄnode±»É¾³ı
+			// å†æ ¡éªŒ
+			if(pre != node.getPrevious() || next != node.getNext()){ // è¿™ä¸ªè¿‡ä¸­ï¼Œæ˜¯å¦æœ‰å®ƒä¸Šä¸‹çš„nodeè¢«åˆ é™¤
 				unLockMultipleNode(level,pre,node,next);
 				return false;
 			}
 			
-			if(pre.getNext() != node){ // ËµÃ÷ÁíÍâÒ»¸öÏß³ÌÉ¾³ıÁËËü
+			if(pre.getNext() != node){ // è¯´æ˜å¦å¤–ä¸€ä¸ªçº¿ç¨‹åˆ é™¤äº†å®ƒ
 				unLockMultipleNode(level,pre,node,next);
 				return true;
 			}
 			if(next != null && next.getPrevious() != node){
-				log.error("ËäÈ»nodeµÄÇ°ÃæÊÇÕıÈ·µÄpre£¬µ«ÊÇºóÃæÈ·Êµ²»ÕıÈ·µÄnext£¬Èç¹û²»ÊÇÁíÍâÒ»¸öÏß³ÌÔÚÉ¾³ıËü£¨¼ÓÁËËø£¬²»´ó¿ÉÄÜ£©£¬¾ÍÊÇÆäËüÎ´Öª´íÎó");
+				log.error("è™½ç„¶nodeçš„å‰é¢æ˜¯æ­£ç¡®çš„preï¼Œä½†æ˜¯åé¢ç¡®å®ä¸æ­£ç¡®çš„nextï¼Œå¦‚æœä¸æ˜¯å¦å¤–ä¸€ä¸ªçº¿ç¨‹åœ¨åˆ é™¤å®ƒï¼ˆåŠ äº†é”ï¼Œä¸å¤§å¯èƒ½ï¼‰ï¼Œå°±æ˜¯å…¶å®ƒæœªçŸ¥é”™è¯¯");
 				unLockMultipleNode(level,pre,node,next);
 				return true;
 			}
-			// ÒòÎªÊÇ¶¯Ì¬´´½¨µÄ£¬ËùÒÔ¡°¶Á¡±²Ù×÷Òª¼Ó¶ÁËø
+			// å› ä¸ºæ˜¯åŠ¨æ€åˆ›å»ºçš„ï¼Œæ‰€ä»¥â€œè¯»â€æ“ä½œè¦åŠ è¯»é”
 			rank.getLockerPool().lockRankElementRLocker(this, level+1);
 			NodeStepBase nodeStep = node.getParentNS();
 			if(nodeStep != null){
-				if(nodeStep.combineBeforeRemove()){ // ÒªÏÈ´¦ÀíÕâÀï£¬ÔÙ´ÓÁ´±íÖĞÒÆ³ı£¬ÒòÎªÕâÀïÃæÓĞ¸ù¾İ¼ÆÊıÀ´½øĞĞµÄÏà¹Ø´¦Àí£¬ÏÈÒÆ³ıµ¼ÖÂÊı¾İ¼õÉÙ
+				if(nodeStep.combineBeforeRemove()){ // è¦å…ˆå¤„ç†è¿™é‡Œï¼Œå†ä»é“¾è¡¨ä¸­ç§»é™¤ï¼Œå› ä¸ºè¿™é‡Œé¢æœ‰æ ¹æ®è®¡æ•°æ¥è¿›è¡Œçš„ç›¸å…³å¤„ç†ï¼Œå…ˆç§»é™¤å¯¼è‡´æ•°æ®å‡å°‘
 					nodeStep = node.getParentNS();
 				}
 				nodeStep.getReadLock().lock();
@@ -484,14 +484,14 @@ public class RankElement implements RankPoolElement{
 				}
 			}
 			
-			// ÏÈ´ÓÁ´ÖĞÒÆ³ı£¬·ÀÖ¹ÔÚÒÆ³ı¹ı³ÌÖĞ£¬ÏòÆäÖĞÌí¼ÓÔªËØ
+			// å…ˆä»é“¾ä¸­ç§»é™¤ï¼Œé˜²æ­¢åœ¨ç§»é™¤è¿‡ç¨‹ä¸­ï¼Œå‘å…¶ä¸­æ·»åŠ å…ƒç´ 
 			if(pre != null){
 				pre.setNext(next);
 			}
 			if(next != null){
 				next.setPrevious(pre);
 			}
-			// ÕâÀïÎŞÂÛ³É¹¦¶¼ÒÑ¾­É¾³ıµôÁË
+			// è¿™é‡Œæ— è®ºæˆåŠŸéƒ½å·²ç»åˆ é™¤æ‰äº†
 			removeFrom(node.getValue());
 			
 			
@@ -509,8 +509,8 @@ public class RankElement implements RankPoolElement{
 	}
 	
 	/**
-	 * µ±É¾³ıÔÚ½øĞĞµÄÊ±ºò£¬ÆäËü²Ù×÷¶¼²»ÄÜ½øĞĞ
-	 * 1¡¢ µ±É¾³ıÒ»¸önodeµÄÊ±ºò£¬²»ÄÜÏòÆäÖĞÌí¼Óµã
+	 * å½“åˆ é™¤åœ¨è¿›è¡Œçš„æ—¶å€™ï¼Œå…¶å®ƒæ“ä½œéƒ½ä¸èƒ½è¿›è¡Œ
+	 * 1ã€ å½“åˆ é™¤ä¸€ä¸ªnodeçš„æ—¶å€™ï¼Œä¸èƒ½å‘å…¶ä¸­æ·»åŠ ç‚¹
 	 * */
 	private boolean doDelete(Element element) {
 		Node node = getFrom(element.getValue()[rank.getRankConfigure().getRankConditionCount() - conditionLevel]);//nodeMap.get(element.getValue()[rank.getRankConfigure().getRankConditionCount() - conditionLevel]);
@@ -521,7 +521,7 @@ public class RankElement implements RankPoolElement{
 		if(!success){
 			return false;
 		}else{
-			// ÓĞ¿ÉÄÜÉ¾³ınode
+			// æœ‰å¯èƒ½åˆ é™¤node
 			if(node.getCount() <= 0){
 				deleteNode(node);
 			}
@@ -542,9 +542,9 @@ public class RankElement implements RankPoolElement{
 					if(lockNodes[j]!=null){
 						rank.getLockerPool().unlockNodeWLocker(lockNodes[j], level);
 					}
-					// ÕâÀï
+					// è¿™é‡Œ
 				}
-				// ¿ÉÒÔ·ÅÉÏÃæÒ»µãÈ¥
+				// å¯ä»¥æ”¾ä¸Šé¢ä¸€ç‚¹å»
 				return false;
 			}
 			lockNodes[i++] = node;
@@ -584,10 +584,10 @@ public class RankElement implements RankPoolElement{
 	@Override
 	public void reset() {
 //		head = null;
-		head.setNext(null); // headÒªÖØÓÃ
+		head.setNext(null); // headè¦é‡ç”¨
 		head.setParentNS(null);
 		//
-//		Õâ¸öµØ·½·¢Éú£¬ËµÃ÷deletenodeÊ§°Ü£¬µ«ÊÇ£¬ÆäÉÏµÄnodeÉ¾³ı³É¹¦£¬resetÊ±µ÷ÓÃµ½ÁËËü
+//		è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œè¯´æ˜deletenodeå¤±è´¥ï¼Œä½†æ˜¯ï¼Œå…¶ä¸Šçš„nodeåˆ é™¤æˆåŠŸï¼Œresetæ—¶è°ƒç”¨åˆ°äº†å®ƒ
 		if(nodeCount.get() > 0){
 			System.err.println("its not possible :"+nodeCount.get()+","+conditionLevel);
 		}

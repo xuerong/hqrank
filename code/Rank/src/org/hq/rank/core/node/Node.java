@@ -1,4 +1,4 @@
-package org.hq.rank.core.node;
+ï»¿package org.hq.rank.core.node;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,21 +9,21 @@ import org.hq.rank.core.pool.RankPoolElement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 /***
- * Node·ÖÎªÁ½ÖÖ£¬Ò»ÖÖÊÇ´æ´¢Êı¾İµÄ£¬¼´´æ´¢Ò»¸öelementÁ´±í£¬ÁíÒ»ÖÖÊÇ´æ´¢Ò»¸örank£¬¼´ÔÚÍ¬Ò»¸öÕâ¸ö·ÖÊıÏÂ£¬¸ù¾İ
- * ÁíÒ»ÖÖ·ÖÊı½øĞĞÅÅĞĞ
+ * Nodeåˆ†ä¸ºä¸¤ç§ï¼Œä¸€ç§æ˜¯å­˜å‚¨æ•°æ®çš„ï¼Œå³å­˜å‚¨ä¸€ä¸ªelementé“¾è¡¨ï¼Œå¦ä¸€ç§æ˜¯å­˜å‚¨ä¸€ä¸ªrankï¼Œå³åœ¨åŒä¸€ä¸ªè¿™ä¸ªåˆ†æ•°ä¸‹ï¼Œæ ¹æ®
+ * å¦ä¸€ç§åˆ†æ•°è¿›è¡Œæ’è¡Œ
  * @author zhen
  *
  */
 public abstract class Node extends AbNode implements INode,RankPoolElement{
 	private static Logger log = LoggerFactory
 			.getLogger(Node.class);
-	protected final Rank rank; // ¸ÃnodeËù´¦µÄrank
-	// ¸ÃNode¶ÔÓ¦µÄÖµ
+	protected final Rank rank; // è¯¥nodeæ‰€å¤„çš„rank
+	// è¯¥Nodeå¯¹åº”çš„å€¼
 	protected long value;
-	// NodeÖĞµÄElementÊıÁ¿
+	// Nodeä¸­çš„Elementæ•°é‡
 	protected volatile AtomicInteger elementCount = new AtomicInteger(0);
 	/**
-	 * ¹¹ÔìµÄÊ±ºòÓĞÃ»ÓĞ¿ÉÄÜ±»·ÃÎÊ£¿add·½·¨
+	 * æ„é€ çš„æ—¶å€™æœ‰æ²¡æœ‰å¯èƒ½è¢«è®¿é—®ï¼Ÿaddæ–¹æ³•
 	 * */
 	public Node(Rank rank){
 		this.rank = rank;
@@ -31,17 +31,17 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 	
 	public void init(Element element,long value,final int conditionLevel){
 		this.value = value;
-		// µÚÒ»¸öNodeµÄÖµÊÇMAX_VALUE£¬ÊÇ¸öË÷Òı
+		// ç¬¬ä¸€ä¸ªNodeçš„å€¼æ˜¯MAX_VALUEï¼Œæ˜¯ä¸ªç´¢å¼•
 		if(value != Long.MAX_VALUE){
 			elementCount.getAndIncrement();
 		}else{
-			// µÚÒ»¸ö×Ö¶ÎÄ¬ÈÏ¾Í´´½¨Èı²ãË÷Òı
+			// ç¬¬ä¸€ä¸ªå­—æ®µé»˜è®¤å°±åˆ›å»ºä¸‰å±‚ç´¢å¼•
 			if(conditionLevel == rank.getRankConfigure().getRankConditionCount() - 1){
-				// ÕâÀïÉèÖÃÁËnull£¬ËüÉÏÃæ¾Í²»»áÓĞ¸ü¶à²ãÁË£¬·ñÔò£¬»áÓĞ¸ü¶à²ã£¬²»¹ı»¹ÓĞ´ı²âÊÔ
+				// è¿™é‡Œè®¾ç½®äº†nullï¼Œå®ƒä¸Šé¢å°±ä¸ä¼šæœ‰æ›´å¤šå±‚äº†ï¼Œå¦åˆ™ï¼Œä¼šæœ‰æ›´å¤šå±‚ï¼Œä¸è¿‡è¿˜æœ‰å¾…æµ‹è¯•
 				NodeStepBase nodeStepStep = rank.getRankPool().getNodeStepBase(null); 
 				this.parentNS = rank.getRankPool().getNodeStepBase(nodeStepStep);
 				this.parentNS.putAbNodeWithElement(this);
-				nodeStepStep.putAbNode(this.parentNS); // ÉÏÒ»²½¾Í»á°ÑËùÓĞÉÏÃæstepĞèÒª¼Óµ½elementCountµÄ¼ÓÍêÁË
+				nodeStepStep.putAbNode(this.parentNS); // ä¸Šä¸€æ­¥å°±ä¼šæŠŠæ‰€æœ‰ä¸Šé¢stepéœ€è¦åŠ åˆ°elementCountçš„åŠ å®Œäº†
 			}
 		}
 	}
@@ -62,7 +62,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 	@Override
 	public abstract int getRankValue(Element element);
 	/**
-	 * Õâ¸ö¿ÉÒÔÍ¨¹ı´«½øÀ´Ò»¸öList<Element>£¬À´¼õÉÙnewËüµÄ´ÎÊı
+	 * è¿™ä¸ªå¯ä»¥é€šè¿‡ä¼ è¿›æ¥ä¸€ä¸ªList<Element>ï¼Œæ¥å‡å°‘newå®ƒçš„æ¬¡æ•°
 	 * @param begin
 	 * @param length
 	 * @return
@@ -71,9 +71,9 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 	@Override
 	public abstract boolean delete(Element element) ;
 	/**
-	 * Ëø×¡¶à¸öElement£¬ËøÊ§°Ü£¬Òª½âËø
+	 * é”ä½å¤šä¸ªElementï¼Œé”å¤±è´¥ï¼Œè¦è§£é”
 	 * @param elements
-	 * @return ÊÇ·ñ³É¹¦Ëø×¡
+	 * @return æ˜¯å¦æˆåŠŸé”ä½
 	 */
 	protected boolean lockMultipleElement(Element... elements){
 		Element[] lockElements = new Element[elements.length];
@@ -89,9 +89,9 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 					if(lockElements[j]!=null){
 						lockElements[j].unLock();
 					}
-					// ÕâÀï
+					// è¿™é‡Œ
 				}
-				// ¿ÉÒÔ·ÅÉÏÃæÒ»µãÈ¥
+				// å¯ä»¥æ”¾ä¸Šé¢ä¸€ç‚¹å»
 				return false;
 			}
 			lockElements[i++] = element;
@@ -99,7 +99,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		return true;
 	}
 	/**
-	 * ½âËø¶à¸öElement
+	 * è§£é”å¤šä¸ªElement
 	 * @param elements
 	 */
 	protected void unLockMultipleElement(Element... elements){
@@ -120,9 +120,9 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		
 		value = -1;
 		parentNS = null;
-		// ÕâÀï²»ÒªÖØÖÃËø£¬ÒòÎª£¬Õâ¸öÊ±ºòËø±»¶àÉÙ¸öÈËÓÃ×ÅÊÇ²»È·¶¨µÄ
+		// è¿™é‡Œä¸è¦é‡ç½®é”ï¼Œå› ä¸ºï¼Œè¿™ä¸ªæ—¶å€™é”è¢«å¤šå°‘ä¸ªäººç”¨ç€æ˜¯ä¸ç¡®å®šçš„
 //		locker.set(0);
-		// NodeÖĞµÄElementÊıÁ¿
+		// Nodeä¸­çš„Elementæ•°é‡
 		elementCount.set(0);
 		previous = null;
 		next = null;

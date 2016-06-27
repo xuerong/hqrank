@@ -1,4 +1,4 @@
-package org.hq.rank.service;
+ï»¿package org.hq.rank.service;
 
 import java.util.List;
 
@@ -6,150 +6,150 @@ import org.hq.rank.core.RankData;
 
 /**
  * IRankService
- * ´´½¨Ò»¸öÅÅĞĞ
- * É¾³ıÒ»¸öÅÅĞĞ
- * É¾³ıËùÓĞµÄÅÅĞĞ
- * ÅĞ¶ÏÒ»¸öÅÅĞĞÊÇ·ñ´æÔÚ
- * ÏòÅÅĞĞÖĞÌí¼ÓÊı¾İ£¨Ìí¼Ó£¬ÈôÃ»ÓĞÔòÌí¼Ó£©
- * ´ÓÅÅĞĞÖĞÉ¾³ıÊı¾İ
- * ÅÅĞĞÊÇ·ñ´æÔÚÄ³¸öid
- * »ñÈ¡Ä³¸öidµÄÅÅĞĞ
- * »ñÈ¡Ä³¸öÅÅĞĞµÄid
- * »ñÈ¡Ä³Ò³ÅÅĞĞµÄid
- * »ñÈ¡Ä³¸öÍæ¼ÒÉÏÏÂ¶àÉÙ¸öÍæ¼ÒµÄÅÅĞĞÊı¾İ
+ * åˆ›å»ºä¸€ä¸ªæ’è¡Œ
+ * åˆ é™¤ä¸€ä¸ªæ’è¡Œ
+ * åˆ é™¤æ‰€æœ‰çš„æ’è¡Œ
+ * åˆ¤æ–­ä¸€ä¸ªæ’è¡Œæ˜¯å¦å­˜åœ¨
+ * å‘æ’è¡Œä¸­æ·»åŠ æ•°æ®ï¼ˆæ·»åŠ ï¼Œè‹¥æ²¡æœ‰åˆ™æ·»åŠ ï¼‰
+ * ä»æ’è¡Œä¸­åˆ é™¤æ•°æ®
+ * æ’è¡Œæ˜¯å¦å­˜åœ¨æŸä¸ªid
+ * è·å–æŸä¸ªidçš„æ’è¡Œ
+ * è·å–æŸä¸ªæ’è¡Œçš„id
+ * è·å–æŸé¡µæ’è¡Œçš„id
+ * è·å–æŸä¸ªç©å®¶ä¸Šä¸‹å¤šå°‘ä¸ªç©å®¶çš„æ’è¡Œæ•°æ®
  * 
- * ËùÓĞµÄÊı¾İ´óĞ¡´óÓÚ0
+ * æ‰€æœ‰çš„æ•°æ®å¤§å°å¤§äº0
  * 
  * @author zhen
  */
 public interface IRankService {
 	/**
-	 * ´´½¨Ò»¸öÅÅĞĞ£¬{@code createRank(rankName , 1)}
-	 * @param rankName ÅÅĞĞµÄÃû×Ö£¬²»ÄÜÖØ¸´
-	 * @return ÈçÅÅĞĞÒÑ¾­´æÔÚ ·µ»Øfalse
+	 * åˆ›å»ºä¸€ä¸ªæ’è¡Œï¼Œ{@code createRank(rankName , 1)}
+	 * @param rankName æ’è¡Œçš„åå­—ï¼Œä¸èƒ½é‡å¤
+	 * @return å¦‚æ’è¡Œå·²ç»å­˜åœ¨ è¿”å›false
 	 */
 	public boolean createRank(String rankName);
 	/**
-	 * ´´½¨Ò»¸ö¶à×Ö¶ÎÅÅĞĞ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö£¬²»ÄÜÖØ¸´
-	 * @param fieldCount ÅÅĞĞµÄ×Ö¶ÎÊı
-	 * @return ÈçÅÅĞĞÒÑ¾­´æÔÚ ·µ»Øfalse
+	 * åˆ›å»ºä¸€ä¸ªå¤šå­—æ®µæ’è¡Œ
+	 * @param rankName æ’è¡Œçš„åå­—ï¼Œä¸èƒ½é‡å¤
+	 * @param fieldCount æ’è¡Œçš„å­—æ®µæ•°
+	 * @return å¦‚æ’è¡Œå·²ç»å­˜åœ¨ è¿”å›false
 	 */
 	public boolean createRank(String rankName,int fieldCount);
 	/**
-	 * É¾³ıÒ»¸öÅÅĞĞ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
+	 * åˆ é™¤ä¸€ä¸ªæ’è¡Œ
+	 * @param rankName æ’è¡Œçš„åå­—
 	 */
 	public void deleteRank(String rankName);
 	/**
-	 * É¾³ıËùÓĞµÄÅÅĞĞ
-	 * ÔÚÏµÍ³ÒªÍ£Ö¹µÄÊ±ºòµ÷ÓÃ£¬µÈ´ıÊ£ÏÂµÄÅÅĞĞÍê³Éµ±Ç°¹¤×÷²¢Õı³£½áÊø
+	 * åˆ é™¤æ‰€æœ‰çš„æ’è¡Œ
+	 * åœ¨ç³»ç»Ÿè¦åœæ­¢çš„æ—¶å€™è°ƒç”¨ï¼Œç­‰å¾…å‰©ä¸‹çš„æ’è¡Œå®Œæˆå½“å‰å·¥ä½œå¹¶æ­£å¸¸ç»“æŸ
 	 * @param rankName
 	 */
 	public void deleteAllRank();
 	/**
-	 * ÅĞ¶ÏÒ»¸öÅÅĞĞÊÇ·ñ´æÔÚ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
+	 * åˆ¤æ–­ä¸€ä¸ªæ’è¡Œæ˜¯å¦å­˜åœ¨
+	 * @param rankName æ’è¡Œçš„åå­—
 	 * @return
 	 */
 	public boolean hasRank(String rankName);
 	/**
-	 * ÉèÖÃÒ»¸öÊı¾İ£¬Èç¹û¸Ãid´æÔÚ£¬Ìæ»»Îªµ±Ç°Êı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @param value Êı¾İ
-	 * @return Èç¹û´æÔÚÖ®Ç°µÄÖµ£¬·µ»ØÖ®Ç°µÄÖµ£¬·ñÔò£¬·µ»Ø-1
+	 * è®¾ç½®ä¸€ä¸ªæ•°æ®ï¼Œå¦‚æœè¯¥idå­˜åœ¨ï¼Œæ›¿æ¢ä¸ºå½“å‰æ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @param value æ•°æ®
+	 * @return å¦‚æœå­˜åœ¨ä¹‹å‰çš„å€¼ï¼Œè¿”å›ä¹‹å‰çš„å€¼ï¼Œå¦åˆ™ï¼Œè¿”å›-1
 	 */
 	public long put(String rankName,int id , long value);
 	/**
-	 * ÉèÖÃÒ»¸öÊı¾İ£¬Èç¹û¸Ãid´æÔÚ£¬Ìæ»»Îªµ±Ç°Êı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @param value Êı¾İ£¬±ØĞëºÍ¶ÔÓ¦¶ÔÓ¦µÄÅÅĞĞ×Ö¶ÎÊıÏàÍ¬
-	 * @return Èç¹û´æÔÚÖ®Ç°µÄÖµ£¬·µ»ØÖ®Ç°µÄÖµ£¬·ñÔò£¬·µ»Ønull
+	 * è®¾ç½®ä¸€ä¸ªæ•°æ®ï¼Œå¦‚æœè¯¥idå­˜åœ¨ï¼Œæ›¿æ¢ä¸ºå½“å‰æ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @param value æ•°æ®ï¼Œå¿…é¡»å’Œå¯¹åº”å¯¹åº”çš„æ’è¡Œå­—æ®µæ•°ç›¸åŒ
+	 * @return å¦‚æœå­˜åœ¨ä¹‹å‰çš„å€¼ï¼Œè¿”å›ä¹‹å‰çš„å€¼ï¼Œå¦åˆ™ï¼Œè¿”å›null
 	 */
 	public long[] put(String rankName,int id , long... value);
 	/**
-	 * ÉèÖÃÒ»¸öÊı¾İ£¬Èç¹û¸Ãid´æÔÚ£¬Ôò²»ÉèÖÃ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @param value Êı¾İ
-	 * @return Èç¹û´æÔÚÖ®Ç°µÄÖµ£¬·µ»ØÖ®Ç°µÄÖµ£¬·ñÔò£¬·µ»Ø-1
+	 * è®¾ç½®ä¸€ä¸ªæ•°æ®ï¼Œå¦‚æœè¯¥idå­˜åœ¨ï¼Œåˆ™ä¸è®¾ç½®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @param value æ•°æ®
+	 * @return å¦‚æœå­˜åœ¨ä¹‹å‰çš„å€¼ï¼Œè¿”å›ä¹‹å‰çš„å€¼ï¼Œå¦åˆ™ï¼Œè¿”å›-1
 	 */
 	public long putIfAbsent(String rankName,int id , long value);
 	/**
-	 * ÉèÖÃÒ»¸öÊı¾İ£¬Èç¹û¸Ãid´æÔÚ£¬Ôò²»ÉèÖÃ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @param value Êı¾İ£¬±ØĞëºÍ¶ÔÓ¦¶ÔÓ¦µÄÅÅĞĞ×Ö¶ÎÊıÏàÍ¬
-	 * @return Èç¹û´æÔÚÖ®Ç°µÄÖµ£¬·µ»ØÖ®Ç°µÄÖµ£¬·ñÔò£¬·µ»Ønull
+	 * è®¾ç½®ä¸€ä¸ªæ•°æ®ï¼Œå¦‚æœè¯¥idå­˜åœ¨ï¼Œåˆ™ä¸è®¾ç½®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @param value æ•°æ®ï¼Œå¿…é¡»å’Œå¯¹åº”å¯¹åº”çš„æ’è¡Œå­—æ®µæ•°ç›¸åŒ
+	 * @return å¦‚æœå­˜åœ¨ä¹‹å‰çš„å€¼ï¼Œè¿”å›ä¹‹å‰çš„å€¼ï¼Œå¦åˆ™ï¼Œè¿”å›null
 	 */
 	public long[] putIfAbsent(String rankName,int id , long... value);
 	/**
-	 * ¸ù¾İÅÅĞĞ×Ö¶Î¸üĞÂÊı¾İ£¬ĞèÒª×¢Òâ£¬ÕâÀïµÄÊı¾İÊÇÒÑ¾­´æÔÚµÄÊı¾İ£¬·ñÔò£¬±¨Êı¾İ²»´æÔÚÒì³£
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @param field ËùĞŞ¸ÄÖµµÄ×Ö¶Î
-	 * @param value ËùĞŞ¸ÄµÄÖµ
-	 * @return Ô­À´¸Ã×Ö¶ÎÉÏµÄÖµ
+	 * æ ¹æ®æ’è¡Œå­—æ®µæ›´æ–°æ•°æ®ï¼Œéœ€è¦æ³¨æ„ï¼Œè¿™é‡Œçš„æ•°æ®æ˜¯å·²ç»å­˜åœ¨çš„æ•°æ®ï¼Œå¦åˆ™ï¼ŒæŠ¥æ•°æ®ä¸å­˜åœ¨å¼‚å¸¸
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @param field æ‰€ä¿®æ”¹å€¼çš„å­—æ®µ
+	 * @param value æ‰€ä¿®æ”¹çš„å€¼
+	 * @return åŸæ¥è¯¥å­—æ®µä¸Šçš„å€¼
 	 */
 	public long putByField(String rankName,int id ,int field,long value);
 	/**
-	 * É¾³ıÒ»¸öÊı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @return ·µ»ØÖµ£¬²»´æÔÚ·µ»Ønull
+	 * åˆ é™¤ä¸€ä¸ªæ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @return è¿”å›å€¼ï¼Œä¸å­˜åœ¨è¿”å›null
 	 */
 	public long[] delete(String rankName,int id);
 	/**
-	 * ÊÇ·ñ´æÔÚÄ³Íæ¼ÒµÄÅÅĞĞÊı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
+	 * æ˜¯å¦å­˜åœ¨æŸç©å®¶çš„æ’è¡Œæ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
 	 * @return 
 	 */
 	public boolean has(String rankName,int id);
 	/**
-	 * ²éÑ¯Ò»¸öÍæ¼ÒµÄÅÅĞĞ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @return ¶ÔÓ¦idÍæ¼ÒµÄÅÅĞĞÃû´Î£¬Ã»ÓĞ»ò²éÑ¯Ê§°Ü·µ»Ø-1
+	 * æŸ¥è¯¢ä¸€ä¸ªç©å®¶çš„æ’è¡Œ
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @return å¯¹åº”idç©å®¶çš„æ’è¡Œåæ¬¡ï¼Œæ²¡æœ‰æˆ–æŸ¥è¯¢å¤±è´¥è¿”å›-1
 	 */
 	public int getRankNum(String rankName,int id);
 	/**
-	 * ¸ù¾İid²éÑ¯Ò»¸öÍæ¼ÒµÄÅÅĞĞÊı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
+	 * æ ¹æ®idæŸ¥è¯¢ä¸€ä¸ªç©å®¶çš„æ’è¡Œæ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
 	 * @return {@code RankData}
 	 */
 	public RankData getRankDataById(String rankName,int id);
 	/**
-	 * ²éÑ¯Ä³ÅÅĞĞµÄÍæ¼Òid
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param rankNum ÅÅĞĞµÄÃû´Î£¬´Ó0¿ªÊ¼
-	 * @return ¶ÔÓ¦Ãû´ÎÍæ¼ÒµÄid£¬Ã»ÓĞ»òÊ§°ÜÔò·µ»Ø-1
+	 * æŸ¥è¯¢æŸæ’è¡Œçš„ç©å®¶id
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param rankNum æ’è¡Œçš„åæ¬¡ï¼Œä»0å¼€å§‹
+	 * @return å¯¹åº”åæ¬¡ç©å®¶çš„idï¼Œæ²¡æœ‰æˆ–å¤±è´¥åˆ™è¿”å›-1
 	 */
 	public int getRankId(String rankName,int rankNum);
 	/**
-	 * ¸ù¾İÅÅĞĞÃû´Î»ñÈ¡Íæ¼ÒÅÅĞĞÊı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param rankNum ÅÅĞĞµÄÃû´Ê
+	 * æ ¹æ®æ’è¡Œåæ¬¡è·å–ç©å®¶æ’è¡Œæ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param rankNum æ’è¡Œçš„åè¯
 	 * @return {@code RankData}
 	 */
 	public RankData getRankDataByRankNum(String rankName,int rankNum);
 	/**
-	 * ·ÖÒ³²éÑ¯ÅÅĞĞÊı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param page Ò³Êı£¬´Ó0¿ªÊ¼
-	 * @param pageSize Ã¿Ò»Ò³µÄ´óĞ¡
+	 * åˆ†é¡µæŸ¥è¯¢æ’è¡Œæ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param page é¡µæ•°ï¼Œä»0å¼€å§‹
+	 * @param pageSize æ¯ä¸€é¡µçš„å¤§å°
 	 * @return {@code RankData}
 	 */
 	public List<RankData> getRankDatasByPage(String rankName,int page,int pageSize);
 	/**
-	 * »ñÈ¡ÓÃ»§¼°ÆäÇ°ºó¼¸¸öÓÃ»§µÄÅÅĞĞÊı¾İ
-	 * @param rankName ÅÅĞĞµÄÃû×Ö
-	 * @param id Êı¾İÌá¹©ÕßµÄid
-	 * @param beforeNum »ñÈ¡µÄÇ°ÃæÓÃ»§¸öÊı
-	 * @param afterNum	»ñÈ¡µÄºóÃæÓÃ»§¸öÊı
+	 * è·å–ç”¨æˆ·åŠå…¶å‰åå‡ ä¸ªç”¨æˆ·çš„æ’è¡Œæ•°æ®
+	 * @param rankName æ’è¡Œçš„åå­—
+	 * @param id æ•°æ®æä¾›è€…çš„id
+	 * @param beforeNum è·å–çš„å‰é¢ç”¨æˆ·ä¸ªæ•°
+	 * @param afterNum	è·å–çš„åé¢ç”¨æˆ·ä¸ªæ•°
 	 * @return {@code RankData}
 	 */
 	public List<RankData> getRankDatasAroundId(String rankName,int id,int beforeNum,int afterNum);

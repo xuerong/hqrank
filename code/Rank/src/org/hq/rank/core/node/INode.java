@@ -1,4 +1,4 @@
-package org.hq.rank.core.node;
+﻿package org.hq.rank.core.node;
 
 import org.hq.rank.core.element.Element;
 

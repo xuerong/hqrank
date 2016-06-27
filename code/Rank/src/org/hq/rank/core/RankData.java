@@ -1,8 +1,8 @@
-package org.hq.rank.core;
+ï»¿package org.hq.rank.core;
 
 public class RankData {
 	private int id; // 
-	private int rankNum; // ÅÅĞĞ
+	private int rankNum; // æ’è¡Œ
 	private long[] value;
 	public RankData(){}
 	public int getId() {

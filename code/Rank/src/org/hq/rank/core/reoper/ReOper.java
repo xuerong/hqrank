@@ -1,11 +1,11 @@
-package org.hq.rank.core.reoper;
+ï»¿package org.hq.rank.core.reoper;
 
 import org.hq.rank.core.element.Element;
 import org.hq.rank.core.node.Node;
 import org.hq.rank.core.node.RankElement;
 
 /**
- * Ö®Ç°²Ù×÷Ê§°ÜµÄÊı¾İ
+ * ä¹‹å‰æ“ä½œå¤±è´¥çš„æ•°æ®
  * */
 public class ReOper {
 	private OperType operType;
@@ -86,6 +86,6 @@ public class ReOper {
 	public static enum OperType{
 		Delete,Add,Update,DeleteNode,
 		
-		RankElementDeleteNode // Ô­À´½Ğ RandomDeleteNode£¬µ«²»¼ÇµÃÎªÊ²Ã´ÁË
+		RankElementDeleteNode // åŸæ¥å« RandomDeleteNodeï¼Œä½†ä¸è®°å¾—ä¸ºä»€ä¹ˆäº†
 	}
 }

@@ -1,4 +1,4 @@
-package org.hq.rank.core;
+ï»¿package org.hq.rank.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,20 +29,20 @@ public class Rank implements IRank {
 	private final ILockerPool lockerPool;
 	// rankpool
 	private final RankPool rankPool;
-	// ¸ÃrankµÄÅäÖÃ
+	// è¯¥rankçš„é…ç½®
 	private final RankConfigure rankConfigure;
-	// ¸ÃRankµÄÍ³¼ÆĞÅÏ¢
+	// è¯¥Rankçš„ç»Ÿè®¡ä¿¡æ¯
 	private RankStatistics rankStatistics = new RankStatistics(this);
-	// ²»Ö§³Ö¸º·Ö
+	// ä¸æ”¯æŒè´Ÿåˆ†
 	private final Node head;
-	// ´æ´¢ËùÓĞµÄElement Èç¹û.sizeĞ§ÂÊµÍ£¬¾Íµ¥¶À´æ´¢ÆäÊıÁ¿
+	// å­˜å‚¨æ‰€æœ‰çš„Element å¦‚æœ.sizeæ•ˆç‡ä½ï¼Œå°±å•ç‹¬å­˜å‚¨å…¶æ•°é‡
 	private ConcurrentHashMap<Integer, Element> elementMap=new ConcurrentHashMap<Integer, Element>();
-	// Õâ¸öÊÇÓÃÀ´×÷ÎªÌí¼ÓÊı¾İÊ±µÄelementµÄË÷Òı£¬ÔÚnodeÊıÁ¿±È½Ï¶àµÄÊ±ºò¿ÉÒÔ´ó´óÌá¸ßĞ§ÂÊ
+	// è¿™ä¸ªæ˜¯ç”¨æ¥ä½œä¸ºæ·»åŠ æ•°æ®æ—¶çš„elementçš„ç´¢å¼•ï¼Œåœ¨nodeæ•°é‡æ¯”è¾ƒå¤šçš„æ—¶å€™å¯ä»¥å¤§å¤§æé«˜æ•ˆç‡
 	private ConcurrentHashMap<Long, Node> nodeMap = new ConcurrentHashMap<Long, Node>();
 	
-	// reoperÏà¹Ø
+	// reoperç›¸å…³
 	private final ReOperService reOperService;
-//	// ÅäÖÃ
+//	// é…ç½®
 	private final int maxHitTimesNodeStep;
 	private final int maxGetTimes;
 	
@@ -62,26 +62,26 @@ public class Rank implements IRank {
 			if(!rankConfigure.check()){
 				throw new RankException("rankConfigure is unavailable!"+rankConfigure);
 			}
-			reOperService = new ReOperService(this); // ÕâÀïÃæ¼ÈÓĞ³õÊ¼»¯£¬ÓÖÓĞ²ÎÊı³õÊ¼»¯£¬ÓÖÓĞÆô¶¯
-			// ³õÊ¼»¯
+			reOperService = new ReOperService(this); // è¿™é‡Œé¢æ—¢æœ‰åˆå§‹åŒ–ï¼Œåˆæœ‰å‚æ•°åˆå§‹åŒ–ï¼Œåˆæœ‰å¯åŠ¨
+			// åˆå§‹åŒ–
 			maxHitTimesNodeStep = rankConfigure.getMaxHitTimesNodeStep();
 			maxGetTimes = rankConfigure.getMaxGetRankDataTimes();
-			// NodeµÄ¹¹Ôì·½·¨ÖĞ×öÁËÅĞ¶Ï£¬ÆğÊ¼µÄnode²»»á´´½¨rankElelment
+			// Nodeçš„æ„é€ æ–¹æ³•ä¸­åšäº†åˆ¤æ–­ï¼Œèµ·å§‹çš„nodeä¸ä¼šåˆ›å»ºrankElelment
 			head = rankPool.getNode(Long.MAX_VALUE, 0,rankConfigure.getRankConditionCount()-1);
 			nodeMap.put(head.getValue(), head);
 		} catch (Exception e) {
 			try {
 				destory();
 			} catch (InterruptedException e2) {
-				throw new RankException("rank ´´½¨´íÎó , Ïú»Ù´íÎó");
+				throw new RankException("rank åˆ›å»ºé”™è¯¯ , é”€æ¯é”™è¯¯");
 			}
-			throw new RankException("rank ´´½¨´íÎó");
+			throw new RankException("rank åˆ›å»ºé”™è¯¯");
 		}
 	}
 	
 	/**
-	 * µ±É¾³ıÔÚ½øĞĞµÄÊ±ºò£¬ÆäËü²Ù×÷¶¼²»ÄÜ½øĞĞ
-	 * 1¡¢ µ±É¾³ıÒ»¸önodeµÄÊ±ºò£¬²»ÄÜÏòÆäÖĞÌí¼Óµã
+	 * å½“åˆ é™¤åœ¨è¿›è¡Œçš„æ—¶å€™ï¼Œå…¶å®ƒæ“ä½œéƒ½ä¸èƒ½è¿›è¡Œ
+	 * 1ã€ å½“åˆ é™¤ä¸€ä¸ªnodeçš„æ—¶å€™ï¼Œä¸èƒ½å‘å…¶ä¸­æ·»åŠ ç‚¹
 	 * */
 	@Override
 	public long[] delete(int id) {
@@ -91,7 +91,7 @@ public class Rank implements IRank {
 		if(element == null){
 			return null;
 		}
-		// Õâ¸öµØ·½²»Ò»¶¨³É¹¦£¬ºóÃæÔÙĞŞ¸Ä
+		// è¿™ä¸ªåœ°æ–¹ä¸ä¸€å®šæˆåŠŸï¼Œåé¢å†ä¿®æ”¹
 		boolean success = doDelete(element);
 		long[] result = element.getValue();
 		if(!success){
@@ -113,7 +113,7 @@ public class Rank implements IRank {
 		return result == null ? -1 : result[0];
 	}
 	/**
-	 * ²éÕÒelement£¬Ã»ÓĞÔòÌí¼Ó£¬ÓĞÔò¸üĞÂ
+	 * æŸ¥æ‰¾elementï¼Œæ²¡æœ‰åˆ™æ·»åŠ ï¼Œæœ‰åˆ™æ›´æ–°
 	 * **/
 	@Override
 	public long[] set(int id, long... value) {
@@ -140,7 +140,7 @@ public class Rank implements IRank {
 		}
 		rankStatistics.addSetCount();
 		
-		long[] trueValue = new long[fieldCount]; // Ä¬ÈÏÊÇ0
+		long[] trueValue = new long[fieldCount]; // é»˜è®¤æ˜¯0
 		trueValue[field] = value;
 		Element element = rankPool.getElement(id, trueValue);
 		while(!element.lock()){
@@ -148,12 +148,12 @@ public class Rank implements IRank {
 //			System.err.println("error+++++++++++++++++++++++++++++++++++++");
 		}
 		Element oldElement = elementMap.put(id,element);
-		if(oldElement == null){ //ËµÃ÷Ô­À´²»´æÔÚ
+		if(oldElement == null){ //è¯´æ˜åŸæ¥ä¸å­˜åœ¨
 			throw new RankException("old data is not exist while try set by field,please set all value before");
 		}
 		long[] oldValues = oldElement.getValue();
 		long[] newValues = element.getValue();
-		for (int i=0;i<fieldCount;i++) { // °ÑÆäËüÖµ¸¶¸øelement
+		for (int i=0;i<fieldCount;i++) { // æŠŠå…¶å®ƒå€¼ä»˜ç»™element
 			if(i != field){
 				newValues[i] = oldValues[i];
 			}
@@ -178,9 +178,9 @@ public class Rank implements IRank {
 		rankStatistics.addSetCount();
 	}
 	/**
-	 * Èç¹û´æÔÚÊÇ·ñ»¹put
+	 * å¦‚æœå­˜åœ¨æ˜¯å¦è¿˜put
 	 * @param id
-	 * @param isAbsentPut true£¬´æÔÚÓë·ñ¶¼put£¬false£¬´æÔÚÔò²»put
+	 * @param isAbsentPut trueï¼Œå­˜åœ¨ä¸å¦éƒ½putï¼Œfalseï¼Œå­˜åœ¨åˆ™ä¸put
 	 * @param value
 	 * @return
 	 */
@@ -193,12 +193,12 @@ public class Rank implements IRank {
 		}
 		Element oldElement;
 		if(isAbsentPut){
-			// ÔÚ½øÈ¥Ö®Ç°¾Í¿ÉÒÔ½«ÆäËø×¡£¬·ÀÖ¹²¢·¢ÎÊÌâ,putIfAbsent×ö²»µ½
+			// åœ¨è¿›å»ä¹‹å‰å°±å¯ä»¥å°†å…¶é”ä½ï¼Œé˜²æ­¢å¹¶å‘é—®é¢˜,putIfAbsentåšä¸åˆ°
 			oldElement = elementMap.put(id,element);
 		}else{
 			oldElement = elementMap.putIfAbsent(id,element);
-			if(oldElement != null){ // ËµÃ÷ÒÑ¾­´æÔÚ£¬²»ÒªputÁË
-				rankPool.putElement(element); // Õâ¸öelementµÄ»ØÊÕÈç¹û»á²úÉúÎÊÌâ£¬¿ÉÒÔÑ¡Ôñ²»»ØÊÕÁË
+			if(oldElement != null){ // è¯´æ˜å·²ç»å­˜åœ¨ï¼Œä¸è¦putäº†
+				rankPool.putElement(element); // è¿™ä¸ªelementçš„å›æ”¶å¦‚æœä¼šäº§ç”Ÿé—®é¢˜ï¼Œå¯ä»¥é€‰æ‹©ä¸å›æ”¶äº†
 				element.unLock();
 				return oldElement.getValue();
 			}
@@ -240,14 +240,14 @@ public class Rank implements IRank {
 			if(rankData != null){
 				return rankData;
 			}
-			// Èç¹ûÉÏÒ»´Î»ñÈ¡Ê§°Ü£¬·ÅÆú¸ÃÊ±¼äÆ¬£¬ÒòÎªºÜÓĞ¿ÉÄÜÕıÔÚºÍ±ğµÄÏß³ÌÇÀ¶á×ÊÔ´
+			// å¦‚æœä¸Šä¸€æ¬¡è·å–å¤±è´¥ï¼Œæ”¾å¼ƒè¯¥æ—¶é—´ç‰‡ï¼Œå› ä¸ºå¾ˆæœ‰å¯èƒ½æ­£åœ¨å’Œåˆ«çš„çº¿ç¨‹æŠ¢å¤ºèµ„æº
 			Thread.yield();
 		}
 //		System.err.println("get null");
 		return null;
 	}
 	/**
-	 * ¸ù¾İÅÅĞĞµÄÃû´Ê»ñÈ¡ÅÅĞĞÊı¾İ
+	 * æ ¹æ®æ’è¡Œçš„åè¯è·å–æ’è¡Œæ•°æ®
 	 */
 	@Override
 	public List<RankData> getRankDatasByRankNum(int begin, int length) {
@@ -255,7 +255,7 @@ public class Rank implements IRank {
 			log.warn("has no enough player: begin:"+begin+",elementMapSize:"+elementMap.size());
 			return null;
 		}
-		// ÏÈÕÒµ½beginµÄÍæ¼Òelement£¬ºóÃæµÄelement»òÕßºóÃænodeµÄelement
+		// å…ˆæ‰¾åˆ°beginçš„ç©å®¶elementï¼Œåé¢çš„elementæˆ–è€…åé¢nodeçš„element
 		int rankNum = 0;
 		NodeStepBase currentnodeStepStep = head.getParentNS().getParentNS();
 		NodeStepBase currentNodeStep = head.getParentNS();
@@ -322,7 +322,7 @@ public class Rank implements IRank {
 	}
 	
 	private RankData doGet(Element element){
-		// ĞèÒªËø×¡×Ô¼º£¬·ñÔò£¬Èç¹û´ËÊ±±»¸Ä±ä£¨ĞŞ¸Ä»òÉ¾³ı£©µÄ»°£¬¾Í»á³öÏÖÕÒ²»µ½µÄÇé¿ö
+		// éœ€è¦é”ä½è‡ªå·±ï¼Œå¦åˆ™ï¼Œå¦‚æœæ­¤æ—¶è¢«æ”¹å˜ï¼ˆä¿®æ”¹æˆ–åˆ é™¤ï¼‰çš„è¯ï¼Œå°±ä¼šå‡ºç°æ‰¾ä¸åˆ°çš„æƒ…å†µ
 		if(!element.lock()){
 //			log.warn("!element.lock(),id:"+element.getId());
 			return null;
@@ -339,7 +339,7 @@ public class Rank implements IRank {
 		NodeStepBase nodeStep = currentNode.getParentNS();
 		int rankNum = result.getRankNum();
 		if (currentNode.getValue()<value) {
-			log.warn("currentNode.getValue()<value£¬ÕâËµÃ÷ÉÏÃæÃüÖĞÖ®ºó±»ĞŞ¸Ä¹ı");
+			log.warn("currentNode.getValue()<valueï¼Œè¿™è¯´æ˜ä¸Šé¢å‘½ä¸­ä¹‹åè¢«ä¿®æ”¹è¿‡");
 			currentNode = head;
 		}
 		
@@ -371,7 +371,7 @@ public class Rank implements IRank {
 		return rankData;
 	}
 	/**
-	 * »ñÈ¡×îÍâ²ãµÄnodeStep
+	 * è·å–æœ€å¤–å±‚çš„nodeStep
 	 * @return
 	 */
 	private NodeStepBase getHeadNodesStep(){
@@ -386,7 +386,7 @@ public class Rank implements IRank {
 	private SearchAbNodeResult getStartNodeByValue(long value,NodeStepBase nodeStep){
 		int rankNum = 0;
 		int currentHitTimes = 0;
-		// Í¨¹ınodestepstepÑ°ÕÒÅªµÃstep
+		// é€šè¿‡nodestepstepå¯»æ‰¾å¼„å¾—step
 		AbNode currentNode = nodeStep.getHead();
 		NodeStepBase currentNodeStep = nodeStep;
 		NodeStepBase previousNodeStep = null;
@@ -398,7 +398,7 @@ public class Rank implements IRank {
 				if(previousNodeStep != null && previousNodeStep.getValue() >= value){
 					currentNode = previousNodeStep.getHead();
 					if(currentNode.getValue() < value){
-						log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode1");
+						log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node1");
 						rankNum = -1;
 						currentNode = null;
 					}
@@ -417,13 +417,13 @@ public class Rank implements IRank {
 					Thread.yield();
 					continue;
 				}
-			}else if(currentNodeStep.getNext() == null){ // Èç¹ûÊÇ×îºóÒ»¸ö
+			}else if(currentNodeStep.getNext() == null){ // å¦‚æœæ˜¯æœ€åä¸€ä¸ª
 				if(previousNodeStep != null){
 					rankNum += previousNodeStep.getElementCount();
 				}
 				currentNode = currentNodeStep.getHead();
 				if(currentNode.getValue() < value){
-					log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode1");
+					log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node1");
 					rankNum = -1;
 					currentNode = null;
 				}
@@ -438,7 +438,7 @@ public class Rank implements IRank {
 		countLocal.set(countLocal.get()+count);
 		return new SearchAbNodeResult(currentNode, rankNum);
 	}
-	// ¶¨Î»¸´ÔÓ¶ÈÍ³¼Æ²ÎÊı
+	// å®šä½å¤æ‚åº¦ç»Ÿè®¡å‚æ•°
 	private ThreadLocal<Integer> countLocal = new ThreadLocal<Integer>();
 	private SearchAbNodeResult getStartNodeByNodeStep(long value){
 		int rankNum = 0;
@@ -458,13 +458,13 @@ public class Rank implements IRank {
 		throw new RankException("error");
 	}
 	/**
-	 * ÕâÀï·µ»ØµÄNodeÒ»¶¨ÊÇ¿ÉÒÔ×÷Îªvalue¶ÔÓ¦nodeµÄÇ°node£¬ÓĞ¿ÉÄÜÊÇhead
+	 * è¿™é‡Œè¿”å›çš„Nodeä¸€å®šæ˜¯å¯ä»¥ä½œä¸ºvalueå¯¹åº”nodeçš„å‰nodeï¼Œæœ‰å¯èƒ½æ˜¯head
 	 * {@code SearchNodeStepResult}
 	 * */
 	private SearchAbNodeResult getStartNodeByNodeStep1(long value){
 		int rankNum = 0;
 		int currentHitTimes = 0;
-		// Í¨¹ınodestepstepÑ°ÕÒÅªµÃstep
+		// é€šè¿‡nodestepstepå¯»æ‰¾å¼„å¾—step
 		NodeStepBase currentNodeStep = head.getParentNS();
 		NodeStepBase currentNodeStepStep = head.getParentNS().getParentNS();
 		NodeStepBase previousNodeStepStep = null;
@@ -474,7 +474,7 @@ public class Rank implements IRank {
 				if(previousNodeStepStep != null && previousNodeStepStep.getValue() >= value){
 					currentNodeStep = (NodeStepBase)previousNodeStepStep.getHead();
 					if(currentNodeStep.getHead().getValue() < value){
-						log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode1");
+						log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node1");
 						rankNum = 0;
 						currentNodeStep = head.getParentNS();
 					}
@@ -493,13 +493,13 @@ public class Rank implements IRank {
 					Thread.yield();
 					continue;
 				}
-			}else if(currentNodeStepStep.getNext() == null){ // Èç¹ûÊÇ×îºóÒ»¸ö
+			}else if(currentNodeStepStep.getNext() == null){ // å¦‚æœæ˜¯æœ€åä¸€ä¸ª
 				if(previousNodeStepStep != null){
 					rankNum += previousNodeStepStep.getElementCount();
 				}
 				currentNodeStep = (NodeStepBase)currentNodeStepStep.getHead();
 				if(currentNodeStep.getHead().getValue() < value){
-					log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode1");
+					log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node1");
 					rankNum = 0;
 					currentNodeStep = head.getParentNS();
 				}
@@ -511,22 +511,22 @@ public class Rank implements IRank {
 			previousNodeStepStep = currentNodeStepStep;
 			currentNodeStepStep = (NodeStepBase)currentNodeStepStep.getNext();
 		}
-		// Í¨¹ınodestepÑ°ÕÒnode
+		// é€šè¿‡nodestepå¯»æ‰¾node
 		currentHitTimes = 0;
 		Node currentNode=head;
 		NodeStepBase previouNodeStep = /*(NodeStepBase)currentNodeStep.getPrevious(); //*/null;
 		while(currentNodeStep != null){
 			if(currentNodeStep.getHead().getValue() < value){
-				// ÓĞ¿ÉÄÜ²»ÃüÖĞ£¬µ±¶ÔÓ¦µÄnodestepÕıÔÚ²ğ·Ö»òÕßºÏ²¢µÄÊ±ºò£¬¿ÉÄÜ²»ÃüÖĞ
+				// æœ‰å¯èƒ½ä¸å‘½ä¸­ï¼Œå½“å¯¹åº”çš„nodestepæ­£åœ¨æ‹†åˆ†æˆ–è€…åˆå¹¶çš„æ—¶å€™ï¼Œå¯èƒ½ä¸å‘½ä¸­
 				if(previouNodeStep!=null && previouNodeStep.getHead().getValue() >= value){
-					currentNode=(Node)previouNodeStep.getHead(); // Õâ¸öµØ·½²»¿ÉÄÜÊÇnull
+					currentNode=(Node)previouNodeStep.getHead(); // è¿™ä¸ªåœ°æ–¹ä¸å¯èƒ½æ˜¯null
 					if(currentNode.getValue()<value){
-						log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode2");
+						log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node2");
 						currentNode = head;
 						rankNum = 0;
 					}
 					break;
-				}else{ // Ã»ÓĞÃüÖĞµÄ»°£¬²ÉÈ¡´«Í³µÄ·½·¨£¬ÖØÍ·µ½Î²
+				}else{ // æ²¡æœ‰å‘½ä¸­çš„è¯ï¼Œé‡‡å–ä¼ ç»Ÿçš„æ–¹æ³•ï¼Œé‡å¤´åˆ°å°¾
 					rankNum = 0;
 					currentNode=head;
 					currentNodeStep = head.getParentNS();
@@ -539,13 +539,13 @@ public class Rank implements IRank {
 					Thread.yield();
 					continue;
 				}
-			}else if(currentNodeStep.getNext() == null){ // Èç¹ûÊÇ×îºóÒ»¸ö
+			}else if(currentNodeStep.getNext() == null){ // å¦‚æœæ˜¯æœ€åä¸€ä¸ª
 				if(previouNodeStep != null){
 					rankNum += previouNodeStep.getElementCount();
 				}
 				currentNode=(Node)currentNodeStep.getHead(); 
 				if(currentNode.getValue()<value){
-					log.warn("Ö»ÒªÕâ¸öµØ·½·¢Éú£¬¾ÍËµÃ÷»á²úÉúÕÒ²»µ½ÖµµÃÇé¿ö£¬¼´¼´Ê¹ÄÃµ½ÏàÓ¦µÄnode£¬Ò²ÊÇ²»¶ÔµÄnode2");
+					log.warn("åªè¦è¿™ä¸ªåœ°æ–¹å‘ç”Ÿï¼Œå°±è¯´æ˜ä¼šäº§ç”Ÿæ‰¾ä¸åˆ°å€¼å¾—æƒ…å†µï¼Œå³å³ä½¿æ‹¿åˆ°ç›¸åº”çš„nodeï¼Œä¹Ÿæ˜¯ä¸å¯¹çš„node2");
 					currentNode = head;
 					rankNum = 0;
 				}
@@ -561,7 +561,7 @@ public class Rank implements IRank {
 		if(currentNodeStep == null){
 			currentNode=(Node)previouNodeStep.getHead();
 			if(previouNodeStep.getHead().getValue() < value){
-				log.warn("×îºó»¹ÊÇÃ»ÓĞÃüÖĞ£¬ÃüÖĞÊ§°Ü£¬ÕâËµÃ÷ÉÏÃæÃüÖĞÖ®ºó±»ĞŞ¸Ä¹ı");
+				log.warn("æœ€åè¿˜æ˜¯æ²¡æœ‰å‘½ä¸­ï¼Œå‘½ä¸­å¤±è´¥ï¼Œè¿™è¯´æ˜ä¸Šé¢å‘½ä¸­ä¹‹åè¢«ä¿®æ”¹è¿‡");
 				rankNum = 0;
 				currentNode=head;
 			}
@@ -572,16 +572,16 @@ public class Rank implements IRank {
 		return result;
 	}
 	/**
-	 * ÕÒµ½Î»ÖÃ
-	 * 1¡¢Ã»ÓĞ¶ÔÓ¦µÄnode
-	 * Ëø¶¨ÉÏÏÂnode
-	 * ÖØĞÂĞ£Ñé
-	 * ´´½¨²¢Ìí¼Ó
-	 * ½âËø
-	 * 2¡¢´æÔÚ¶ÔÓ¦µÄnode
-	 * add¾Í¿ÉÒÔ
+	 * æ‰¾åˆ°ä½ç½®
+	 * 1ã€æ²¡æœ‰å¯¹åº”çš„node
+	 * é”å®šä¸Šä¸‹node
+	 * é‡æ–°æ ¡éªŒ
+	 * åˆ›å»ºå¹¶æ·»åŠ 
+	 * è§£é”
+	 * 2ã€å­˜åœ¨å¯¹åº”çš„node
+	 * addå°±å¯ä»¥
 	 * 
-	 * ÈçºÎ·ÀÖ¹ÖØ¸´Ìí¼Ó
+	 * å¦‚ä½•é˜²æ­¢é‡å¤æ·»åŠ 
 	 * 
 	 * */
 	private boolean doAdd(Element element){
@@ -603,11 +603,11 @@ public class Rank implements IRank {
 		Node previousNode = (Node)currentNode.getPrevious();
 		Node prePreNode ;
 		if (currentNode.getValue()<value) {
-			log.warn("currentNode.getValue()<value£¬ÕâËµÃ÷ÉÏÃæÃüÖĞÖ®ºó±»ĞŞ¸Ä¹ı");
+			log.warn("currentNode.getValue()<valueï¼Œè¿™è¯´æ˜ä¸Šé¢å‘½ä¸­ä¹‹åè¢«ä¿®æ”¹è¿‡");
 			currentNode = head;
 		} 
 		int count=0;
-		try{// ÎªÁËÍ³¼ÆÑ­»·´ÎÊı²Å¼ÓµÄÕâ¸ö£¬Ã»ÓĞÆäËüÄ¿µÄ
+		try{// ä¸ºäº†ç»Ÿè®¡å¾ªç¯æ¬¡æ•°æ‰åŠ çš„è¿™ä¸ªï¼Œæ²¡æœ‰å…¶å®ƒç›®çš„
 			while(currentNode != null){
 				count++;
 				if(currentNode.getValue()>value){
@@ -615,14 +615,14 @@ public class Rank implements IRank {
 					previousNode = currentNode;
 					currentNode = (Node)currentNode.getNext();
 					if(currentNode == null){
-						// É¾³ıµÄÊ±ºòĞèÒªĞ£Ñé¸Ãlock
+						// åˆ é™¤çš„æ—¶å€™éœ€è¦æ ¡éªŒè¯¥lock
 						Node node = rankPool.getNode(element,value,rankConfigure.getRankConditionCount()-1);
-						// ¿ÉÄÜÁíÍâÒ»¸öÏß³ÌÔÚÕâ¸öµØ·½Ö´ĞĞµÄadd£¬ËùÒÔÔÚËø×¡Ö®ºó£¬»¹Òª½øĞĞÒ»¸öĞ£Ñé
+						// å¯èƒ½å¦å¤–ä¸€ä¸ªçº¿ç¨‹åœ¨è¿™ä¸ªåœ°æ–¹æ‰§è¡Œçš„addï¼Œæ‰€ä»¥åœ¨é”ä½ä¹‹åï¼Œè¿˜è¦è¿›è¡Œä¸€ä¸ªæ ¡éªŒ
 						boolean isLock = lockMultipleNode(previousNode,node);
 						if(!isLock){
 							return false;
 						}
-						// ÔÙ´ÎĞ£Ñé£¬Õâ¸öµØ·½ĞèÒªÉÏÒ»²ãµÄĞ£Ñé£¬·ñÔòÓĞ¿ÉÄÜpreviousÊÇ´íÎóµÄ£¬
+						// å†æ¬¡æ ¡éªŒï¼Œè¿™ä¸ªåœ°æ–¹éœ€è¦ä¸Šä¸€å±‚çš„æ ¡éªŒï¼Œå¦åˆ™æœ‰å¯èƒ½previousæ˜¯é”™è¯¯çš„ï¼Œ
 						if(previousNode.getNext()!=null || (previousNode.getPrevious() != prePreNode) || 
 								(previousNode != head && prePreNode.getNext() != previousNode)){
 							unLockMultipleNode(previousNode,node);
@@ -641,7 +641,7 @@ public class Rank implements IRank {
 					if(!isLock){
 						return false;
 					}
-					// ÔÙ´ÎĞ£ÑéÇ°ÖĞºó¹ØÏµ
+					// å†æ¬¡æ ¡éªŒå‰ä¸­åå…³ç³»
 					if(previousNode.getNext()!=currentNode 
 							|| currentNode.getPrevious()!=previousNode){
 						unLockMultipleNode(previousNode,node,currentNode);
@@ -660,8 +660,8 @@ public class Rank implements IRank {
 	}
 	
 	private void addToNodeLinkedList(Node previous,Node node,Node next){
-		node.setNext(next); // ×¢Òâ£¬ÕâÀïµÄË³Ğò²»ÄÜËæÒâ£¬·ñÕß¶àÏß³Ì²éÑ¯»á³ö´í
-		NodeStepBase nodeStep = previous.getParentNS(); // ĞèÒªÊ±Í¬Ò»¸önodestep£¬²¢ÇÒ£¬ÒªÔÚ¼ÓÈëÁ´±íÖ®Ç°ÉèÖÃ£¬¼ÓÈëÁ´±íÖ®ºóÌí¼Óµ½nodeStep
+		node.setNext(next); // æ³¨æ„ï¼Œè¿™é‡Œçš„é¡ºåºä¸èƒ½éšæ„ï¼Œå¦è€…å¤šçº¿ç¨‹æŸ¥è¯¢ä¼šå‡ºé”™
+		NodeStepBase nodeStep = previous.getParentNS(); // éœ€è¦æ—¶åŒä¸€ä¸ªnodestepï¼Œå¹¶ä¸”ï¼Œè¦åœ¨åŠ å…¥é“¾è¡¨ä¹‹å‰è®¾ç½®ï¼ŒåŠ å…¥é“¾è¡¨ä¹‹åæ·»åŠ åˆ°nodeStep
 		if(nodeStep == null){
 			System.err.println(previous.getValue());
 		}
@@ -669,13 +669,13 @@ public class Rank implements IRank {
 			nodeStep = previous.getParentNS();
 		}
 		nodeStep.getReadLock().lock();
-		while(nodeStep != previous.getParentNS()){ // ÔÙĞ£Ñé
+		while(nodeStep != previous.getParentNS()){ // å†æ ¡éªŒ
 			nodeStep.getReadLock().unlock();
 			nodeStep = previous.getParentNS();
 			nodeStep.getReadLock().lock();
 		}
 		node.setParentNS(nodeStep);
-		if(previous != null){ // ÊÂÊµÉÏÕâ¸öÒ»¶¨ÓĞ£¬ÒòÎªÍ·²¿ÊÇÒ»¸öLong.MAX_VALUE
+		if(previous != null){ // äº‹å®ä¸Šè¿™ä¸ªä¸€å®šæœ‰ï¼Œå› ä¸ºå¤´éƒ¨æ˜¯ä¸€ä¸ªLong.MAX_VALUE
 			node.setPrevious(previous);
 			previous.setNext(node);
 		}
@@ -689,7 +689,7 @@ public class Rank implements IRank {
 	}
 	
 	/**
-	 * Èç¹ûÉ¾³ı³É¹¦£¬»òÕßnodeÖĞÓĞelement£¬Ôò·µ»Ø³É¹¦£¬·ñÕß£¬·Å»ØÊ§°Ü
+	 * å¦‚æœåˆ é™¤æˆåŠŸï¼Œæˆ–è€…nodeä¸­æœ‰elementï¼Œåˆ™è¿”å›æˆåŠŸï¼Œå¦è€…ï¼Œæ”¾å›å¤±è´¥
 	 * */
 	public boolean deleteNode(Node node){
 		boolean success = doDeleteNode(node);
@@ -699,19 +699,19 @@ public class Rank implements IRank {
 		return true;
 	}
 	/**
-	 * Èç¹ûÉ¾³ı³É¹¦£¬»òÕßnodeÖĞÓĞelement£¬Ôò·µ»Ø³É¹¦£¬·ñÕß£¬·Å»ØÊ§°Ü
+	 * å¦‚æœåˆ é™¤æˆåŠŸï¼Œæˆ–è€…nodeä¸­æœ‰elementï¼Œåˆ™è¿”å›æˆåŠŸï¼Œå¦è€…ï¼Œæ”¾å›å¤±è´¥
 	 * */
 	private boolean doDeleteNode(Node node){
 		if(node.getCount() <= 0){
-			// ÔÙÉ¾³ıÖ®Ç°£¬isexistÒÑ¾­ÊÇfalseÁË£¬²¢ÇÒÊÇÔÚdeleteÖĞÉèÖÃµÄ£¬ÉèÖÃÊÇÓëadd²»ÄÜ²¢ĞĞµÄ£¬ËùÒÔÓÃ²»×Å¶ÁĞ´ËøÁË
+			// å†åˆ é™¤ä¹‹å‰ï¼Œisexistå·²ç»æ˜¯falseäº†ï¼Œå¹¶ä¸”æ˜¯åœ¨deleteä¸­è®¾ç½®çš„ï¼Œè®¾ç½®æ˜¯ä¸addä¸èƒ½å¹¶è¡Œçš„ï¼Œæ‰€ä»¥ç”¨ä¸ç€è¯»å†™é”äº†
 			Node pre = (Node)node.getPrevious();
 			Node next = (Node)node.getNext();
-			// ÕâÑù»áµ¼ÖÂºÜ¶àreoper£¬×îºÃÔÚ¼ÓËøÍê³ÉµÚÒ»¸öÖ®ºó£¬¾ÍÅĞ¶ÏÊÇ·ñÊÇÒª¼ÓËøµÄ
+			// è¿™æ ·ä¼šå¯¼è‡´å¾ˆå¤šreoperï¼Œæœ€å¥½åœ¨åŠ é”å®Œæˆç¬¬ä¸€ä¸ªä¹‹åï¼Œå°±åˆ¤æ–­æ˜¯å¦æ˜¯è¦åŠ é”çš„
 			boolean isLock = lockMultipleNode(pre,node,next); 
 			if(!isLock){
 				return false;
 			}
-			// ÔÙĞ£Ñé
+			// å†æ ¡éªŒ
 			if((pre != node.getPrevious() || ( pre != null && pre.getNext() != node)) || 
 				(next != node.getNext() || (next != null && next.getPrevious()!=node))){
 				unLockMultipleNode(pre,node,next);
@@ -720,7 +720,7 @@ public class Rank implements IRank {
 			
 			
 			NodeStepBase nodeStep = node.getParentNS();
-			if(nodeStep.combineBeforeRemove()){ // ÒªÏÈ´¦ÀíÕâÀï£¬ÔÙ´ÓÁ´±íÖĞÒÆ³ı£¬ÒòÎªÕâÀïÃæÓĞ¸ù¾İ¼ÆÊıÀ´½øĞĞµÄÏà¹Ø´¦Àí£¬ÏÈÒÆ³ıµ¼ÖÂÊı¾İ¼õÉÙ
+			if(nodeStep.combineBeforeRemove()){ // è¦å…ˆå¤„ç†è¿™é‡Œï¼Œå†ä»é“¾è¡¨ä¸­ç§»é™¤ï¼Œå› ä¸ºè¿™é‡Œé¢æœ‰æ ¹æ®è®¡æ•°æ¥è¿›è¡Œçš„ç›¸å…³å¤„ç†ï¼Œå…ˆç§»é™¤å¯¼è‡´æ•°æ®å‡å°‘
 				nodeStep = node.getParentNS();
 			}
 			nodeStep.getReadLock().lock();
@@ -729,14 +729,14 @@ public class Rank implements IRank {
 				nodeStep = node.getParentNS();
 				nodeStep.getReadLock().lock();
 			}
-			// ÏÈ´ÓÁ´ÖĞÒÆ³ı£¬·ÀÖ¹ÔÚÒÆ³ı¹ı³ÌÖĞ£¬ÏòÆäÖĞÌí¼ÓÔªËØ
+			// å…ˆä»é“¾ä¸­ç§»é™¤ï¼Œé˜²æ­¢åœ¨ç§»é™¤è¿‡ç¨‹ä¸­ï¼Œå‘å…¶ä¸­æ·»åŠ å…ƒç´ 
 			if(pre != null){
 				pre.setNext(next);
 			}
 			if(next != null){
 				next.setPrevious(pre);
 			}
-			// ÕâÀïÎŞÂÛ³É¹¦¶¼ÒÑ¾­É¾³ıµôÁË
+			// è¿™é‡Œæ— è®ºæˆåŠŸéƒ½å·²ç»åˆ é™¤æ‰äº†
 			nodeMap.remove(node.getValue(),node);
 			
 			node.getParentNS().removeAbNode(node);
@@ -751,8 +751,8 @@ public class Rank implements IRank {
 	}
 	
 	/**
-	 * µ±É¾³ıÔÚ½øĞĞµÄÊ±ºò£¬ÆäËü²Ù×÷¶¼²»ÄÜ½øĞĞ
-	 * 1¡¢ µ±É¾³ıÒ»¸önodeµÄÊ±ºò£¬²»ÄÜÏòÆäÖĞÌí¼Óµã
+	 * å½“åˆ é™¤åœ¨è¿›è¡Œçš„æ—¶å€™ï¼Œå…¶å®ƒæ“ä½œéƒ½ä¸èƒ½è¿›è¡Œ
+	 * 1ã€ å½“åˆ é™¤ä¸€ä¸ªnodeçš„æ—¶å€™ï¼Œä¸èƒ½å‘å…¶ä¸­æ·»åŠ ç‚¹
 	 * */
 	private boolean doDelete(Element element) {
 		if(!element.lock()){
@@ -761,8 +761,8 @@ public class Rank implements IRank {
 		Node node = nodeMap.get(element.getValue()
 				[0]);
 		if(node == null){
-			elementMap.remove(element.getId(), element); // Õâ¸öµØ·½ºÜ¹Ø¼ü£¬¾ÍÊÇÊÇËûÔòÉ¾³ı
-			rankPool.putElement(element); // ½âËøÖ®Ç°¼ÓÈëpool
+			elementMap.remove(element.getId(), element); // è¿™ä¸ªåœ°æ–¹å¾ˆå…³é”®ï¼Œå°±æ˜¯æ˜¯ä»–åˆ™åˆ é™¤
+			rankPool.putElement(element); // è§£é”ä¹‹å‰åŠ å…¥pool
 			element.unLock();
 			
 			return true;
@@ -775,25 +775,25 @@ public class Rank implements IRank {
 			element.unLock();
 			return false;
 		}else{
-			// ÓĞ¿ÉÄÜÉ¾³ınode
+			// æœ‰å¯èƒ½åˆ é™¤node
 			if(node.getCount() <= 0){
 				deleteNode(node);
 			}
-			// ±ØĞëÊÇÔ­À´µÄelement²ÅÄÜÉ¾³ı£¬²¢ÇÒ±ØĞëÊÇÔ­×ÓµÄ
+			// å¿…é¡»æ˜¯åŸæ¥çš„elementæ‰èƒ½åˆ é™¤ï¼Œå¹¶ä¸”å¿…é¡»æ˜¯åŸå­çš„
 			elementMap.remove(element.getId(), element);
-			rankPool.putElement(element); // ½âËøÖ®Ç°¼ÓÈëpool
+			rankPool.putElement(element); // è§£é”ä¹‹å‰åŠ å…¥pool
 			element.unLock();
 			return true;
 		}
 	}
 	/**
-	 * update ÊµĞĞµÄÊÇÏÈÉ¾³ıÔÙÌí¼Ó£¬·ÇÔ­×ÓµÄ£¬µ«¿ÉÒÔÈ·±£Êı¾İ×îÖÕÕıÈ·
-	 * ºóÃæ¿ÉÒÔÓÅ»¯
+	 * update å®è¡Œçš„æ˜¯å…ˆåˆ é™¤å†æ·»åŠ ï¼ŒéåŸå­çš„ï¼Œä½†å¯ä»¥ç¡®ä¿æ•°æ®æœ€ç»ˆæ­£ç¡®
+	 * åé¢å¯ä»¥ä¼˜åŒ–
 	 * */
 	private boolean doUpdate(Element oldElement,Element element){
 		if(doDelete(oldElement)){
 			if(doAdd(element/*, value*/)){
-				element.unLock(); // ÔÙÉÏÒ»¸öº¯ÊıÖĞ¼ÓµÄËø£¬ÊÇ·ñ¿ÉÒÔ¿¼ÂÇÔÚÉÏÒ»¸öº¯ÊıÖĞ½âËø
+				element.unLock(); // å†ä¸Šä¸€ä¸ªå‡½æ•°ä¸­åŠ çš„é”ï¼Œæ˜¯å¦å¯ä»¥è€ƒè™‘åœ¨ä¸Šä¸€ä¸ªå‡½æ•°ä¸­è§£é”
 				return true;
 			}else{
 				if(reOperService.addQueue(element,OperType.Add, 0, null)){
@@ -803,8 +803,8 @@ public class Rank implements IRank {
 		}else{
 			return false;
 		}
-		// Õâ¸öµØ·½£¬return false£¬»áÒıÆğÖØĞÂupdate
-		log.warn("Õâ¸öµØ·½£¬return false£¬»áÒıÆğÖØĞÂupdate£¬µ«Ò»°ã²»»á·¢Éú");
+		// è¿™ä¸ªåœ°æ–¹ï¼Œreturn falseï¼Œä¼šå¼•èµ·é‡æ–°update
+		log.warn("è¿™ä¸ªåœ°æ–¹ï¼Œreturn falseï¼Œä¼šå¼•èµ·é‡æ–°updateï¼Œä½†ä¸€èˆ¬ä¸ä¼šå‘ç”Ÿ");
 		return false;
 	}
 	public boolean doReOper_(ReOper reOper,boolean isLastTime){
@@ -813,7 +813,7 @@ public class Rank implements IRank {
 		case Delete:
 			success = doDelete(reOper.getElement());
 			if(!success && isLastTime){
-				// ¼òµ¥·Å½øÈ¥£¬ÕâÑù²¢²»ÍĞ£¬ÕâÀï·¢ÉúµÄÊ±ºò¾ÍÊÇ´óÎÊÌâÁË
+				// ç®€å•æ”¾è¿›å»ï¼Œè¿™æ ·å¹¶ä¸æ‰˜ï¼Œè¿™é‡Œå‘ç”Ÿçš„æ—¶å€™å°±æ˜¯å¤§é—®é¢˜äº†
 				elementMap.put(reOper.getElement().getId(), reOper.getElement());
 			}
 			break;
@@ -835,7 +835,7 @@ public class Rank implements IRank {
 			success = doUpdate(reOper.getOldElement(),reOper.getElement());
 			if(!success && isLastTime){
 				reOper.getElement().unLock();
-				// ¼òµ¥·Å½øÈ¥£¬ÕâÑù²¢²»ÍĞ£¬ÕâÀï·¢ÉúµÄÊ±ºò¾ÍÊÇ´óÎÊÌâÁË
+				// ç®€å•æ”¾è¿›å»ï¼Œè¿™æ ·å¹¶ä¸æ‰˜ï¼Œè¿™é‡Œå‘ç”Ÿçš„æ—¶å€™å°±æ˜¯å¤§é—®é¢˜äº†
 				elementMap.put(reOper.getOldElement().getId(), reOper.getOldElement());
 			}
 			break;
@@ -858,9 +858,9 @@ public class Rank implements IRank {
 					if(lockNodes[j]!=null){
 						lockerPool.unlockNodeWLocker(lockNodes[j], rankConfigure.getRankConditionCount()-1);
 					}
-					// ÕâÀï
+					// è¿™é‡Œ
 				}
-				// ¿ÉÒÔ·ÅÉÏÃæÒ»µãÈ¥
+				// å¯ä»¥æ”¾ä¸Šé¢ä¸€ç‚¹å»
 				return false;
 			}
 			lockNodes[i++] = node;
@@ -869,8 +869,8 @@ public class Rank implements IRank {
 		return true;
 	}
 	/**
-	 * ÔÚ´ËÖ®Ç°µÄ¶¼´¦ÀíÍê½áÊø
-	 * Èç¹ûÕâ¸öº¯Êı»¨·ÑÊ±¼äºÜ³¤£¬ËµÃ÷·ÃÎÊÊıÁ¿¹ı¶È£¬ºÜ¿ÉÄÜÊÇ¶Ô½ÏÉÙµÄid×÷ÁË½Ï´óµÄ·ÃÎÊ
+	 * åœ¨æ­¤ä¹‹å‰çš„éƒ½å¤„ç†å®Œç»“æŸ
+	 * å¦‚æœè¿™ä¸ªå‡½æ•°èŠ±è´¹æ—¶é—´å¾ˆé•¿ï¼Œè¯´æ˜è®¿é—®æ•°é‡è¿‡åº¦ï¼Œå¾ˆå¯èƒ½æ˜¯å¯¹è¾ƒå°‘çš„idä½œäº†è¾ƒå¤§çš„è®¿é—®
 	 * */
 	@Override
 	public void destory() throws InterruptedException{
@@ -937,9 +937,9 @@ public class Rank implements IRank {
 	}
 
 	public static enum ReOperType{
-		SingleThread, // Ğ§ÂÊ½Ï¸ß£¬Ò×·¢Éú³åÍ»
-		MultiThread,// ÀíÂÛÉÏĞ§ÂÊ×î¸ß£¬µ«¼«Ò×·¢Éú³åÍ»£¬´óÊı¾İ²¢·¢²»ÊÊÓÃ
-		MultiSche // Ğ¡Êı¾İÉÙĞ§ÂÊÏà¶Ô½ÏµÍ£¬ÊÇÉÏÃæÁ½ÖÖµÄÒ»°ë£¬Êı¾İ´óĞ§ÂÊºÍÉÏÃæ²î²»¶à£¬²»Ò×·¢Éú³åÍ»£¬½¨ÒéÊ¹ÓÃÕâÖÖ
+		SingleThread, // æ•ˆç‡è¾ƒé«˜ï¼Œæ˜“å‘ç”Ÿå†²çª
+		MultiThread,// ç†è®ºä¸Šæ•ˆç‡æœ€é«˜ï¼Œä½†ææ˜“å‘ç”Ÿå†²çªï¼Œå¤§æ•°æ®å¹¶å‘ä¸é€‚ç”¨
+		MultiSche // å°æ•°æ®å°‘æ•ˆç‡ç›¸å¯¹è¾ƒä½ï¼Œæ˜¯ä¸Šé¢ä¸¤ç§çš„ä¸€åŠï¼Œæ•°æ®å¤§æ•ˆç‡å’Œä¸Šé¢å·®ä¸å¤šï¼Œä¸æ˜“å‘ç”Ÿå†²çªï¼Œå»ºè®®ä½¿ç”¨è¿™ç§
 		
 	}
 }

@@ -1,4 +1,4 @@
-package test;
+ï»¿package test;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -76,7 +76,7 @@ public class Test {
 		}
 		System.err.println("finish");
 	}
-	// ²âÊÔ¸ù¾İÃû´Î»ñÈ¡id
+	// æµ‹è¯•æ ¹æ®åæ¬¡è·å–id
 	public void test5(){
 		Rank rank = new Rank();
 		rank.getRankConfigure().setRankConditionCount(2);
@@ -115,9 +115,9 @@ public class Test {
 		
 		final int threadCount = 200;
 		final int initValueCount = 100000;
-		final int intervalPerSet = 50; //  Ã¿50ºÁÃëÌí¼Ó»òĞŞ¸ÄÒ»´Î£¬random.nextInt(100)
-		final long maxValue = 1000000000000000000l;// ÖµµÄ·¶Î§
-		final int maxId = 10000000;// id·¶Î§
+		final int intervalPerSet = 50; //  æ¯50æ¯«ç§’æ·»åŠ æˆ–ä¿®æ”¹ä¸€æ¬¡ï¼Œrandom.nextInt(100)
+		final long maxValue = 1000000000000000000l;// å€¼çš„èŒƒå›´
+		final int maxId = 10000000;// idèŒƒå›´
 		final Random random = new Random();
 		final String redisKey = "redisKey1";
 		final boolean isUseRank = false;
@@ -185,7 +185,7 @@ public class Test {
 		}
 //		latch.await();
 //		System.err.println("over:"+(System.nanoTime() - t1)/1000000);
-		// Ã¿10Ãë´òÓ¡Ò»´Î ½á¹û
+		// æ¯10ç§’æ‰“å°ä¸€æ¬¡ ç»“æœ
 		new Thread(){
 			@Override
 			public void run(){
@@ -291,7 +291,7 @@ public class Test {
 //			for (RankData rankData : rankDatas) {
 //				System.err.println(rankData);
 //			}
-			// È«²¿´òÓ¡
+			// å…¨éƒ¨æ‰“å°
 //			for(int i=1;i<5136;i++){
 //				RankData rankData = rank.get(i);
 //				long redisRank = -1;
@@ -316,7 +316,7 @@ public class Test {
 			e.printStackTrace();
 		}
 	}
-	// ²âÊÔ¶à¸öredis io£¬ÒÔÈ·¶¨redis ioËùÕ¼ÓÃµÄÊ±¼ä
+	// æµ‹è¯•å¤šä¸ªredis ioï¼Œä»¥ç¡®å®šredis ioæ‰€å ç”¨çš„æ—¶é—´
 	public void test2(int threadCount,final int count){
 		long t1 = System.nanoTime();
 		
@@ -327,9 +327,9 @@ public class Test {
 			new Thread(){
 				@Override
 				public void run(){
-					// Ò»¸öÏß³ÌÒ»¸öjedisÊµÀı
+					// ä¸€ä¸ªçº¿ç¨‹ä¸€ä¸ªjediså®ä¾‹
 					Jedis jedis = pool.getResource();
-					barrierAwait(barrier); // ËùÓĞÏß³Ìµ½ÆëÖ®ºóÔÙ¿ªÊ¼
+					barrierAwait(barrier); // æ‰€æœ‰çº¿ç¨‹åˆ°é½ä¹‹åå†å¼€å§‹
 					for(int i=0;i<count ;i++){
 //						jedis.set("123", "");
 //						jedis.clusterInfo();
@@ -341,21 +341,21 @@ public class Test {
 				}
 			}.start();
 		}
-		latchAwait(latch); // ËùÓĞÏß³Ì½áÊø²ÅËãÍê³É
+		latchAwait(latch); // æ‰€æœ‰çº¿ç¨‹ç»“æŸæ‰ç®—å®Œæˆ
 		
 		long t2 = System.nanoTime();
 		System.err.println("iotime:"+(t2-t1)/1000000);
 	}
 	/**
-	 * test3Æô¶¯¶à¸öÏß³Ì£¬²»¶ÏµÄÏòrankÖĞÌí¼Ó»òĞŞ¸ÄÅÅĞĞ£¬
-	 * ³õÊ¼Ìí¼ÓÊ®Íò¸ö£¬È»ºóÃ¿·ÖÖÓÌí¼ÓÊ®Íò¸ö£¬ĞŞ¸ÄÊ®Íò¸ö
+	 * test3å¯åŠ¨å¤šä¸ªçº¿ç¨‹ï¼Œä¸æ–­çš„å‘rankä¸­æ·»åŠ æˆ–ä¿®æ”¹æ’è¡Œï¼Œ
+	 * åˆå§‹æ·»åŠ åä¸‡ä¸ªï¼Œç„¶åæ¯åˆ†é’Ÿæ·»åŠ åä¸‡ä¸ªï¼Œä¿®æ”¹åä¸‡ä¸ª
 	 */
 	private void test3(){
 		final int threadCount = 200;
 		final int initValueCount = 100000;
-		final int intervalPerSet = 50; //  Ã¿50ºÁÃëÌí¼Ó»òĞŞ¸ÄÒ»´Î£¬random.nextInt(100)
-		final int maxValue = 10000000;// ÖµµÄ·¶Î§
-		final int maxId = 5000000;// id·¶Î§
+		final int intervalPerSet = 50; //  æ¯50æ¯«ç§’æ·»åŠ æˆ–ä¿®æ”¹ä¸€æ¬¡ï¼Œrandom.nextInt(100)
+		final int maxValue = 10000000;// å€¼çš„èŒƒå›´
+		final int maxId = 5000000;// idèŒƒå›´
 		final Random random = new Random();
 		final String redisKey = "redisKey3";
 		
@@ -379,7 +379,7 @@ public class Test {
 				}
 			}.start();
 		}
-		// Ã¿10Ãë´òÓ¡Ò»´Î ½á¹û
+		// æ¯10ç§’æ‰“å°ä¸€æ¬¡ ç»“æœ
 		new Thread(){
 			@Override
 			public void run(){
@@ -414,12 +414,12 @@ public class Test {
 			new Thread(){
 				@Override
 				public void run(){
-					// Ò»¸öÏß³ÌÒ»¸öjedisÊµÀı
+					// ä¸€ä¸ªçº¿ç¨‹ä¸€ä¸ªjediså®ä¾‹
 					Jedis jedis = null;
 					if(type == type.Redis){
 						jedis = pool.getResource();
 					}
-					barrierAwait(barrier); // ËùÓĞÏß³Ìµ½ÆëÖ®ºóÔÙ¿ªÊ¼
+					barrierAwait(barrier); // æ‰€æœ‰çº¿ç¨‹åˆ°é½ä¹‹åå†å¼€å§‹
 					for(int i=0;i<count ;i++){
 						setByType(type, createValue(index*count + i), createId(index*count + i), jedis);
 					}
@@ -433,7 +433,7 @@ public class Test {
 				}
 			}.start();
 		}
-		latchAwait(latch); // ËùÓĞÏß³Ì½áÊø²ÅËãÍê³É
+		latchAwait(latch); // æ‰€æœ‰çº¿ç¨‹ç»“æŸæ‰ç®—å®Œæˆ
 		
 	}
 	private void doGet1(int threadCount,final int count,final Type type){
@@ -444,7 +444,7 @@ public class Test {
 			new Thread(){
 				@Override
 				public void run(){
-					// Ò»¸öÏß³ÌÒ»¸öjedisÊµÀı
+					// ä¸€ä¸ªçº¿ç¨‹ä¸€ä¸ªjediså®ä¾‹
 					Jedis jedis = null;
 					if(type == type.Redis){
 						jedis = pool.getResource();
@@ -472,11 +472,11 @@ public class Test {
 		rank = new Rank(rankConfigure);
 	}
 	private int createId(int i){
-//		return (i)%50136+1; // ÕâÑù»áÓÉÓÚ²»Í¬Ïß³Ì¶øµ¼ÖÂ²»Í¬µÄ½á¹ûºÜÕı³££¬ÓÉÓÚ¸Ä±äÊÇË³ĞòµÄ£¬µ¼ÖÂÉ¾³ınodeµÄË³Ğò¼°Æä²»È·¶¨£¬¶Ô²¢·¢ÄÜÁ¦ÌôÕ½ºÜ´ó
+//		return (i)%50136+1; // è¿™æ ·ä¼šç”±äºä¸åŒçº¿ç¨‹è€Œå¯¼è‡´ä¸åŒçš„ç»“æœå¾ˆæ­£å¸¸ï¼Œç”±äºæ”¹å˜æ˜¯é¡ºåºçš„ï¼Œå¯¼è‡´åˆ é™¤nodeçš„é¡ºåºåŠå…¶ä¸ç¡®å®šï¼Œå¯¹å¹¶å‘èƒ½åŠ›æŒ‘æˆ˜å¾ˆå¤§
 //		return random.nextInt(i+1)+1;
 		return i+1;
 //		return i%5000+1;
-//		return i%2+1; // Á½¸öid»¹ÊÇÓĞÎÊÌâ
+//		return i%2+1; // ä¸¤ä¸ªidè¿˜æ˜¯æœ‰é—®é¢˜
 	}
 	private long createValue(long value){
 //		return random.nextInt(100);

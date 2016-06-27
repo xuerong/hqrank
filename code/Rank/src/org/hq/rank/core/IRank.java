@@ -1,4 +1,4 @@
-package org.hq.rank.core;
+﻿package org.hq.rank.core;
 
 import java.util.List;
 

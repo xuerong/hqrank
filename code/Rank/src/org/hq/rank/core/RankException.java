@@ -1,4 +1,4 @@
-package org.hq.rank.core;
+ï»¿package org.hq.rank.core;
 
 public class RankException extends RuntimeException{
 	private static final long serialVersionUID = 1L;
@@ -8,6 +8,6 @@ public class RankException extends RuntimeException{
 	}
 	
 	public RankException(){
-		super("RankService ÄÚ²¿´íÎó");
+		super("RankService å†…éƒ¨é”™è¯¯");
 	}
 }

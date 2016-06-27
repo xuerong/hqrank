@@ -1,4 +1,4 @@
-package org.hq.rank.service;
+ï»¿package org.hq.rank.service;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -19,9 +19,9 @@ public class RankService implements IRankService{
 
 	@Override
 	public boolean createRank(String rankName) {
-		IRank rank = new Rank();// ×¢Òâ£¬ÕâÀïrankÀïµÄÏß³ÌÒÑ¾­Æô¶¯£¬Èç¹û´´½¨Ê§°Ü£¬ÒªdestroyÕâ¸örank
+		IRank rank = new Rank();// æ³¨æ„ï¼Œè¿™é‡Œranké‡Œçš„çº¿ç¨‹å·²ç»å¯åŠ¨ï¼Œå¦‚æœåˆ›å»ºå¤±è´¥ï¼Œè¦destroyè¿™ä¸ªrank
 		IRank oldRank = rankMap.putIfAbsent(rankName,rank);
-		if(oldRank != null){ // Ã»ÓĞ·Å½øÈ¥
+		if(oldRank != null){ // æ²¡æœ‰æ”¾è¿›å»
 			destroy(rank, rankName);
 		}
 		return oldRank == null;
@@ -31,9 +31,9 @@ public class RankService implements IRankService{
 	public boolean createRank(String rankName, int fieldCount) {
 		RankConfigure rankConfigure = new RankConfigure();
 		rankConfigure.setRankConditionCount(fieldCount);
-		IRank rank = new Rank(rankConfigure);// ×¢Òâ£¬ÕâÀïrankÀïµÄÏß³ÌÒÑ¾­Æô¶¯£¬Èç¹û´´½¨Ê§°Ü£¬ÒªdestroyÕâ¸örank
+		IRank rank = new Rank(rankConfigure);// æ³¨æ„ï¼Œè¿™é‡Œranké‡Œçš„çº¿ç¨‹å·²ç»å¯åŠ¨ï¼Œå¦‚æœåˆ›å»ºå¤±è´¥ï¼Œè¦destroyè¿™ä¸ªrank
 		IRank oldRank = rankMap.putIfAbsent(rankName,rank);
-		if(oldRank != null){ // Ã»ÓĞ·Å½øÈ¥
+		if(oldRank != null){ // æ²¡æœ‰æ”¾è¿›å»
 			destroy(rank, rankName);
 		}
 		return oldRank == null;
@@ -159,7 +159,7 @@ public class RankService implements IRankService{
 			if(rankDataList == null){
 				return null;
 			}
-			// ÑéÖ¤Ò»ÏÂ£º
+			// éªŒè¯ä¸€ä¸‹ï¼š
 			if(rankDataList.size() <= rankData.getRankNum() - begin){
 				log.warn("has no get enough value : getLength = "+rankDataList.size()+",needLength="+length);
 			}else{
@@ -170,17 +170,17 @@ public class RankService implements IRankService{
 				if(rankData.getId() != rankData2.getId()){
 					log.warn("rankData:"+rankData+",rankData2:"+rankData2+"\n newRankData:"+
 							rank.get(id));
-					// ËµÃ÷ÔÚÁ½´Î»ñÈ¡µÄ¼ä¸ôÖ®¼äÆäÅÅÃû±»¸Ä±ä£¬ÔÚ¸ß²¢·¢Çé¿öÏÂ¼«Ò×·¢Éú£¬ÈıÖÖ½â¾ö·½°¸£º
-					// 1,½«Æä·Å»Ø¸ÃÎ»ÖÃ£¨×î²»ºÏÀí£¬µ«ÊÇ×îºÃÊµÊ©£©
-					// 2£¬ÖØĞÂ¸ørankÉè¼ÆÒ»¸öº¯Êı£¬À´×¨ÃÅ½â¾ö¸ÃÎÊÌâ£¨×îºÏÀí£¬µ«×îÄÑÊµÊ©£©
-					// 3£¬ÖØĞÂ»ñÈ¡£¬Ö±µ½»ñÈ¡µ½£¬»ò»ñÈ¡´ÎÊıµ½´ïÄ³¸ö×î´óÖµ£¬²ÉÈ¡·½°¸1£¨½ÏºÏÀí£¬½ÏºÃÊµÊ©£©
-					// ÆäÊµÔÚ¼«¸ß²¢·¢Çé¿öÏÂ£¬3²Å»áÊ§°Ü£¬²¢ÇÒ´ËÊ±ÆäÊµÊ±ĞÔ(ºÁÃë¼¶)µÄ¾Í²»ÔÙÄÇÃ´ÖØÒª£¬ËùÒÔÔİÊ±Ñ¡Ôñ·½°¸3
+					// è¯´æ˜åœ¨ä¸¤æ¬¡è·å–çš„é—´éš”ä¹‹é—´å…¶æ’åè¢«æ”¹å˜ï¼Œåœ¨é«˜å¹¶å‘æƒ…å†µä¸‹ææ˜“å‘ç”Ÿï¼Œä¸‰ç§è§£å†³æ–¹æ¡ˆï¼š
+					// 1,å°†å…¶æ”¾å›è¯¥ä½ç½®ï¼ˆæœ€ä¸åˆç†ï¼Œä½†æ˜¯æœ€å¥½å®æ–½ï¼‰
+					// 2ï¼Œé‡æ–°ç»™rankè®¾è®¡ä¸€ä¸ªå‡½æ•°ï¼Œæ¥ä¸“é—¨è§£å†³è¯¥é—®é¢˜ï¼ˆæœ€åˆç†ï¼Œä½†æœ€éš¾å®æ–½ï¼‰
+					// 3ï¼Œé‡æ–°è·å–ï¼Œç›´åˆ°è·å–åˆ°ï¼Œæˆ–è·å–æ¬¡æ•°åˆ°è¾¾æŸä¸ªæœ€å¤§å€¼ï¼Œé‡‡å–æ–¹æ¡ˆ1ï¼ˆè¾ƒåˆç†ï¼Œè¾ƒå¥½å®æ–½ï¼‰
+					// å…¶å®åœ¨æé«˜å¹¶å‘æƒ…å†µä¸‹ï¼Œ3æ‰ä¼šå¤±è´¥ï¼Œå¹¶ä¸”æ­¤æ—¶å…¶å®æ—¶æ€§(æ¯«ç§’çº§)çš„å°±ä¸å†é‚£ä¹ˆé‡è¦ï¼Œæ‰€ä»¥æš‚æ—¶é€‰æ‹©æ–¹æ¡ˆ3
 				}else{
 					break;
 				}
 			}
 			if(currentTryTimes++ > maxTryTimes){
-				rankDataList.set(rankData.getRankNum() - begin, rankData); // Ìæ»»·½°¸
+				rankDataList.set(rankData.getRankNum() - begin, rankData); // æ›¿æ¢æ–¹æ¡ˆ
 				break;
 			}
 		}

@@ -1,4 +1,4 @@
-package org.hq.rank.core.pool;
+ï»¿package org.hq.rank.core.pool;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,14 +14,14 @@ import org.hq.rank.core.node.RankElement;
 import org.hq.rank.core.node.RankElementNode;
 
 /**
- * Õâ¸ö³ØÖĞ¿ÉÒÔ´æ´¢Ò»Ğ©Node¡¢RankElementºÍElement£¬NodeStep,NodeStepStep,ElementStepÍ¬ÊÂËûÃÇÌá¹©reset·½·¨
+ * è¿™ä¸ªæ± ä¸­å¯ä»¥å­˜å‚¨ä¸€äº›Nodeã€RankElementå’ŒElementï¼ŒNodeStep,NodeStepStep,ElementStepåŒäº‹ä»–ä»¬æä¾›resetæ–¹æ³•
  * 
- * ¿ÉÒÔÍ¨¹ıputµÄÊ±ºò£¬²é¿´ËüµÄÆäËüÒıÓÃÊÇ·ñ»¹ÔÚ£¬À´·ÀÖ¹ÄÚ´æĞ¹Â¶
+ * å¯ä»¥é€šè¿‡putçš„æ—¶å€™ï¼ŒæŸ¥çœ‹å®ƒçš„å…¶å®ƒå¼•ç”¨æ˜¯å¦è¿˜åœ¨ï¼Œæ¥é˜²æ­¢å†…å­˜æ³„éœ²
  * @author zhen
  *
  */
 public class RankPool {
-	// ³ØµÄ×î´óÖµ
+	// æ± çš„æœ€å¤§å€¼
 	private final int eNodeMaxSize = 100;
 	private final int rNodeMaxSize = 100;
 	private final int rankElementMaxSize = 100;
@@ -29,7 +29,7 @@ public class RankPool {
 	private final int nodeStepBaseMaxSize = 100;
 	private final int elementStepMaxSize = 100;
 	
-	private final Rank rank; // Ò»¸örankÒ»¸ö³Ø
+	private final Rank rank; // ä¸€ä¸ªrankä¸€ä¸ªæ± 
 	public RankPool(Rank rank){
 		this.rank = rank;
 	}
@@ -68,7 +68,7 @@ public class RankPool {
 	private final Queue<Node> eNodes = new ConcurrentLinkedQueue<Node>();
 	private final Queue<Node> rNodes = new ConcurrentLinkedQueue<Node>();
 	/**
-	 * ·Å½øÈ¥µÄÊ±ºò£¬±»ËøµÄÇé¿öÊÇ²»È·¶¨µÄ
+	 * æ”¾è¿›å»çš„æ—¶å€™ï¼Œè¢«é”çš„æƒ…å†µæ˜¯ä¸ç¡®å®šçš„
 	 * @param node
 	 */
 	public void putNode(Node node){
@@ -89,14 +89,14 @@ public class RankPool {
 		}
 	}
 	/**
-	 * µÃµ½Ò»¸önode£¬´Ënode±»ËøµÄÇé¿öÊÇ²»È·¶¨µÄ
+	 * å¾—åˆ°ä¸€ä¸ªnodeï¼Œæ­¤nodeè¢«é”çš„æƒ…å†µæ˜¯ä¸ç¡®å®šçš„
 	 * @param element
 	 * @param value
 	 * @param conditionLevel
 	 * @return
 	 */
 	public Node getNode(Element element,long value,final int conditionLevel){
-		if(conditionLevel < 0){ // Õâ¸öµØ·½¿ÉÒÔÏêÏ¸ÑéÖ¤
+		if(conditionLevel < 0){ // è¿™ä¸ªåœ°æ–¹å¯ä»¥è¯¦ç»†éªŒè¯
 			throw new RankException("error");
 		}
 		Node node = null;
@@ -128,7 +128,7 @@ public class RankPool {
 		nodeStepBase.reset();
 		nodeStepBases.offer(nodeStepBase);
 	}
-	public NodeStepBase getNodeStepBase(NodeStepBase parentNS){ // Èç¹ûparentNSÊÇnull£¬ËµÃ÷ÊÇ×î¸ßÒ»¼¶
+	public NodeStepBase getNodeStepBase(NodeStepBase parentNS){ // å¦‚æœparentNSæ˜¯nullï¼Œè¯´æ˜æ˜¯æœ€é«˜ä¸€çº§
 		NodeStepBase nodeStepBase = nodeStepBases.poll();
 		if(nodeStepBase == null){
 			nodeStepBase = new NodeStepBase(rank);
@@ -187,7 +187,7 @@ public class RankPool {
 	}
 	@Override
 	public String toString(){
-		// Node¡¢RankElementºÍElement£¬ElementStep
+		// Nodeã€RankElementå’ŒElementï¼ŒElementStep
 		StringBuilder sb = new StringBuilder();
 		sb.append("RankPool:")
 		.append("elementNode:"+eNodes.size()+",rankENode:"+rNodes.size())

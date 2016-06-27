@@ -1,4 +1,4 @@
-package org.hq.rank.core.pool;
+ï»¿package org.hq.rank.core.pool;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -10,8 +10,8 @@ import org.hq.rank.core.node.Node;
 import org.hq.rank.core.node.RankElement;
 
 /**
- * Ã¿¼¶nodeÓĞ×Ô¼ºµÄËø¿â£¬Í¨¹ıÄ³ÖÖ¹æÔò»ñÈ¡£¬Èçhashcode£¬»ò¶ÔÓ¦µÄvalue
- * Í¬Ò»¸önodeÒ»¶¨ÊÇÒ»ÑùµÄhashcode£¬ËùÒÔ²»»áÓĞÎÊÌâ£¬¼´Ê¹²»Í¬µÄnodeÓÃÁËÍ¬ÑùµÄhashcode
+ * æ¯çº§nodeæœ‰è‡ªå·±çš„é”åº“ï¼Œé€šè¿‡æŸç§è§„åˆ™è·å–ï¼Œå¦‚hashcodeï¼Œæˆ–å¯¹åº”çš„value
+ * åŒä¸€ä¸ªnodeä¸€å®šæ˜¯ä¸€æ ·çš„hashcodeï¼Œæ‰€ä»¥ä¸ä¼šæœ‰é—®é¢˜ï¼Œå³ä½¿ä¸åŒçš„nodeç”¨äº†åŒæ ·çš„hashcode
  * @author zhen
  *
  */
@@ -77,8 +77,8 @@ public class LockerPool implements ILockerPool{
 		}
 		LockerBox lockerBox = lockerBoxs[conditionLevel];
 		boolean isLock = lockerBox.nodeWriteLock[node.hashCode()%lockerBox.nodeLockerCount].tryLock();
-		// Èç¹ûÕâ¸öÊÇ±»»ØÊÕÁË£¬ÇÒ´¦ÓÚ²»Í¬µÄlevel£¬ÕâÀï¿ÉÒÔ·µ»Øfalse£¬¶øÈç¹û´¦ÓÚÍ¬ÑùµÄlevel£¬Ò²¿ÉÒÔ×÷Îª±¾´ÎËø£¬²»»á·¢Éú³åÍ»£¬ºóÃæÒªÔÙ×ĞÏ¸·ÖÎö
-		if(node.getConditionLevel() != conditionLevel){ // Ëø´íÁË
+		// å¦‚æœè¿™ä¸ªæ˜¯è¢«å›æ”¶äº†ï¼Œä¸”å¤„äºä¸åŒçš„levelï¼Œè¿™é‡Œå¯ä»¥è¿”å›falseï¼Œè€Œå¦‚æœå¤„äºåŒæ ·çš„levelï¼Œä¹Ÿå¯ä»¥ä½œä¸ºæœ¬æ¬¡é”ï¼Œä¸ä¼šå‘ç”Ÿå†²çªï¼Œåé¢è¦å†ä»”ç»†åˆ†æ
+		if(node.getConditionLevel() != conditionLevel){ // é”é”™äº†
 			if(node.getValue() == Long.MAX_VALUE){
 				return isLock;
 			}
@@ -103,7 +103,7 @@ public class LockerPool implements ILockerPool{
 		}
 		LockerBox lockerBox = lockerBoxs[conditionLevel];
 		boolean isLock = lockerBox.nodeReadLock[node.hashCode()%lockerBox.nodeLockerCount].tryLock();
-		if(node.getConditionLevel() != conditionLevel){ // Ëø´íÁË
+		if(node.getConditionLevel() != conditionLevel){ // é”é”™äº†
 			if(node.getValue() == Long.MAX_VALUE){
 				return isLock;
 			}
@@ -123,15 +123,15 @@ public class LockerPool implements ILockerPool{
 	}
 
 	/**
-	 * ËµÃ÷£ºµ±´´½¨nodestepµÄÊ±ºòÓÃµ½Õâ¸öËø£¬´ËÊ±rankElementÊÇ²»¿ÉÄÜ±»resetµÄ£¬³ı·ÇstepµÄ´óĞ¡ÉèÖÃ²»ºÏÀí£¬Ì«Ğ¡
+	 * è¯´æ˜ï¼šå½“åˆ›å»ºnodestepçš„æ—¶å€™ç”¨åˆ°è¿™ä¸ªé”ï¼Œæ­¤æ—¶rankElementæ˜¯ä¸å¯èƒ½è¢«resetçš„ï¼Œé™¤éstepçš„å¤§å°è®¾ç½®ä¸åˆç†ï¼Œå¤ªå°
 	 */
 	@Override
 	public void lockRankElementWLocker(RankElement rankElement,
 			int conditionLevel) {
 		LockerBox lockerBox = lockerBoxs[conditionLevel];
 		lockerBox.rankElementWriteLock[rankElement.hashCode()%lockerBox.rankElementLockerCount].lock();
-		// Èç¹ûÕâ¸öÊÇ±»»ØÊÕÁË£¬ÇÒ´¦ÓÚ²»Í¬µÄlevel£¬ÕâÀï¿ÉÒÔ·µ»Øfalse£¬¶øÈç¹û´¦ÓÚÍ¬ÑùµÄlevel£¬Ò²¿ÉÒÔ×÷Îª±¾´ÎËø£¬²»»á·¢Éú³åÍ»£¬ºóÃæÒªÔÙ×ĞÏ¸·ÖÎö
-		if(rankElement.getConditionLevel() != conditionLevel){ // Ëø´íÁË£¬ÔÚ´ËÇé¿öÏÂ£¬²»¿ÉÄÜ×ö¸ü¸Ä
+		// å¦‚æœè¿™ä¸ªæ˜¯è¢«å›æ”¶äº†ï¼Œä¸”å¤„äºä¸åŒçš„levelï¼Œè¿™é‡Œå¯ä»¥è¿”å›falseï¼Œè€Œå¦‚æœå¤„äºåŒæ ·çš„levelï¼Œä¹Ÿå¯ä»¥ä½œä¸ºæœ¬æ¬¡é”ï¼Œä¸ä¼šå‘ç”Ÿå†²çªï¼Œåé¢è¦å†ä»”ç»†åˆ†æ
+		if(rankElement.getConditionLevel() != conditionLevel){ // é”é”™äº†ï¼Œåœ¨æ­¤æƒ…å†µä¸‹ï¼Œä¸å¯èƒ½åšæ›´æ”¹
 			throw new RankException("lockRankElementWLocker rankElement.getConditionLevel() != conditionLevel");
 		}
 	}
@@ -148,8 +148,8 @@ public class LockerPool implements ILockerPool{
 			int conditionLevel) {
 		LockerBox lockerBox = lockerBoxs[conditionLevel];
 		lockerBox.rankElementReadLock[rankElement.hashCode()%lockerBox.rankElementLockerCount].lock();
-		// Èç¹ûÕâ¸öÊÇ±»»ØÊÕÁË£¬ÇÒ´¦ÓÚ²»Í¬µÄlevel£¬ÕâÀï¿ÉÒÔ·µ»Øfalse£¬¶øÈç¹û´¦ÓÚÍ¬ÑùµÄlevel£¬Ò²¿ÉÒÔ×÷Îª±¾´ÎËø£¬²»»á·¢Éú³åÍ»£¬ºóÃæÒªÔÙ×ĞÏ¸·ÖÎö
-		if(rankElement.getConditionLevel() != conditionLevel){ // Ëø´íÁË£¬ÔÚ´ËÇé¿öÏÂ£¬²»¿ÉÄÜ×ö¸ü¸Ä
+		// å¦‚æœè¿™ä¸ªæ˜¯è¢«å›æ”¶äº†ï¼Œä¸”å¤„äºä¸åŒçš„levelï¼Œè¿™é‡Œå¯ä»¥è¿”å›falseï¼Œè€Œå¦‚æœå¤„äºåŒæ ·çš„levelï¼Œä¹Ÿå¯ä»¥ä½œä¸ºæœ¬æ¬¡é”ï¼Œä¸ä¼šå‘ç”Ÿå†²çªï¼Œåé¢è¦å†ä»”ç»†åˆ†æ
+		if(rankElement.getConditionLevel() != conditionLevel){ // é”é”™äº†ï¼Œåœ¨æ­¤æƒ…å†µä¸‹ï¼Œä¸å¯èƒ½åšæ›´æ”¹
 			throw new RankException("lockRankElementRLocker rankElement.getConditionLevel() != conditionLevel");
 		}
 	}

@@ -1,4 +1,4 @@
-package org.hq.rank.core.node;
+ï»¿package org.hq.rank.core.node;
 
 import java.util.List;
 
@@ -13,14 +13,14 @@ public class ElementNode extends Node{
 	private static Logger log = LoggerFactory
 			.getLogger(ElementNode.class);
 	/**
-	 * ElementÀàĞÍµÄNode²ÎÊı
+	 * Elementç±»å‹çš„Nodeå‚æ•°
 	 */
 	private Element head;
-	//NodeÖĞElementStepµÄÒıÓÃ
+	//Nodeä¸­ElementStepçš„å¼•ç”¨
 	private ElementStep headStep , tailStep;
 	private volatile Element tail;
 	/**
-	 * ¹¹ÔìµÄÊ±ºòÓĞÃ»ÓĞ¿ÉÄÜ±»·ÃÎÊ£¿add·½·¨
+	 * æ„é€ çš„æ—¶å€™æœ‰æ²¡æœ‰å¯èƒ½è¢«è®¿é—®ï¼Ÿaddæ–¹æ³•
 	 * */
 	
 	public ElementNode(Rank rank){
@@ -30,7 +30,7 @@ public class ElementNode extends Node{
 	public void init(Element element,long value,final int conditionLevel){
 		super.init(element, value, 0);
 		
-		if(value != Long.MAX_VALUE){ // Í·ÀïÃæÊ²Ã´Ò²²»Òª£¬·ñÔò¿ÉÄÜ³öÏÖÄÚ´æÒç³ö
+		if(value != Long.MAX_VALUE){ // å¤´é‡Œé¢ä»€ä¹ˆä¹Ÿä¸è¦ï¼Œå¦åˆ™å¯èƒ½å‡ºç°å†…å­˜æº¢å‡º
 			element.setNode(this);
 			this.head = element;
 			this.tail = element;
@@ -60,8 +60,8 @@ public class ElementNode extends Node{
 			if(elementCount.get() <= 0){
 				return null;
 			}
-			// ·ÀÖ¹ÓëÆäËüÏß³Ì¹²Í¬Ìí¼Ó»ò²Ù×÷
-			// ÔÚtail lockµÄº¯ÊıÖĞ¸ö£¬ÔÚÖ´ĞĞgetAndIncrementÖ®Ç°£¬tailÖ¸Ïò±»ĞŞ¸Ä£¬´ËÊ±£¬lockµÄelement¾Í²»ÊÇĞÂµÄelement
+			// é˜²æ­¢ä¸å…¶å®ƒçº¿ç¨‹å…±åŒæ·»åŠ æˆ–æ“ä½œ
+			// åœ¨tail lockçš„å‡½æ•°ä¸­ä¸ªï¼Œåœ¨æ‰§è¡ŒgetAndIncrementä¹‹å‰ï¼ŒtailæŒ‡å‘è¢«ä¿®æ”¹ï¼Œæ­¤æ—¶ï¼Œlockçš„elementå°±ä¸æ˜¯æ–°çš„element
 			Element _tail=tail;
 			if(_tail == null){
 				return null;
@@ -73,7 +73,7 @@ public class ElementNode extends Node{
 				_tail.unLock();
 				return null;
 			}
-			// ¿ÉÄÜ±»ĞŞ¸Ä»òÕßÉ¾³ı£¬ÓÈÆäÊÇÔÚ³ØÖĞÖØĞÂÈ¡³öÖ®ºó
+			// å¯èƒ½è¢«ä¿®æ”¹æˆ–è€…åˆ é™¤ï¼Œå°¤å…¶æ˜¯åœ¨æ± ä¸­é‡æ–°å–å‡ºä¹‹å
 			if(!tail.equalsValue(element)){
 				_tail.unLock();
 				return null;
@@ -81,7 +81,7 @@ public class ElementNode extends Node{
 			
 			
 			if(tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){
-				// ´´½¨Ö®£¬´´½¨µÄÊ±ºò¼ÓĞ´Ëø£¬ÕâÑù·ÀÖ¹ÆäËüÏß³Ì¼ÓÊı¾İ½øÈ¥
+				// åˆ›å»ºä¹‹ï¼Œåˆ›å»ºçš„æ—¶å€™åŠ å†™é”ï¼Œè¿™æ ·é˜²æ­¢å…¶å®ƒçº¿ç¨‹åŠ æ•°æ®è¿›å»
 				rank.getLockerPool().unlockNodeRLocker(this, 0);
 				isLock = rank.getLockerPool().tryLockNodeWLocker(this, 0);
 				if(!isLock){
@@ -89,7 +89,7 @@ public class ElementNode extends Node{
 					_tail.unLock();
 					return null;
 				}
-				if(this.tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // ÔÙ´ÎĞ£Ñé
+				if(this.tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // å†æ¬¡æ ¡éªŒ
 					this.headStep = rank.getRankPool().getElementStep(this);
 					Element currentElement = head;
 					while(currentElement != null){
@@ -107,7 +107,7 @@ public class ElementNode extends Node{
 				}
 			}
 			if(tailStep != null){
-				// ²ğ·Ö
+				// æ‹†åˆ†
 				if(tailStep.getCount() >= rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){
 					
 					rank.getLockerPool().unlockNodeRLocker(this, 0);
@@ -117,7 +117,7 @@ public class ElementNode extends Node{
 						_tail.unLock();
 						return null;
 					}
-					if(tailStep.getCount() >= rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // ÔÙ´ÎĞ£Ñé
+					if(tailStep.getCount() >= rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // å†æ¬¡æ ¡éªŒ
 						
 						ElementStep newStep = rank.getRankPool().getElementStep(this);
 						tailStep.putElement(element);
@@ -137,7 +137,7 @@ public class ElementNode extends Node{
 				}
 			}
 			
-			element.setPrevious(_tail); //ÒªÏÈÉèÖÃÕâ¸ö£¬ÔÙ¼ÓÈëÁ´±í£¬·ñÔò²éÑ¯Ïà¹Ø²Ù×÷¿ÉÄÜ»á³ö´í
+			element.setPrevious(_tail); //è¦å…ˆè®¾ç½®è¿™ä¸ªï¼Œå†åŠ å…¥é“¾è¡¨ï¼Œå¦åˆ™æŸ¥è¯¢ç›¸å…³æ“ä½œå¯èƒ½ä¼šå‡ºé”™
 			element.setNode(this);
 			_tail.setNext(element);
 			tail = element;
@@ -145,9 +145,9 @@ public class ElementNode extends Node{
 			elementCount.getAndIncrement();
 			
 			if(parentNS != null){
-				parentNS.putElement(); // ÓĞÃ»ÓĞ¿ÉÄÜ¿ÕÖ¸Õë£¿²»¿ÉÄÜ
+				parentNS.putElement(); // æœ‰æ²¡æœ‰å¯èƒ½ç©ºæŒ‡é’ˆï¼Ÿä¸å¯èƒ½
 			}
-			_tail.unLock(); // ×¢Òâ£¬Ç°ÃæµÄtail±»¸³ÖµÁË
+			_tail.unLock(); // æ³¨æ„ï¼Œå‰é¢çš„tailè¢«èµ‹å€¼äº†
 			
 			return element;
 		}finally{
@@ -189,7 +189,7 @@ public class ElementNode extends Node{
 		return rankNum;
 	}
 	/**
-	 * Õâ¸ö¿ÉÒÔÍ¨¹ı´«½øÀ´Ò»¸öList<Element>£¬À´¼õÉÙnewËüµÄ´ÎÊı
+	 * è¿™ä¸ªå¯ä»¥é€šè¿‡ä¼ è¿›æ¥ä¸€ä¸ªList<Element>ï¼Œæ¥å‡å°‘newå®ƒçš„æ¬¡æ•°
 	 * @param begin
 	 * @param length
 	 * @return
@@ -218,14 +218,14 @@ public class ElementNode extends Node{
 			return false;
 		}
 		try {
-			// Õâ¸öÊ±ºòÊÇ²»¿ÉÄÜÓĞÈËÔÚÉ¾³ınodeµÄ£¬ËùÒÔ²»ÓÃÌí¼ÓnodeµÄ¶ÁËø
+			// è¿™ä¸ªæ—¶å€™æ˜¯ä¸å¯èƒ½æœ‰äººåœ¨åˆ é™¤nodeçš„ï¼Œæ‰€ä»¥ä¸ç”¨æ·»åŠ nodeçš„è¯»é”
 			Element pre = element.getPrevious();
 			Element next = element.getNext();
 			boolean isLock = lockMultipleElement(pre,next);
 			if(!isLock){
 				return false;
 			}
-			// ÔÙĞ£Ñé
+			// å†æ ¡éªŒ
 			if(element.getPrevious() != pre || element.getNext()!=next){
 				unLockMultipleElement(pre,next);
 				return false;
@@ -239,7 +239,7 @@ public class ElementNode extends Node{
 			}
 			int c = elementCount.decrementAndGet();
 			if(c <= 0){
-				// µ±Ç°node²»ÄÜÓÃ¾Í²»½âËø£¬ÕâÑùÆäËüµÄÏß³Ì¾Í²»ÄÜÓÃËü£¬Ö±µ½Ëü±»É¾³ı
+				// å½“å‰nodeä¸èƒ½ç”¨å°±ä¸è§£é”ï¼Œè¿™æ ·å…¶å®ƒçš„çº¿ç¨‹å°±ä¸èƒ½ç”¨å®ƒï¼Œç›´åˆ°å®ƒè¢«åˆ é™¤
 				tail = null;
 				unLockMultipleElement(pre,next);
 				return true;
@@ -273,7 +273,7 @@ public class ElementNode extends Node{
 		if(value == Long.MAX_VALUE){
 			return "head";
 		}
-		// stepÊıÁ¿£¬×ÜÊıÁ¿£¬Ã¿¸östepÖĞµÄÊıÁ¿
+		// stepæ•°é‡ï¼Œæ€»æ•°é‡ï¼Œæ¯ä¸ªstepä¸­çš„æ•°é‡
 		int stepNum = 0;
 		int elementNum = 0;
 		ElementStep currentStep = headStep ;
@@ -299,7 +299,7 @@ public class ElementNode extends Node{
 		headStep =null ;
 		tailStep = null;
 		tail = null;
-		head = null; // ºóÀ´¼ÓÉÏµÄÓ¦¸Ã²»»á³öÏÖÎÊÌâ°É~
+		head = null; // åæ¥åŠ ä¸Šçš„åº”è¯¥ä¸ä¼šå‡ºç°é—®é¢˜å§~
 	}
 	@Override
 	public int getConditionLevel() {

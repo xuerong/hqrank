@@ -1,4 +1,4 @@
-package org.hq.rank.core.node;
+ï»¿package org.hq.rank.core.node;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public class RankElementNode extends Node{
 
 	private static Logger log = LoggerFactory.getLogger(RankElementNode.class);
 	/**
-	 * NodeÀàĞÍµÄRank²ÎÊı
+	 * Nodeç±»å‹çš„Rankå‚æ•°
 	 */
 	private int conditionLevel; //>=0
 	private RankElement rankElement;
@@ -69,7 +69,7 @@ public class RankElementNode extends Node{
 		return rankElement.get(element);
 	}
 	/**
-	 * Õâ¸ö¿ÉÒÔÍ¨¹ı´«½øÀ´Ò»¸öList<Element>£¬À´¼õÉÙnewËüµÄ´ÎÊı
+	 * è¿™ä¸ªå¯ä»¥é€šè¿‡ä¼ è¿›æ¥ä¸€ä¸ªList<Element>ï¼Œæ¥å‡å°‘newå®ƒçš„æ¬¡æ•°
 	 * @param begin
 	 * @param length
 	 * @return
@@ -117,10 +117,10 @@ public class RankElementNode extends Node{
 	@Override
 	public void reset() {
 		super.reset();
-		conditionLevel = -1; // ÕâÀïÏÈ²»ÖØÖÃÆäconditionlevel£¬ÒÔÎª½âËøµÄÊ±ºòĞèÒªËüÀ´¶¨Î»¶ÔÓ¦µÄËø
+		conditionLevel = -1; // è¿™é‡Œå…ˆä¸é‡ç½®å…¶conditionlevelï¼Œä»¥ä¸ºè§£é”çš„æ—¶å€™éœ€è¦å®ƒæ¥å®šä½å¯¹åº”çš„é”
 		
 		if(rankElement.getNodeCount()>0){
-			log.warn("rankElementµÄnode»¹Ã»ÓĞÉ¾³ıÍê³É£¬²»»ØÊÕ¸ÃrankElement");
+			log.warn("rankElementçš„nodeè¿˜æ²¡æœ‰åˆ é™¤å®Œæˆï¼Œä¸å›æ”¶è¯¥rankElement");
 		}else{
 			rank.getRankPool().putRankElement(rankElement);
 		}

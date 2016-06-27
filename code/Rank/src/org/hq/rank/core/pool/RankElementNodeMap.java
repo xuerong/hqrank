@@ -1,4 +1,4 @@
-package org.hq.rank.core.pool;
+ï»¿package org.hq.rank.core.pool;
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -8,10 +8,10 @@ import org.hq.rank.core.node.Node;
 import org.hq.rank.core.node.RankElement;
 
 /**
- * Èç¹ûÊÇ·Ö¶ÎÅÅĞĞ£¬rankElement±È½Ï¶à£¬Ã¿¸öÀïÃæµ¥¶ÀÒ»¸öConcurrentHashMapÕ¼ÓÃÌ«¶àÄÚ´æ
- * Í³Ò»ÓÃÒ»×éConcurrentHashMap£¬ÊıÁ¿¿ÉÅäÖÃ
+ * å¦‚æœæ˜¯åˆ†æ®µæ’è¡Œï¼ŒrankElementæ¯”è¾ƒå¤šï¼Œæ¯ä¸ªé‡Œé¢å•ç‹¬ä¸€ä¸ªConcurrentHashMapå ç”¨å¤ªå¤šå†…å­˜
+ * ç»Ÿä¸€ç”¨ä¸€ç»„ConcurrentHashMapï¼Œæ•°é‡å¯é…ç½®
  * 
- * hashcode¿ÉÒÔÔÙ×öÒ»´ÎÀëÉ¢´¦Àí£¬°üÀ¨Ëø³ØÀïÃæµÄhashcode
+ * hashcodeå¯ä»¥å†åšä¸€æ¬¡ç¦»æ•£å¤„ç†ï¼ŒåŒ…æ‹¬é”æ± é‡Œé¢çš„hashcode
  * get put remove clear
  * @author zhen
  *
@@ -19,7 +19,7 @@ import org.hq.rank.core.node.RankElement;
 public class RankElementNodeMap {
 	private final Rank rank;
 	private final int mapCount;
-	//´æÈërankElement.hascode%mapCount£¬ key = rankElement.hascode+"_"+node.value
+	//å­˜å…¥rankElement.hascode%mapCountï¼Œ key = rankElement.hascode+"_"+node.value
 	private final ConcurrentHashMap<String, Node>[] maps; // id
 	private final AtomicLong elementIdCreator = new AtomicLong(0);
 	
@@ -35,14 +35,14 @@ public class RankElementNodeMap {
 			maps = null;
 		}
 	}
-	// ElementIdÉú³ÉÆ÷£¬ÓÃÓÚÉú³ÉelementµÄÎ¨Ò»id
+	// ElementIdç”Ÿæˆå™¨ï¼Œç”¨äºç”Ÿæˆelementçš„å”¯ä¸€id
 	public String getNewId(){
 		return ""+elementIdCreator.getAndIncrement();
 	}
 	public long getId(){
 		return elementIdCreator.get();
 	}
-	// ÓÉÓÚrankElement.hashCode()ÊÇÆäÄÚ´æµØÖ·£¬ËùÒÔ£¬²»Í¬µÄRankElementÒ»¶¨²»Í¬
+	// ç”±äºrankElement.hashCode()æ˜¯å…¶å†…å­˜åœ°å€ï¼Œæ‰€ä»¥ï¼Œä¸åŒçš„RankElementä¸€å®šä¸åŒ
 	public Node get(RankElement rankElement,long value){
 		int hashCode = rankElement.hashCode();
 		ConcurrentHashMap<String, Node> map = maps[hashCode%mapCount];

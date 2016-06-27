@@ -1,4 +1,4 @@
-package org.hq.rank.core;
+ï»¿package org.hq.rank.core;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,42 +16,42 @@ import org.slf4j.LoggerFactory;
 public class RankStatistics {
 	private static Logger log = LoggerFactory.getLogger(RankStatistics.class);
 	/**
-	 * °üÀ¨Í³¼ÆµÄÊı¾İºÍĞ£ÑéÊ¹ÓÃµÄÍ³¼ÆÊı¾İ
+	 * åŒ…æ‹¬ç»Ÿè®¡çš„æ•°æ®å’Œæ ¡éªŒä½¿ç”¨çš„ç»Ÿè®¡æ•°æ®
 	 * 
-	 * ElementµÄ×ÜÊı
-	 * NodeµÄ×ÜÊı
-	 * NodeStepµÄ×ÜÊı
-	 * NodeStepStepµÄ×ÜÊı
+	 * Elementçš„æ€»æ•°
+	 * Nodeçš„æ€»æ•°
+	 * NodeStepçš„æ€»æ•°
+	 * NodeStepStepçš„æ€»æ•°
 	 * 
-	 * Element¼ÓËø´ÎÊı
-	 * Node¼ÓËø´ÎÊı
-	 * NodeÖĞElementStepºÏ²¢´ÎÊı(Ã»ÓĞ²ğ·Ö)
-	 * NodeStep²ğ·ÖºÍºÏ²¢´ÎÊı
-	 * NodeStepStepµÄ²ğ·ÖºÍºÏ²¢´ÎÊı
-	 * 
-	 * 
-	 * ReOper×Ü´ÎÊı
-	 * ReOperÕ»ÖĞµÄÎ´Ö´ĞĞÈÎÎñreOperQueue
-	 * 
-	 * Ö´ĞĞµÄset´ÎÊı
-	 * Ö´ĞĞµÄget´ÎÊı
-	 * Ö´ĞĞµÄdelete´ÎÊı
-	 * ÒÔÉÏÈıÕßµÄÖ´ĞĞÆµÂÊ£¬Ğ§ÂÊµÈ
-	 * ¶¨Î»ÄÑ¶È£¨Æ½¾ù¼´Ã¿¸ö·ÃÎÊĞèÒª»¨·ÑµÄ¶¨Î»·ÃÎÊ´ÎÊı£©
+	 * ElementåŠ é”æ¬¡æ•°
+	 * NodeåŠ é”æ¬¡æ•°
+	 * Nodeä¸­ElementStepåˆå¹¶æ¬¡æ•°(æ²¡æœ‰æ‹†åˆ†)
+	 * NodeStepæ‹†åˆ†å’Œåˆå¹¶æ¬¡æ•°
+	 * NodeStepStepçš„æ‹†åˆ†å’Œåˆå¹¶æ¬¡æ•°
 	 * 
 	 * 
+	 * ReOperæ€»æ¬¡æ•°
+	 * ReOperæ ˆä¸­çš„æœªæ‰§è¡Œä»»åŠ¡reOperQueue
 	 * 
-	 * Ğ£ÑéÏà¹Ø£º
-	 * µ±Ç°»¹Ã»ÓĞÖØ×öµÄÈÎÎñÊıreOperTaskCount£ºÑéÖ¤
-	 * ElementµÄ×ÜÊı==NodeÖĞµÄElementºÍ==NodeStepÖĞµÄElementºÍ==NodeStepStepÖĞµÄElement×ÜÊıºÍ
-	 * NodeµÄ×ÜÊı==NodeStepÖĞµÄNode×ÜÊı
-	 * NodeStepµÄ×ÜÊı==NodeStepStepÖĞµÄNodeStep×ÜÊı
+	 * æ‰§è¡Œçš„setæ¬¡æ•°
+	 * æ‰§è¡Œçš„getæ¬¡æ•°
+	 * æ‰§è¡Œçš„deleteæ¬¡æ•°
+	 * ä»¥ä¸Šä¸‰è€…çš„æ‰§è¡Œé¢‘ç‡ï¼Œæ•ˆç‡ç­‰
+	 * å®šä½éš¾åº¦ï¼ˆå¹³å‡å³æ¯ä¸ªè®¿é—®éœ€è¦èŠ±è´¹çš„å®šä½è®¿é—®æ¬¡æ•°ï¼‰
 	 * 
-	 * ²ğ·ÖÊ§°Ü
 	 * 
-	 * ´óĞ¡¹ØÏµ
-	 * Ğ§ÂÊÑéÖ¤
-	 * ÅäÖÃ×´Ì¬
+	 * 
+	 * æ ¡éªŒç›¸å…³ï¼š
+	 * å½“å‰è¿˜æ²¡æœ‰é‡åšçš„ä»»åŠ¡æ•°reOperTaskCountï¼šéªŒè¯
+	 * Elementçš„æ€»æ•°==Nodeä¸­çš„Elementå’Œ==NodeStepä¸­çš„Elementå’Œ==NodeStepStepä¸­çš„Elementæ€»æ•°å’Œ
+	 * Nodeçš„æ€»æ•°==NodeStepä¸­çš„Nodeæ€»æ•°
+	 * NodeStepçš„æ€»æ•°==NodeStepStepä¸­çš„NodeStepæ€»æ•°
+	 * 
+	 * æ‹†åˆ†å¤±è´¥
+	 * 
+	 * å¤§å°å…³ç³»
+	 * æ•ˆç‡éªŒè¯
+	 * é…ç½®çŠ¶æ€
 	 * 
 	 */
 	private final Rank rank;
@@ -63,7 +63,7 @@ public class RankStatistics {
 	 */
 	private AtomicInteger elementLockCount = new AtomicInteger(0);
 	private AtomicInteger elementUnlockCount = new AtomicInteger(0);
-	// Ò»Ğ©Í³¼ÆÊı¾İÕ¼ÓÃµÄcpuÒ²Í¦¸ß
+	// ä¸€äº›ç»Ÿè®¡æ•°æ®å ç”¨çš„cpuä¹ŸæŒºé«˜
 	public int addElementLockCount(){
 		return elementLockCount.getAndIncrement();
 	}
@@ -85,7 +85,7 @@ public class RankStatistics {
 	}
 	
 	/**
-	 * ElementStepºÏ²¢´ÎÊı
+	 * ElementStepåˆå¹¶æ¬¡æ•°
 	 */
 	private AtomicInteger elementStepCombineTime = new AtomicInteger(0);
 	
@@ -93,7 +93,7 @@ public class RankStatistics {
 		return elementStepCombineTime.getAndIncrement();
 	}
 	/**
-	 * NodeStep²ğ·ÖºÍºÏ²¢
+	 * NodeStepæ‹†åˆ†å’Œåˆå¹¶
 	 */
 	private AtomicInteger cutNodeStepCount = new AtomicInteger(0);
 	private AtomicInteger combineNodeStepCount = new AtomicInteger(0);
@@ -105,7 +105,7 @@ public class RankStatistics {
 		return combineNodeStepCount.getAndIncrement();
 	}
 	/**
-	 * NodeStepStep²ğ·ÖºÍºÏ²¢
+	 * NodeStepStepæ‹†åˆ†å’Œåˆå¹¶
 	 */
 	private AtomicInteger cutNodeStepStepCount = new AtomicInteger(0);
 	private AtomicInteger combineNodeStepStepCount = new AtomicInteger(0);
@@ -117,7 +117,7 @@ public class RankStatistics {
 		return combineNodeStepStepCount.getAndIncrement();
 	}
 	/**
-	 * set get delete Ö´ĞĞ´ÎÊı
+	 * set get delete æ‰§è¡Œæ¬¡æ•°
 	 */
 	private AtomicInteger setCount = new AtomicInteger(0);
 	private AtomicInteger getCount = new AtomicInteger(0);
@@ -133,7 +133,7 @@ public class RankStatistics {
 		return deleteCount.getAndIncrement();
 	}
 	/**
-	 * Ò»¸öÖ´ĞĞËù»¨·ÑµÄÑ­»·´ÎÊı£¬doAdd
+	 * ä¸€ä¸ªæ‰§è¡Œæ‰€èŠ±è´¹çš„å¾ªç¯æ¬¡æ•°ï¼ŒdoAdd
 	 */
 	private AtomicInteger searchNodeCountPer = new AtomicInteger(0);
 	private AtomicInteger searchNodeCycCountPer = new AtomicInteger(0);
@@ -143,14 +143,14 @@ public class RankStatistics {
 	}
 	
 	/**
-	 * ÖØÏÖÖ´ĞĞ´ÎÊı
+	 * é‡ç°æ‰§è¡Œæ¬¡æ•°
 	 */
 	private AtomicInteger reOperCount = new AtomicInteger(0);
 	public int addReOperCount(){
 		return reOperCount.getAndIncrement();
 	}
 	/**
-	 * Í¨¹ıNodeStepºÍNodeStepStepÃ»ÓĞÃüÖĞµÄ´ÎÊı
+	 * é€šè¿‡NodeStepå’ŒNodeStepStepæ²¡æœ‰å‘½ä¸­çš„æ¬¡æ•°
 	 */
 	private AtomicInteger fialHitByNodeStepStep = new AtomicInteger(0);
 	private AtomicInteger fialHitByNodeStep = new AtomicInteger(0);
@@ -163,14 +163,14 @@ public class RankStatistics {
 	}
 	public void showTest(){
 		cycleTestNode();
-		System.err.println("Ã»ÓĞ³öÏÖnodeÑ­»·");
+		System.err.println("æ²¡æœ‰å‡ºç°nodeå¾ªç¯");
 	}
-	// µİ¹é±éÀúËùÓĞµÄnode£¬È·±£Ã»ÓĞ³öÏÖnodeÑ­»·ºÍnodeµÄ´óĞ¡´íÎó£¬×îºÃ¼Û¸ñ¼ÆÊı¹¦ÄÜ
+	// é€’å½’éå†æ‰€æœ‰çš„nodeï¼Œç¡®ä¿æ²¡æœ‰å‡ºç°nodeå¾ªç¯å’Œnodeçš„å¤§å°é”™è¯¯ï¼Œæœ€å¥½ä»·æ ¼è®¡æ•°åŠŸèƒ½
 	public int cycleTestNode(){
 		int count = testCycleNode(rank,0);
 		return count;
 	}
-	public int testCycleNode(Object object,int p_count/*´Ó¸¸nodeÖĞ¼ÆËãµÄcount*/){ // ÕâÊÇÒ»¸ö±È½ÏºÃµÄĞ£Ñéº¯Êı
+	public int testCycleNode(Object object,int p_count/*ä»çˆ¶nodeä¸­è®¡ç®—çš„count*/){ // è¿™æ˜¯ä¸€ä¸ªæ¯”è¾ƒå¥½çš„æ ¡éªŒå‡½æ•°
 		Node head;
 		if(object instanceof Rank){
 			head = ((Rank)object).getHead();
@@ -191,10 +191,10 @@ public class RankStatistics {
 			count2++;
 			if(cu != null){
 				if(pre.getValue() <=  cu.getValue()){
-					System.err.println("~ÕâÀïÓĞÎÊÌâ£ºÔÚÕâ¸öÑéÖ¤ºÍsetµÈ²¢·¢Çé¿öÏÂ¿ÉÄÜ·¢Éú£¬µ«²»ÄÜÌ«¶à");
+					System.err.println("~è¿™é‡Œæœ‰é—®é¢˜ï¼šåœ¨è¿™ä¸ªéªŒè¯å’Œsetç­‰å¹¶å‘æƒ…å†µä¸‹å¯èƒ½å‘ç”Ÿï¼Œä½†ä¸èƒ½å¤ªå¤š");
 				}
 				if(cu.getPrevious()!=pre){
-					System.err.println("~ÕâÀïÓĞÎÊÌâ: ÔÚÕâ¸öÑéÖ¤ºÍsetµÈ²¢·¢Çé¿öÏÂ¿ÉÄÜ·¢Éú£¬µ«²»ÄÜÌ«¶à");
+					System.err.println("~è¿™é‡Œæœ‰é—®é¢˜: åœ¨è¿™ä¸ªéªŒè¯å’Œsetç­‰å¹¶å‘æƒ…å†µä¸‹å¯èƒ½å‘ç”Ÿï¼Œä½†ä¸èƒ½å¤ªå¤š");
 				}
 			}
 		}
@@ -205,7 +205,7 @@ public class RankStatistics {
 			}
 		}else{
 			RankElement r = (RankElement)object;
-			if(r.getNodeCount() != count2 - 1/* || r.getNodeCount() != p_count*/){ //r.getNodeCount()Ã»ÓĞ¼ÆËãhead
+			if(r.getNodeCount() != count2 - 1/* || r.getNodeCount() != p_count*/){ //r.getNodeCount()æ²¡æœ‰è®¡ç®—head
 				System.err.println("rankelement:r.getNodeCount():"+r.getNodeCount()+
 						",count2:"+count2+",p_count:"+p_count);
 			}
@@ -213,8 +213,8 @@ public class RankStatistics {
 		return count;
 	}
 	public String getNodeAndStepCount(){
-		int nodeStepStepCount = 0; // ×ÔÉíÁ´±í
-		int nodeStepCount = 0; // nodeStepStepÖĞ£¬×ÔÉíÁ´±í
+		int nodeStepStepCount = 0; // è‡ªèº«é“¾è¡¨
+		int nodeStepCount = 0; // nodeStepStepä¸­ï¼Œè‡ªèº«é“¾è¡¨
 		// NodeStepStep
 		List<NodeStepBase> nodeStepStepList = getNodeStepStepList(rank.getHead().getParentNS().getParentNS());
 		nodeStepStepCount = nodeStepStepList.size();
@@ -225,7 +225,7 @@ public class RankStatistics {
 			elementCount += nodeStepStep.getElementCount();
 		}
 		
-		// ¶¨Î»¸´ÔÓ¶È
+		// å®šä½å¤æ‚åº¦
 		int countSearchNodeCountPer=searchNodeCountPer.get();
 		int countPerDoAdd = searchNodeCycCountPer.get()/countSearchNodeCountPer;
 		searchNodeCountPer.set(0);
@@ -240,10 +240,10 @@ public class RankStatistics {
 	@Override
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		int nodeStepStepCount = 0; // ×ÔÉíÁ´±í
-		int nodeStepCount1 = 0,nodeStepCount2 = 0; // nodeStepStepÖĞ£¬×ÔÉíÁ´±í
-		int nodeCount1 = 0,nodeCount2 = 0,nodeCount3 = 0; // nodestepÖĞ£¬node×ÔÉíÁ´±í£¬rankÖĞ
-		int elementCount1 = 0,elementCount2 = 0,elementCount3 = 0,elementCount4 = 0; // nodeStepStepÖĞ¼ÇÂ¼µÄÊıÁ¿£¬nodeStepÖĞ£¬nodeÖĞ£¬rankÖĞ
+		int nodeStepStepCount = 0; // è‡ªèº«é“¾è¡¨
+		int nodeStepCount1 = 0,nodeStepCount2 = 0; // nodeStepStepä¸­ï¼Œè‡ªèº«é“¾è¡¨
+		int nodeCount1 = 0,nodeCount2 = 0,nodeCount3 = 0; // nodestepä¸­ï¼Œnodeè‡ªèº«é“¾è¡¨ï¼Œrankä¸­
+		int elementCount1 = 0,elementCount2 = 0,elementCount3 = 0,elementCount4 = 0; // nodeStepStepä¸­è®°å½•çš„æ•°é‡ï¼ŒnodeStepä¸­ï¼Œnodeä¸­ï¼Œrankä¸­
 		// NodeStepStep
 		List<NodeStepBase> nodeStepStepList = getNodeStepStepList(rank.getHead().getParentNS().getParentNS());
 		nodeStepStepCount = nodeStepStepList.size();
@@ -272,11 +272,11 @@ public class RankStatistics {
 			elementCount3 += node.getCount();
 		}
 		elementCount4 = rank.getElementCount();
-		// ¶¨Î»¸´ÔÓ¶È
+		// å®šä½å¤æ‚åº¦
 		int countPerDoAdd = searchNodeCycCountPer.get()/searchNodeCountPer.get();
 		searchNodeCountPer.set(0);
 		searchNodeCycCountPer.set(0);
-		// Í³¼Æ
+		// ç»Ÿè®¡
 		sb.append("nodeStepStepCount:"+nodeStepStepCount+"\n");
 		sb.append("nodeStepCount:"+nodeStepCount1+","+nodeStepCount2+"\n");
 		sb.append("nodeCount:"+nodeCount1+","+nodeCount2+","+nodeCount3+"\n");
@@ -295,8 +295,8 @@ public class RankStatistics {
 		sb.append("nodeCount by cycleTestNode:"+cycleTestNode()+"\n");
 		sb.append("countPerDoAdd(difficulty of location):"+countPerDoAdd+"\n");
 		
-		// Ğ£Ñé
-		// ÏêÏ¸
+		// æ ¡éªŒ
+		// è¯¦ç»†
 		int nodeStepCount = 0,nodeCount = 0;
 		for (NodeStepBase nodeStepStep : nodeStepStepList) {
 			List<NodeStepBase> nodeStepListByNodeStepStep = getNodeStepListByNodeStepStep(nodeStepStep);
@@ -338,7 +338,7 @@ public class RankStatistics {
 		for(;i<nodeStepCount && currentNodeStep != null; i++){
 			result.add(currentNodeStep);
 			
-			// Ğ£Ñé
+			// æ ¡éªŒ
 			if(currentNodeStep.getParentNS() != nodeStepStep){
 				log.error("currentNodeStep.getNodeStepStep() != nodeStepStep");
 			}
@@ -367,9 +367,9 @@ public class RankStatistics {
 		for(;i<nodeCount && currentNode != null;i++){
 			result.add(currentNode);
 			
-			// Ğ£Ñé
+			// æ ¡éªŒ
 			if(currentNode.getParentNS() != nodeStep){
-				// ²¢·¢×´Ì¬ÏÂÕâ¸öÊÇ¿ÉÄÜ³öÏÖµÄ£¬ÒòÎªÔÚÕâÀïÃ»ÓĞ¼ÓËø£¬Èç¹ûÔÚ·Ç²¢·¢Çé¿öÏÂ³öÏÖ¾ÍÓĞÎÊÌâÁË
+				// å¹¶å‘çŠ¶æ€ä¸‹è¿™ä¸ªæ˜¯å¯èƒ½å‡ºç°çš„ï¼Œå› ä¸ºåœ¨è¿™é‡Œæ²¡æœ‰åŠ é”ï¼Œå¦‚æœåœ¨éå¹¶å‘æƒ…å†µä¸‹å‡ºç°å°±æœ‰é—®é¢˜äº†
 				log.error("currentNode.getNodeStep() != nodeStep:"+currentNode.getParentNS()+"!="+nodeStep); 
 			}
 			
