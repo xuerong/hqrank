@@ -7,5 +7,6 @@
 	<classpathentry kind="lib" path="lib/logback-classic-1.1.6.jar"/>
 	<classpathentry kind="lib" path="lib/logback-core-1.1.6.jar"/>
 	<classpathentry kind="lib" path="lib/slf4j-api-1.7.19.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-3.2.4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

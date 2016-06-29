@@ -3,7 +3,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.hq.rank.core.element.Element;
 import org.hq.rank.core.node.AbNode;
@@ -21,8 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Rank implements IRank {
-	private static Logger log = LoggerFactory
-			.getLogger(Rank.class);
+	private static Logger log = LoggerFactory.getLogger(Rank.class);
 	//
 	private final RankElementNodeMap rankElementNodeMap;
 	// lockerPool
@@ -35,7 +33,7 @@ public class Rank implements IRank {
 	private RankStatistics rankStatistics = new RankStatistics(this);
 	// 不支持负分
 	private final Node head;
-	// 存储所有的Element 如果.size效率低，就单独存储其数量
+	// 存储所有的Element 如果.size效率低，就单独存储其数量,会不会由于这里没有设置concurrencyLevel而导致数据量很大时效率低
 	private ConcurrentHashMap<Integer, Element> elementMap=new ConcurrentHashMap<Integer, Element>();
 	// 这个是用来作为添加数据时的element的索引，在node数量比较多的时候可以大大提高效率
 	private ConcurrentHashMap<Long, Node> nodeMap = new ConcurrentHashMap<Long, Node>();

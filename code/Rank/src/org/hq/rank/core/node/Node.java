@@ -21,7 +21,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 	// 该Node对应的值
 	protected long value;
 	// Node中的Element数量
-	protected volatile AtomicInteger elementCount = new AtomicInteger(0);
+//	protected volatile AtomicInteger elementCount = new AtomicInteger(0);
 	/**
 	 * 构造的时候有没有可能被访问？add方法
 	 * */
