@@ -44,55 +44,19 @@ public static void main(String[] args) {
 	List<RankData> rankDataList2 = rankService.getRankDatasByPage("rankName", 7/*page*/, 9/*pageSize*/); // get date by page
 }
 ```
+# hqrank原理
+#####1、排行数据结构
 ![image](https://github.com/xuerong/hqrank/blob/master/resource/hqrank-datastructure.jpg)
+* node链表按照从大到小记录所有value,每个node节点记录一个分数，保存一个element节点链表
+* 每个element链表按照时间从小到大记录该value的id，每个element节点记录一个id
+* step链表(1)是对node链表的索引，提高对node的定位速度
+* step链表(2)是对step链表(1)的索引，提高对step(1)的定位速度，从而提高对node的定位速度
+* step链表(3)是对element链表的索引，提高对element的定位速度
+* step和node中保存有其索引范围内的element数量，即排行所需数据
+
 # More
 
 * redis不是hqrank项目中的部分，是用来测试的，因为redis中有实时排序功能，在这里也提供一个redis的下载[Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
 * test包中有基本的例子。BaseTest1：基本的用法；BaseTest2：压力测试
 * 测试过程中可以用jprofiler和jdk工具jconsole.exe来监控内存使用情况
 * 工具还在开发过程中，还没有经过大量测试，如果有对此有兴趣的Coder，欢迎一起讨论和开发
-
-
-# About hqrank
-Support for concurrent real-time ranking, ranking tool -java  
-At present, the implementation of hqrank includes the following points:
-#####1, full cache
-All of the data is stored in memory. So, hqrank is a ranking tool, not a data storage tool.
-#####2, based on id:value
-Access to data can be carried out through the id-value, you can get the corresponding ranking by ID, you can also get the corresponding ID ranking. (value will also be given here)  
-The scores differ according to the order from the large to small, the same score according to insert or modify the time sequence
-#####3, support multi field ranking
-For example, by ranking first, on this basis and then by experience, and then come out of the list. Theoretical support for any number of fields
-#####4, support for concurrency
-Supports multiple threads while operating on the list
-#####5, real time ranking
-Ranking operation is performed in real time, but need to illustrate a point: for the time to visit a small difference in the two access, especially different threads, may not be strictly satisfies the first in first row, but the difference of time is measured in milliseconds (the thread's time slice and the system provide locking sequence dependent)  
-
-#####5, the current implementation of the function
-* Get ranking data and scores based on ID
-* According to the ranking to obtain the corresponding ID
-* According to Id get ID before and after a number of players in the ranking data
-* Paging query, according to the page size and page ranking data acquisition
-
-# how to use
-Hqrank/code/Rank/ is a java project, Developed using JDK version is: 1.7  
-1, the project into the eclipse  
-2, in the package IRankService.java in org/hq/rank/service/, which has detailed notes  
-3, the basic access method is as follows:
-```Java
-public static void main(String[] args) {
-	IRankService rankService = new RankService();
-	rankService.createRank("rankName");
-	rankService.put("rankName", 10/*id*/, 100/*value*/); // put date to rank
-	RankData rankData = rankService.getRankDataById("rankName", 10); // get date from rank
-	int rankNum = rankData.getRankNum(); // get rank num
-	RankData rankData2 = rankService.getRankDataByRankNum("rankName", rankNum); // get date by rankNum
-	List<RankData> rankDataList1 = rankService.getRankDatasAroundId("rankName", testId, 3, 6); // get date by id,and ranks around this id
-	List<RankData> rankDataList2 = rankService.getRankDatasByPage("rankName", 7/*page*/, 9/*pageSize*/); // get date by page
-}
-```
-# More
-* redis is not part of the hqrank project, is used to test, because the redis has a real-time sorting function, here also provides a redis download [Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
-* there are basic examples in test package. BaseTest1: basic usage; BaseTest2: stress test
-* test procedures can be used JProfiler and JDK tool jconsole.exe to monitor memory usage
-* Tools are still in the process of development, has not been a lot of testing, if there is an interest in Coder, welcome to discuss and develop

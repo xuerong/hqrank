@@ -17,7 +17,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 /**
- * 压力测试
+ * 压力测试:loadrunner,qtp,silktest
  * 分为：
  * 1、压力测试下的正确性，用redis测试
  * 2、大数据执行效率，即执行时间
