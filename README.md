@@ -44,7 +44,7 @@ public static void main(String[] args) {
 	List<RankData> rankDataList2 = rankService.getRankDatasByPage("rankName", 7/*page*/, 9/*pageSize*/); // get date by page
 }
 ```
-
+![image](https://github.com/xuerong/hqrank/tree/master/resource/hqrank-datastructure.jpg)
 # More
 
 * redis不是hqrank项目中的部分，是用来测试的，因为redis中有实时排序功能，在这里也提供一个redis的下载[Redis-x64-2.8.2400](http://pan.baidu.com/s/1o87v5s2)
