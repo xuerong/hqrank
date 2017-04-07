@@ -1,9 +1,8 @@
 ﻿package org.hq.rank.core.element;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.hq.rank.core.Rank;
 import org.hq.rank.core.RankException;
+import org.hq.rank.core.UnsafeSupport;
 import org.hq.rank.core.node.Node;
 import org.hq.rank.core.pool.RankPoolElement;
 import org.slf4j.Logger;
@@ -12,10 +11,11 @@ import org.slf4j.LoggerFactory;
 public class Element implements RankPoolElement{
 	private static Logger log = LoggerFactory
 			.getLogger(Element.class);
+	private static final long valueOffset = UnsafeSupport.getValueOffset(Element.class, "locker");
 	private final Rank rank; //  该Element所处的Rank
 	
 	private int id;
-	private AtomicInteger locker = new AtomicInteger(0);
+	private int locker = 0;
 	
 	private Node node;
 	private ElementStep step;
@@ -44,10 +44,10 @@ public class Element implements RankPoolElement{
 	}
 	public boolean lock(){
 		rank.getRankStatistics().addElementLockCount();
-		int isLock = locker.getAndIncrement();
+		int isLock = UnsafeSupport.getAndIncrement(this, valueOffset);
 		if(isLock>0){
 			rank.getRankStatistics().addElementUnlockCount();
-			locker.getAndDecrement();
+			UnsafeSupport.getAndDecrement(this, valueOffset);
 			return false;
 		}
 		return true;
@@ -57,9 +57,9 @@ public class Element implements RankPoolElement{
 	 * */
 	public void unLock(){
 		rank.getRankStatistics().addElementUnlockCount();
-		locker.getAndDecrement();
-		if(locker.get()<0){
-			log.error("<0:"+locker.get()+","+id+","+getNode().getValue());
+		int result = UnsafeSupport.getAndDecrement(this, valueOffset);
+		if(result<0){
+			log.error("<0:"+result+","+id+","+getNode().getValue());
 			throw new RankException();
 		}
 	}
@@ -118,7 +118,7 @@ public class Element implements RankPoolElement{
 		for (long l : value) {
 			valueStr.append(","+l);
 		}
-		return "id:"+id+"locker:"+locker.get()+valueStr.toString();
+		return "id:"+id+"locker:"+locker+valueStr.toString();
 	}
 
 	@Override

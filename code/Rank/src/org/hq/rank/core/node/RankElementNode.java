@@ -45,11 +45,11 @@ public class RankElementNode extends Node{
 		}
 		boolean isNeedUnlock = true;
 		try{
-			if(elementCount.get() <= 0){
+			if(getCount() <= 0){
 				return null;
 			}
 			if(rankElement.add(element)){
-				elementCount.getAndIncrement();
+				getAndIncrement();
 				
 				if(parentNS != null){
 					parentNS.putElement();
@@ -76,7 +76,7 @@ public class RankElementNode extends Node{
 	 */
 	@Override
 	public void getElementsByIndex(List<Element> elementList , int begin ,int length) {
-		if(elementCount.get() <= begin || elementCount.get()<1){
+		if(getCount() <= begin || getCount()<1){
 			return;
 		}
 		rankElement.getElementsByRankNum(elementList, begin, length);
@@ -92,7 +92,7 @@ public class RankElementNode extends Node{
 		}
 		try {
 			if(rankElement.delete(element)){
-				elementCount.getAndDecrement();
+				getAndDecrement();
 				
 				if(parentNS != null){
 					parentNS.removeElement();

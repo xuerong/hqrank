@@ -108,7 +108,7 @@ public class BaseTest2 {
 	private void test2(final IRankService rankService) throws InterruptedException{
 		final String rankName = "rank_a";
 		final int threadCount = 100;
-		final int dataCountPerThread = 1000;
+		final int dataCountPerThread = 10;
 		final int maxId = 100000;
 		final int maxValue = 1000000;
 		Thread[] threads = new Thread[threadCount];
@@ -225,10 +225,10 @@ public class BaseTest2 {
 		final int intervalPerGet = 10000; // 每intervalPerGet执行一次get操作，查看数据排行的变化
 		final int intervalPerSet = 100; //  每intervalPerSet/2毫秒添加或修改一次，random.nextInt(intervalPerSet)
 		
-		final int maxId = 1000000;// id范围
+		final int maxId = 10000;// id范围
 		final Random random = new Random();
 		final boolean isUseRank = true;
-		final boolean isUseRedis = false;
+		final boolean isUseRedis = true;
 		final boolean isUseRank2 = false;
 		ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 		for(int i=0;i<threadCount;i++){

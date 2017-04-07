@@ -62,7 +62,7 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 					currentNode.setParentNS(nodeStepBase);
 					int eC=currentNode.getCount();
 					changeElementCount += eC;
-					nodeStepBase.elementCount.getAndAdd(eC);
+					nodeStepBase.getAndAdd(eC);
 					currentNode = (AbNode)currentNode.getNext();
 				}
 				
@@ -90,7 +90,7 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 					//上面这一部分和下面这一部分的先后顺序不要修改，否则会降低搜索时的命中率
 					// 每次到了这里都是1001，并没有减少，但在理论上讲，有可能减少到fullCount / 2以下
 					this.head = currentNode;
-					this.elementCount.addAndGet(changeElementCount*-1); 
+					getAndAdd(changeElementCount*-1); 
 					this.nodeCount.addAndGet(changeNodeCount*-1);// 如果在这个点进行查询操作，会显示错误的结果，虽然影响不大，但最好优化掉
 					this.head = currentNode;
 //					System.err.println("nodeCount after cut:"+this.nodeCount.get());
@@ -217,7 +217,7 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 					// 在这个过程中，没有可能有其它的加入，加入必须加读锁
 					while(currentNode != null && currentNode.getParentNS() == this){
 						currentNode.setParentNS(previous);
-						previous.elementCount.getAndAdd(currentNode.getCount());
+						previous.getAndAdd(currentNode.getCount());
 						currentNode = (AbNode)currentNode.getNext();
 						count++;
 					}
@@ -267,7 +267,7 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 	
 	public void removeAbNode(AbNode node){
 		int count = node.getCount();
-		elementCount.getAndAdd(count*-1);
+		getAndAdd(count*-1);
 		if(parentNS != null){
 			parentNS.addElement(count*-1);
 		}
@@ -290,8 +290,8 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 				// 锁住上面的
 				// 取出nodeStep的时候，是通过向上合并进行的，所以，原来的elementCount应该给上面的nodeStep，在这里也要给previous
 				lockPrevious();
-				elementCount.getAndAdd(nodeStep.getElementCount() * -1);
-				((NodeStepBase)previous).elementCount.getAndAdd(nodeStep.getElementCount());
+				getAndAdd(nodeStep.getElementCount() * -1);
+				((NodeStepBase)previous).getAndAdd(nodeStep.getElementCount());
 				((NodeStepBase)previous).writeLock.unlock();
 			}
 		}
@@ -306,25 +306,25 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 
 	
 	public void addElement(int count){
-		elementCount.getAndAdd(count);
+		getAndAdd(count);
 		if(parentNS != null)
 			parentNS.addElement(count);
 	}
 	
 	public void putElement(){
-		elementCount.getAndIncrement();
+		getAndIncrement();
 		if(parentNS != null)
 			parentNS.putElement();
 	}
 	
 	public void removeElement(){
-		elementCount.getAndDecrement();
+		getAndDecrement();
 		if(parentNS != null)
 			parentNS.removeElement();
 	}
 	
 	public int getElementCount() {
-		return elementCount.get();
+		return getCount();
 	}
 
 	public int getNodeCount() {
@@ -360,7 +360,7 @@ public class NodeStepBase extends AbNode implements RankPoolElement{
 	@Override
 	public void reset() {
 		head = null;
-		elementCount.set(0);
+		setCount(0);
 		nodeCount.set(0);
 		
 		previous = null;

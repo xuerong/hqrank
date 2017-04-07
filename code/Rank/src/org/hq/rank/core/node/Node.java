@@ -33,7 +33,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		this.value = value;
 		// 第一个Node的值是MAX_VALUE，是个索引
 		if(value != Long.MAX_VALUE){
-			elementCount.getAndIncrement();
+			getAndIncrement();
 		}else{
 			// 第一个字段默认就创建三层索引
 			if(conditionLevel == rank.getRankConfigure().getRankConditionCount() - 1){
@@ -50,7 +50,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		if(/*value == -1 || */value == Long.MAX_VALUE){
 			return 0;
 		}
-		return elementCount.get();
+		return super.getCount();
 	}
 	public long getValue() {
 		return value;
@@ -113,9 +113,9 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 	
 	@Override
 	public void reset() {
-		if(elementCount.get() > 0){
+		if(getCount() > 0){
 			log.error("its not possible , on reset, elementCount.get() > 0:"
-					+elementCount.get()+",conditionLevel:"+getConditionLevel());
+					+getCount()+",conditionLevel:"+getConditionLevel());
 		}
 		
 		value = -1;
@@ -123,7 +123,7 @@ public abstract class Node extends AbNode implements INode,RankPoolElement{
 		// 这里不要重置锁，因为，这个时候锁被多少个人用着是不确定的
 //		locker.set(0);
 		// Node中的Element数量
-		elementCount.set(0);
+		setCount(0);
 		previous = null;
 		next = null;
 	}

@@ -3,6 +3,7 @@
 import java.util.List;
 
 import org.hq.rank.core.Rank;
+import org.hq.rank.core.UnsafeSupport;
 import org.hq.rank.core.element.Element;
 import org.hq.rank.core.element.ElementStep;
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public class ElementNode extends Node{
 		}
 		boolean isNeedUnlock = true;
 		try{
-			if(elementCount.get() <= 0){
+			if(getCount() <= 0){
 				return null;
 			}
 			// 防止与其它线程共同添加或操作
@@ -80,7 +81,7 @@ public class ElementNode extends Node{
 			}
 			
 			
-			if(tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){
+			if(tailStep == null && getCount() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){
 				// 创建之，创建的时候加写锁，这样防止其它线程加数据进去
 				rank.getLockerPool().unlockNodeRLocker(this, 0);
 				isLock = rank.getLockerPool().tryLockNodeWLocker(this, 0);
@@ -89,7 +90,7 @@ public class ElementNode extends Node{
 					_tail.unLock();
 					return null;
 				}
-				if(this.tailStep == null && elementCount.get() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // 再次校验
+				if(this.tailStep == null && getCount() > rank.getRankConfigure().getCutCountElementStep()){//ElementStep.fullCount){ // 再次校验
 					this.headStep = rank.getRankPool().getElementStep(this);
 					Element currentElement = head;
 					while(currentElement != null){
@@ -142,7 +143,8 @@ public class ElementNode extends Node{
 			_tail.setNext(element);
 			tail = element;
 			
-			elementCount.getAndIncrement();
+//			elementCount.getAndIncrement();
+			getAndIncrement();
 			
 			if(parentNS != null){
 				parentNS.putElement(); // 有没有可能空指针？不可能
@@ -196,7 +198,7 @@ public class ElementNode extends Node{
 	 */
 	@Override
 	public void getElementsByIndex(List<Element> elementList , int begin ,int length) {
-		if(elementCount.get() <= begin || elementCount.get()<1){
+		if(getCount() <= begin || getCount()<1){
 			return;
 		}
 		Element currentElement = head;
@@ -237,7 +239,7 @@ public class ElementNode extends Node{
 			if(parentNS != null){
 				parentNS.removeElement();
 			}
-			int c = elementCount.decrementAndGet();
+			int c = decrementAndGet();
 			if(c <= 0){
 				// 当前node不能用就不解锁，这样其它的线程就不能用它，直到它被删除
 				tail = null;

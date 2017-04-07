@@ -54,6 +54,7 @@ public class RankScheduledThreadPool extends ScheduledThreadPoolExecutor{
 	 * {@code java.util.concurrent.ThreadPoolExecutor.AbortPolicy}
 	 * 
 	 * 这里要对排行处理失败的数据持久化，如果这里出现问题，说明出现了大问题，如排行数据访问量过大
+	 * 允许用户设置失败处理选项
 	 * 
 	 * @author zhen
 	 *
@@ -62,6 +63,7 @@ public class RankScheduledThreadPool extends ScheduledThreadPoolExecutor{
 		private final String name;
 		@Override
 	    public void rejectedExecution(Runnable runnable, ThreadPoolExecutor threadpoolexecutor){
+			
 	        throw new RejectedExecutionException((new StringBuilder()).append(name).append("-Task ").append(runnable.toString()).append(" rejected from ").append(threadpoolexecutor.toString()).toString());
 	    }
 	
